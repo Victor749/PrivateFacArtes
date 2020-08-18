@@ -1,0 +1,80 @@
+create database museovirtual;
+use museovirtual;
+
+create table museo(
+    idMuseo INT NOT NULL AUTO_INCREMENT,
+    iconoNavegador VARCHAR(255),
+    idSalaInicial INT,
+    nombreAudioFondo VARCHAR(255),
+    nombreIconoInfo VARCHAR(255),
+    nombreIconoNext VARCHAR(255),
+    nombreIconoAudio VARCHAR(255),
+    PRIMARY KEY (idMuseo)
+);
+
+create table usuarioAdmin (
+    id INT NOT NULL AUTO_INCREMENT,
+    idMuseo INT NOT NULL,
+    username VARCHAR(255),
+    contrasena VARCHAR(255),
+    PRIMARY KEY (id),
+    FOREIGN KEY (idMuseo) REFERENCES museo(idMuseo)
+);
+
+create table sala(
+    idSala INT NOT NULL AUTO_INCREMENT,
+    idMuseo INT NOT NULL,
+    nombreImgFondo VARCHAR(255),
+    rotacionInicial FLOAT,
+    temaCuratorial VARCHAR(255),
+    PRIMARY KEY (idSala),
+    FOREIGN KEY (idMuseo) REFERENCES museo(idMuseo)
+);
+
+
+create table obra(
+    idObra INT NOT NULL AUTO_INCREMENT,
+    idSala INT NOT NULL,
+    asignatura VARCHAR(255),
+    ciclo INT,
+    autor VARCHAR(255),
+    titulo VARCHAR(255),
+    genero VARCHAR(255),
+    facebook VARCHAR(255),
+    instagram VARCHAR(255),
+    proyectoWeb VARCHAR(255),
+    dimensiones VARCHAR(255),
+    fechaProduccion VARCHAR(255),
+    tutor VARCHAR(255),
+    descripcion TEXT,
+    contador BIGINT,
+    tipo VARCHAR(255),
+    nombreElemento VARCHAR(255),
+    posX FLOAT,
+    posY FLOAT,
+    nombreAudio VARCHAR(255),
+    PRIMARY KEY (idObra),
+    FOREIGN KEY (idSala) REFERENCES sala(idSala)
+);
+
+create table comentario(
+    idComentario BIGINT NOT NULL AUTO_INCREMENT,
+    idUsuario VARCHAR(255) NOT NULL,
+    idObra INT NOT NULL,
+    nombreUsuario VARCHAR(255),
+    contenido TEXT,
+    linkFoto VARCHAR(255),
+    plataforma VARCHAR(255),
+    fecha VARCHAR(255),
+    PRIMARY KEY (idComentario),
+    FOREIGN KEY (idObra) REFERENCES obra(idObra)
+);
+
+create table enlace(
+    idEnlace INT NOT NULL AUTO_INCREMENT,
+    idSala INT NOT NULL,
+    posXIcono FLOAT,
+    posYIcono FLOAT,
+    PRIMARY KEY (idEnlace),
+    FOREIGN KEY (idSala) REFERENCES sala(idSala)
+);
