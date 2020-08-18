@@ -2,9 +2,9 @@ var express = require('express');
 var router = express.Router();
 var connection = require('../connection');
 
-/* GET Login page. */
+/* GET Obras page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Login' });
+  res.render('obras', { title: 'Obras' });
 });
 
 module.exports = router;
