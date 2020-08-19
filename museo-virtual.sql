@@ -73,8 +73,10 @@ create table comentario(
 create table enlace(
     idEnlace INT NOT NULL AUTO_INCREMENT,
     idSala INT NOT NULL,
+    idSalaDestino INT NOT NULL,
     posXIcono FLOAT,
     posYIcono FLOAT,
     PRIMARY KEY (idEnlace),
-    FOREIGN KEY (idSala) REFERENCES sala(idSala)
+    FOREIGN KEY (idSala) REFERENCES sala(idSala),
+    FOREIGN KEY (idSalaDestino) REFERENCES sala(idSala)
 );
