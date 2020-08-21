@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var connection = require('../connection');
 var dbObj = require('../connection/sync');
+var debug = require('debug')('backendmuseovirtual:museo');
 
 /* GET Museo page. */
 router.get('/', function (req, res, next) {
@@ -19,7 +20,7 @@ router.get('/api/json', function (req, res) {
          if (museoResults.length !== 0) {
             json += `"nav_icon": "${museoResults[0].nombreIconoNext}",
             "info_icon": "${museoResults[0].nombreIconoInfo}", 
-            "firstPhotoId": "${museoResults[0].idSalaInicial}",
+            "firstPhotoId": "ucmv-${museoResults[0].idSalaInicial}",
             "firstPhotoRotation": 0,
             "soundEffects": {
                "navButton": {
@@ -46,13 +47,13 @@ router.get('/api/json', function (req, res) {
             let salasResults = await dbObj.executeQuery(`select idSala, nombreImgFondo, rotacionInicial, temaCuratorial from sala`);
             for (let i = 0; i < salasResults.length; i++) {
                let idSalaActual = salasResults[i].idSala;
-               json += `"${salasResults[i].idSala}":{
+               json += `"ucmv-${salasResults[i].idSala}":{
                        "idSala": ${salasResults[i].idSala},
                        "rotationOffset": ${salasResults[i].rotacionInicial},
                        "uri": "${salasResults[i].nombreImgFondo}",
                        "temaCuratorial": "${salasResults[i].temaCuratorial}",
                        "tooltips": [`;
-               // Consulta de Enlaces
+               // Consulta de Enlaces por Sala
                let enlacesResults = await dbObj.executeQuery(`select enlace.idSalaDestino as idSalaDestino, enlace.posXIcono as posXIcono, 
                enlace.posYIcono as posYIcono, sala.temaCuratorial as temaCuratorial from enlace join sala on enlace.idSalaDestino = sala.idSala 
                where enlace.idSala = ${idSalaActual}`);
@@ -61,16 +62,16 @@ router.get('/api/json', function (req, res) {
                      "text": "${enlacesResults[i].temaCuratorial}",
                      "rotationY": ${enlacesResults[i].posYIcono},
                      "rotationX": ${enlacesResults[i].posXIcono},
-                     "linkedPhotoId": "${enlacesResults[i].idSalaDestino}"
+                     "linkedPhotoId": "ucmv-${enlacesResults[i].idSalaDestino}"
                   }`;
                   if (i !== enlacesResults.length - 1) {
-                     json += `,`
+                     json += `,`;
                   }
                }
-               // Consulta de Obras
+               // Consulta de Obras por Sala
                let obrasResults = await dbObj.executeQuery(`select idObra, titulo, descripcion, posX, posY from obra where idSala = ${idSalaActual}`);
                if (obrasResults.length !== 0) {
-                  json += `,`
+                  json += `,`;
                }
                for (let i = 0; i < obrasResults.length; i++) {
                   json += `{
@@ -82,25 +83,39 @@ router.get('/api/json', function (req, res) {
                      "text": "${obrasResults[i].descripcion}"
                   }`;
                   if (i !== obrasResults.length - 1) {
-                     json += `,`
+                     json += `,`;
                   }
                }
                json += `]
                }`;
                if (i !== salasResults.length - 1) {
-                  json += `,`
+                  json += `,`;
                }
             }
-            json += `}`
+            json += `}`;
          }
-         json += `}`
-      } catch (error) {
-         console.log(error);
-      } finally {
+         json += `}`;
          res.send(json);
+      } catch (error) {
+         debug(error);
+         res.sendStatus(500);
       }
    }
    start();
+});
+
+// Obtener la lista de Salas del Museo
+router.get('/api/salas', function (req, res) {
+   // Consulta de Salas
+   let sql = `select idSala, temaCuratorial from sala`;
+   connection.query(sql, function (error, results) {
+      if (error) {
+         debug(error);
+         res.sendStatus(500);
+      } else {
+         res.send(results);
+      }
+   });
 });
 
 module.exports = router;
