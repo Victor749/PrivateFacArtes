@@ -22,18 +22,18 @@ router.get('/api/curatorial/:idSala', function (req, res) {
     } else {
       if (results.length !== 0) {
         json += `"temaCuratorial": "${results[0].temaCuratorial}",`;
-        let curadores = `"curadores": {[`;
-        let expositores = `"expositores": {[`;
+        let curadores = `"curadores": [`;
+        let expositores = `"expositores": [`;
         for (let i = 0; i < results.length; i++) {
-          curadores += `"nombre": "${results[i].curador}"`;
-          expositores += `"nombre": "${results[i].expositor}"`;
+          curadores += `"${results[i].curador}"`;
+          expositores += `"${results[i].expositor}"`;
           if (i !== results.length - 1) {
             curadores += `,`;
             expositores += `,`;
           }
         }
-        curadores += `]},`;
-        expositores += `]}`;
+        curadores += `],`;
+        expositores += `]`;
         json += curadores + expositores;
       }
       json += `}`;
