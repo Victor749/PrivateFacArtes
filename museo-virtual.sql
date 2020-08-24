@@ -49,7 +49,7 @@ create table obra(
     descripcion TEXT,
     contador BIGINT,
     tipo VARCHAR(255),
-    nombreElemento VARCHAR(255),
+    nombreElemento TEXT,
     posX FLOAT,
     posY FLOAT,
     nombreAudio VARCHAR(255),

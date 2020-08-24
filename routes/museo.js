@@ -70,7 +70,7 @@ router.get('/api/json', function (req, res) {
                }
                // Consulta de Obras por Sala
                let obrasResults = await dbObj.executeQuery(`select idObra, titulo, descripcion, posX, posY from obra where idSala = ${idSalaActual}`);
-               if (obrasResults.length !== 0) {
+               if (enlacesResults.length !== 0 && obrasResults.length !== 0) {
                   json += `,`;
                }
                for (let i = 0; i < obrasResults.length; i++) {
@@ -114,6 +114,57 @@ router.get('/api/salas', function (req, res) {
          res.sendStatus(500);
       } else {
          res.send(results);
+      }
+   });
+});
+
+// Obtener información para el catálogo del museo
+router.get('/api/catalogo', function (req, res) {
+   // Cadena con JSON
+   let json = "[";
+   // Consulta de Salas y Obras
+   let sql = `select sala.idSala as idSala, sala.temaCuratorial as temaCuratorial, obra.titulo as titulo, obra.autor as autor, obra.asignatura as asignatura,
+   obra.ciclo as ciclo, obra.facebook as facebook, obra.instagram as instagram, obra.proyectoWeb as proyectoWeb, obra.dimensiones as dimensiones,
+   obra.fechaProduccion as fechaProduccion, obra.tutor as tutor, obra.descripcion as descripcion, obra.nombreElemento as nombreElemento,
+   obra.tipo as tipo from obra join sala on obra.idSala = sala.idSala`;
+   let idSalaActual = -1;
+   connection.query(sql, function (error, results) {
+      if (error) {
+         debug(error);
+         res.sendStatus(500);
+      } else {
+         for (let i = 0; i < results.length; i++) {
+            if (idSalaActual !== results[i].idSala) {
+               if (i !== 0) {
+                  json += `]
+                  },`;
+               }
+               json += `{"temaCuratorial": "${results[i].temaCuratorial}",
+               "obras": [`;
+               idSalaActual = results[i].idSala;
+            } else {
+               json += `,`;
+            }
+            json += `{
+               "titulo": "${results[i].titulo}",
+               "autor": "${results[i].autor}",
+               "asignatura": "${results[i].asignatura}",
+               "ciclo": ${results[i].ciclo},
+               "facebook": "${results[i].facebook}",
+               "instagram": "${results[i].instagram}",
+               "proyectoWeb": "${results[i].proyectoWeb}",
+               "dimensiones": "${results[i].dimensiones}",
+               "fechaProduccion": "${results[i].fechaProduccion}",
+               "tutor": "${results[i].tutor}",
+               "descripcion": "${results[i].descripcion}",
+               "nombreElemento": "${results[i].nombreElemento}",
+               "tipo": "${results[i].tipo}"
+            }`;
+         }
+         json += `]
+         }
+         ]`;
+         res.send(json);
       }
    });
 });
