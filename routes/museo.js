@@ -70,7 +70,7 @@ router.get('/api/json', function (req, res) {
                }
                // Consulta de Obras por Sala
                let obrasResults = await dbObj.executeQuery(`select idObra, titulo, descripcion, posX, posY from obra where idSala = ${idSalaActual}`);
-               if (obrasResults.length !== 0) {
+               if (enlacesResults.length !== 0 && obrasResults.length !== 0) {
                   json += `,`;
                }
                for (let i = 0; i < obrasResults.length; i++) {
