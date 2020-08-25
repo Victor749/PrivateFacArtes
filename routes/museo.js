@@ -169,4 +169,7 @@ router.get('/api/catalogo', function (req, res) {
    });
 });
 
+
+
+
 module.exports = router;
