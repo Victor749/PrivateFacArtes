@@ -3,22 +3,20 @@ use museovirtual;
 
 create table museo(
     idMuseo INT NOT NULL AUTO_INCREMENT,
-    iconoNavegador VARCHAR(255),
+    nombreMuseo VARCHAR(255),
     idSalaInicial INT,
     nombreAudioFondo VARCHAR(255),
     nombreIconoInfo VARCHAR(255),
     nombreIconoNext VARCHAR(255),
-    nombreIconoAudio VARCHAR(255),
+    activo BOOLEAN,
     PRIMARY KEY (idMuseo)
 );
 
 create table usuarioAdmin (
     id INT NOT NULL AUTO_INCREMENT,
-    idMuseo INT NOT NULL,
     username VARCHAR(255),
     contrasena VARCHAR(255),
-    PRIMARY KEY (id),
-    FOREIGN KEY (idMuseo) REFERENCES museo(idMuseo)
+    PRIMARY KEY (id)
 );
 
 create table sala(
@@ -53,6 +51,7 @@ create table obra(
     posX FLOAT,
     posY FLOAT,
     nombreAudio VARCHAR(255),
+    tecnica VARCHAR(255),
     PRIMARY KEY (idObra),
     FOREIGN KEY (idSala) REFERENCES sala(idSala)
 );
