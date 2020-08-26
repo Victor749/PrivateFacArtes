@@ -10,7 +10,6 @@ router.get('/', function(req, res, next) {
 
 router.get('/api/json/:id_obra', function(req, res){
    
-  console.log(req.params);
   let sql = `select * from obra where idObra=${req.params.id_obra}`;
   
   connection.query(sql, function (error, results) {

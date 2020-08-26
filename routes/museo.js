@@ -56,13 +56,12 @@ router.get('/api/json', function (req, res) {
                        "tooltips": [`;
                // Consulta de Enlaces por Sala
                let enlacesResults = await dbObj.executeQuery(`select enlace.idSalaDestino as idSalaDestino, enlace.posXIcono as posXIcono, 
-               enlace.posYIcono as posYIcono, sala.temaCuratorial as temaCuratorial from enlace join sala on enlace.idSalaDestino = sala.idSala 
-               where enlace.idSala = ${idSalaActual}`);
+               enlace.posYIcono as posYIcono, enlace.posZIcono as posZIcono from enlace where enlace.idSala = ${idSalaActual}`);
                for (let i = 0; i < enlacesResults.length; i++) {
                   json += `{
-                     "text": "${enlacesResults[i].temaCuratorial}",
                      "rotationY": ${enlacesResults[i].posYIcono},
                      "rotationX": ${enlacesResults[i].posXIcono},
+                     "rotationZ": ${enlacesResults[i].posZIcono},
                      "linkedPhotoId": "ucmv-${enlacesResults[i].idSalaDestino}"
                   }`;
                   if (i !== enlacesResults.length - 1) {
@@ -70,7 +69,7 @@ router.get('/api/json', function (req, res) {
                   }
                }
                // Consulta de Obras por Sala
-               let obrasResults = await dbObj.executeQuery(`select idObra, posX, posY from obra where idSala = ${idSalaActual}`);
+               let obrasResults = await dbObj.executeQuery(`select idObra, posX, posY, posZ from obra where idSala = ${idSalaActual}`);
                if (enlacesResults.length !== 0 && obrasResults.length !== 0) {
                   json += `,`;
                }
@@ -79,7 +78,8 @@ router.get('/api/json', function (req, res) {
                      "type": "textblock",
                      "idObra": ${obrasResults[i].idObra},
                      "rotationY": ${obrasResults[i].posY},
-                     "rotationX": ${obrasResults[i].posX}
+                     "rotationX": ${obrasResults[i].posX},
+                     "rotationZ": ${obrasResults[i].posZ}
                   }`;
                   if (i !== obrasResults.length - 1) {
                      json += `,`;
@@ -170,8 +170,5 @@ router.get('/api/catalogo', function (req, res) {
       }
    });
 });
-
-
-
 
 module.exports = router;

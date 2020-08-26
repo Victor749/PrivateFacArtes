@@ -50,6 +50,7 @@ create table obra(
     nombreElemento TEXT,
     posX FLOAT,
     posY FLOAT,
+    posZ FLOAT,
     nombreAudio VARCHAR(255),
     tecnica VARCHAR(255),
     PRIMARY KEY (idObra),
@@ -75,6 +76,7 @@ create table enlace(
     idSalaDestino INT NOT NULL,
     posXIcono FLOAT,
     posYIcono FLOAT,
+    posZIcono FLOAT,
     PRIMARY KEY (idEnlace),
     FOREIGN KEY (idSala) REFERENCES sala(idSala),
     FOREIGN KEY (idSalaDestino) REFERENCES sala(idSala)
