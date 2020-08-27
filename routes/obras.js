@@ -8,6 +8,7 @@ router.get('/', function(req, res, next) {
   res.render('obras', { title: 'Obras' });
 });
 
+// Obtener Información de una Obra
 router.get('/api/json/:id_obra', function(req, res){
    
   let sql = `select * from obra where idObra=${req.params.id_obra}`;

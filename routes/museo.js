@@ -56,12 +56,14 @@ router.get('/api/json', function (req, res) {
                        "tooltips": [`;
                // Consulta de Enlaces por Sala
                let enlacesResults = await dbObj.executeQuery(`select enlace.idSalaDestino as idSalaDestino, enlace.posXIcono as posXIcono, 
-               enlace.posYIcono as posYIcono, enlace.posZIcono as posZIcono from enlace where enlace.idSala = ${idSalaActual}`);
+               enlace.posYIcono as posYIcono, enlace.posZIcono as posZIcono, sala.temaCuratorial as temaCuratorial from enlace 
+               join sala on enlace.idSala = sala.idSala where enlace.idSala = ${idSalaActual}`);
                for (let i = 0; i < enlacesResults.length; i++) {
                   json += `{
                      "rotationY": ${enlacesResults[i].posYIcono},
                      "rotationX": ${enlacesResults[i].posXIcono},
                      "rotationZ": ${enlacesResults[i].posZIcono},
+                     "text": "${enlacesResults[i].temaCuratorial}",
                      "linkedPhotoId": "ucmv-${enlacesResults[i].idSalaDestino}"
                   }`;
                   if (i !== enlacesResults.length - 1) {
