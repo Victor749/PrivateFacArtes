@@ -16,11 +16,11 @@ router.get('/api/json', function (req, res) {
       let json = `{`;
       try {
          // Consulta de Museo
-         let museoResults = await dbObj.executeQuery(`select idMuseo, idSalaInicial, nombreAudioFondo, nombreIconoInfo, nombreIconoNext from museo where activo = true`);
+         let museoResults = await dbObj.executeQuery(`select idMuseo, idSalaInicial, nombreAudioFondo from museo where activo = true`);
          if (museoResults.length !== 0) {
             let idMuseo = museoResults[0].idMuseo;
-            json += `"nav_icon": "${museoResults[0].nombreIconoNext}",
-            "info_icon": "${museoResults[0].nombreIconoInfo}", 
+            json += `"nav_icon": "nav_icon.png",
+            "info_icon": "info_icon.png", 
             "firstPhotoId": "ucmv-${museoResults[0].idSalaInicial}",
             "firstPhotoRotation": 0,
             "soundEffects": {
@@ -57,7 +57,7 @@ router.get('/api/json', function (req, res) {
                // Consulta de Enlaces por Sala
                let enlacesResults = await dbObj.executeQuery(`select enlace.idSalaDestino as idSalaDestino, enlace.posXIcono as posXIcono, 
                enlace.posYIcono as posYIcono, enlace.posZIcono as posZIcono, sala.temaCuratorial as temaCuratorial from enlace 
-               join sala on enlace.idSala = sala.idSala where enlace.idSala = ${idSalaActual}`);
+               join sala on enlace.idSalaDestino = sala.idSala where enlace.idSala = ${idSalaActual}`);
                for (let i = 0; i < enlacesResults.length; i++) {
                   json += `{
                      "rotationY": ${enlacesResults[i].posYIcono},
@@ -126,8 +126,8 @@ router.get('/api/catalogo', function (req, res) {
    // Consulta de Salas y Obras
    let sql = `select sala.idSala as idSala, sala.temaCuratorial as temaCuratorial, obra.titulo as titulo, obra.autor as autor, obra.asignatura as asignatura,
    obra.ciclo as ciclo, obra.facebook as facebook, obra.instagram as instagram, obra.proyectoWeb as proyectoWeb, obra.dimensiones as dimensiones,
-   obra.fechaProduccion as fechaProduccion, obra.tutor as tutor, obra.descripcion as descripcion, obra.nombreElemento as nombreElemento,
-   obra.tipo as tipo, obra.tecnica as tecnica from obra join sala on obra.idSala = sala.idSala join museo on sala.idMuseo = museo.idMuseo where museo.activo = true`;
+   obra.fechaProduccion as fechaProduccion, obra.tutor as tutor, obra.descripcion as descripcion, obra.imagenes as imagenes,
+   obra.linkVideoYoutube as linkVideoYoutube, obra.tecnica as tecnica from obra join sala on obra.idSala = sala.idSala join museo on sala.idMuseo = museo.idMuseo where museo.activo = true`;
    let idSalaActual = -1;
    connection.query(sql, function (error, results) {
       if (error) {
@@ -159,9 +159,9 @@ router.get('/api/catalogo', function (req, res) {
                   "fechaProduccion": "${results[i].fechaProduccion}",
                   "tutor": "${results[i].tutor}",
                   "descripcion": "${results[i].descripcion}",
-                  "nombreElemento": "${results[i].nombreElemento}",
+                  "imagenes": "${results[i].imagenes}",
                   "tecnica": "${results[i].tecnica}",
-                  "tipo": "${results[i].tipo}"
+                  "linkVideoYoutube": "${results[i].linkVideoYoutube}"
                }`;
             }
             json += `]

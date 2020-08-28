@@ -6,8 +6,6 @@ create table museo(
     nombreMuseo VARCHAR(255),
     idSalaInicial INT,
     nombreAudioFondo VARCHAR(255),
-    nombreIconoInfo VARCHAR(255),
-    nombreIconoNext VARCHAR(255),
     activo BOOLEAN,
     PRIMARY KEY (idMuseo)
 );
@@ -46,12 +44,13 @@ create table obra(
     tutor VARCHAR(255),
     descripcion TEXT,
     contador BIGINT,
-    tipo VARCHAR(255),
-    nombreElemento TEXT,
+    imagenes TEXT,
+    linkVideoYoutube VARCHAR(255),
+    obj VARCHAR(255),
+    mtl VARCHAR(255),
     posX FLOAT,
     posY FLOAT,
     posZ FLOAT,
-    nombreAudio VARCHAR(255),
     tecnica VARCHAR(255),
     PRIMARY KEY (idObra),
     FOREIGN KEY (idSala) REFERENCES sala(idSala)
