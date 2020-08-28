@@ -40,7 +40,7 @@ router.get('/api/json', function (req, res) {
                "ambient": {
                   "uri": "${museoResults[0].nombreAudioFondo}",
                   "loop": true,
-                  "volume": 0.01
+                  "volume": 0.05
                }
             },
             "photos": {`;
