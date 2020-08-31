@@ -3,10 +3,6 @@ var router = express.Router();
 var connection = require('../connection');
 var debug = require('debug')('backendmuseovirtual:comentarios');
 
-router.get('/', function(req, res, next) {
-    res.render('comentarios', { title: 'Comentarios' });
-  });
-
 
 router.post('/new', function(req, res){
 
@@ -41,11 +37,6 @@ router.get('/getComentario/:idObra/:actual/:limit', function(req, res){
       res.send(resultadoC);
     }
   });
-});
-
-router.get('/api/getData', function(req, res){
-    
-   res.send('hola');
 });
 
 

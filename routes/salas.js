@@ -35,9 +35,25 @@ router.get('/api/curatorial/:idSala', function (req, res) {
         curadores += `],`;
         expositores += `]`;
         json += curadores + expositores;
+        json += `}`;
+        res.send(json);
+      }else{
+        let sql = `select sala.temaCuratorial as temaCuratorial from sala where sala.idSala = ${req.params.idSala}`;
+        connection.query(sql, function (error, results) {
+          if (error) {
+            debug(error);
+            res.sendStatus(500);
+          } else {
+            json += `"temaCuratorial": "${results[0].temaCuratorial}",`;
+            let curadores = `"curadores": [],`;
+            let expositores = `"expositores": []`;
+            json += curadores + expositores;
+            json += `}`;
+            res.send(json);
+          }
+        });
       }
-      json += `}`;
-      res.send(json);
+      
     }
   });
 });
