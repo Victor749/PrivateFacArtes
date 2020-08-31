@@ -4,11 +4,15 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors');
+var methodOverride = require("method-override");
 
 var indexRouter = require('./routes/index');
 var museoRouter = require('./routes/museo');
 var salasRouter = require('./routes/salas');
 var obrasRouter = require('./routes/obras');
+var comentariosRouter = require('./routes/comentarios');
+var comentariosRouter = require('./routes/usuarios');
+
 
 var app = express();
 
@@ -22,11 +26,14 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(cors({origin: process.env.ORIGIN_SITE}));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(methodOverride("_method"));
 
 app.use('/', indexRouter);
 app.use('/museo', museoRouter);
 app.use('/salas', salasRouter);
 app.use('/obras', obrasRouter);
+app.use('/comentarios', comentariosRouter);
+app.use('/usuarios', comentariosRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

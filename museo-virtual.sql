@@ -56,18 +56,28 @@ create table obra(
     FOREIGN KEY (idSala) REFERENCES sala(idSala)
 );
 
+
+create table usuario(
+    idUsuario VARCHAR(255) NOT NULL,
+    identificador VARCHAR(255) NOT NULL,
+    nombreUsuario VARCHAR(255),
+    linkFoto VARCHAR(255),
+    email VARCHAR(255),
+    PRIMARY KEY (idUsuario)
+);
+
+
 create table comentario(
     idComentario BIGINT NOT NULL AUTO_INCREMENT,
     idUsuario VARCHAR(255) NOT NULL,
     idObra INT NOT NULL,
-    nombreUsuario VARCHAR(255),
     contenido TEXT,
-    linkFoto VARCHAR(255),
-    plataforma VARCHAR(255),
     fecha VARCHAR(255),
     PRIMARY KEY (idComentario),
-    FOREIGN KEY (idObra) REFERENCES obra(idObra)
+    FOREIGN KEY (idObra) REFERENCES obra(idObra),
+    FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario)
 );
+
 
 create table enlace(
     idEnlace INT NOT NULL AUTO_INCREMENT,
