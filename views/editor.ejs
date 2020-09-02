@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title><%= title %></title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+  <h1><%= title %></h1>
+  <p>Welcome to <%= title %></p>
+  <form method="POST" action="/editor/login">
+    <label>Usuario: </label>
+    <input type="text" name="user" />
+    <br />
+    <br />
+    <label>Contraseña: </label>
+    <input type="password" name="pass" />
+    <br />
+    <br />
+    <% if (info) { %>
+    <label style="color: red;"><%= info %></label>
+    <br />
+    <br />
+    <% } %>
+    <input type="submit" />
+  </form>
+</body>
+
+</html>
