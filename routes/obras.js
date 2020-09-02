@@ -55,30 +55,5 @@ router.put('/:id_obra', function(req, res){
   });    
 });
 
-router.get('/api/comentarios/:idObra/:actual/:limit', function(req, res){
-   
-    // System.Threading.Thread.Sleep(4000);
-    actual = parseInt(req.params.actual);
-    limit = parseInt(req.params.limit);
-    let sql = `select  idComentario, idUsuario, nombreUsuario, contenido, linkFoto, plataforma, fecha from obra,comentario where obra.idObra=${req.params.idObra} and comentario.idObra=${req.params.idObra}`;
-    connection.query(sql, function (error, results) {
-      
-    if (error) {
-      debug(error);
-      res.sendStatus(500);
-    }else{
-      finIndex = actual+limit;
-      console.log(finIndex)
-      if(finIndex >= results.length){
-        finIndex = results.length;
-      }
-      resultadoC = [];
-      for (var i=actual; i<finIndex;i++){
-        resultadoC.push(results[i]);
-      }
-      res.send(resultadoC);
-    }
-  });
-});
 
 module.exports = router;

@@ -47,7 +47,6 @@ create table obra(
     imagenes TEXT,
     linkVideoYoutube VARCHAR(255),
     obj VARCHAR(255),
-    mtl VARCHAR(255),
     posX FLOAT,
     posY FLOAT,
     posZ FLOAT,
