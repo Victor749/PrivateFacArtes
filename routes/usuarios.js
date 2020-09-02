@@ -18,9 +18,6 @@ router.post('/new', function(req, res){
 
     const {idUsuario, nombreUsuario, apellidoUsuario, linkFoto, email} = req.body;
 
-    let today = new Date();
-    let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-
     let identifier = makeid(30);
 
     let sql_0 = `select * from usuario where idUsuario = '${idUsuario}'`;
@@ -33,8 +30,8 @@ router.post('/new', function(req, res){
             debug(error);
             return res.sendStatus(500);
         }else if(results0.length >= 1){
-            debug("Already in database");
-            debug(results0);
+            // debug("Already in database");
+            // debug(results0);
             return res.send(results0[0].identificador);
         }else{
             connection.query(sql, function(error, results, fields){
@@ -42,7 +39,7 @@ router.post('/new', function(req, res){
                     debug(error);
                     return res.sendStatus(500);
                 }else{
-                    debug(results);
+                    // debug(results);
                     return res.send(identifier);
                 }
             });
@@ -51,11 +48,20 @@ router.post('/new', function(req, res){
 });
 
 router.get('/:identifier/check', function(req, res){
-    debug(req.params);
-    debug('Holaaa');
+    // debug(req.params);
+    // debug('Holaaa');
 
-    res.send('true');
-
+    let sql = `select * from usuario where identificador = '${req.params.identifier}'`;
+    connection.query(sql, function(error, results, fields){
+        if(error){
+            debug(error);
+            return res.sendStatus(500);
+        }
+        if(results.length > 0){
+            return res.send('true');
+        }
+        return res.send('false');
+    });
 });
 
 

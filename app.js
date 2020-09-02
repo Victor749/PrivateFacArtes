@@ -11,7 +11,7 @@ var museoRouter = require('./routes/museo');
 var salasRouter = require('./routes/salas');
 var obrasRouter = require('./routes/obras');
 var comentariosRouter = require('./routes/comentarios');
-var comentariosRouter = require('./routes/usuarios');
+var usuariosRouter = require('./routes/usuarios');
 
 
 var app = express();
@@ -33,7 +33,7 @@ app.use('/museo', museoRouter);
 app.use('/salas', salasRouter);
 app.use('/obras', obrasRouter);
 app.use('/comentarios', comentariosRouter);
-app.use('/usuarios', comentariosRouter);
+app.use('/usuarios', usuariosRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
