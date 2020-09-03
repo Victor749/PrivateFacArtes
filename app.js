@@ -17,6 +17,7 @@ var obrasRouter = require('./routes/obras');
 var comentariosRouter = require('./routes/comentarios');
 var usuariosRouter = require('./routes/usuarios');
 var visor3DRouter = require('./routes/visor3D');
+var crudMuseo = require('./routes/crudMuseo');
 
 
 var app = express();
@@ -66,6 +67,8 @@ app.use('/obras', obrasRouter);
 app.use('/comentarios', comentariosRouter);
 app.use('/usuarios', usuariosRouter);
 app.use('/visor3D', visor3DRouter);
+app.use('/crudMuseo', crudMuseo);
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -82,5 +85,6 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
 
 module.exports = app;
