@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var connection = require('../connection');
 var debug = require('debug')('backendmuseovirtual:salas');
+var mysql = require('mysql');
 
 /* GET Salas page. */
 router.get('/', function (req, res, next) {
@@ -14,7 +15,7 @@ router.get('/api/curatorial/:idSala', function (req, res) {
   let json = `{`;
   // Consulta de Salas
   let sql = `select sala.temaCuratorial as temaCuratorial, obra.autor as expositor, obra.tutor as curador
-  from sala join obra on sala.idSala = obra.idSala where sala.idSala = ${req.params.idSala}`;
+  from sala join obra on sala.idSala = obra.idSala where sala.idSala = ${mysql.escape(req.params.idSala)}`;
   connection.query(sql, function (error, results) {
     if (error) {
       debug(error);
@@ -37,23 +38,24 @@ router.get('/api/curatorial/:idSala', function (req, res) {
         json += curadores + expositores;
         json += `}`;
         res.send(json);
-      }else{
-        let sql = `select sala.temaCuratorial as temaCuratorial from sala where sala.idSala = ${req.params.idSala}`;
+      } else {
+        let sql = `select sala.temaCuratorial as temaCuratorial from sala where sala.idSala = ${mysql.escape(req.params.idSala)}`;
         connection.query(sql, function (error, results) {
           if (error) {
             debug(error);
             res.sendStatus(500);
           } else {
-            json += `"temaCuratorial": "${results[0].temaCuratorial}",`;
-            let curadores = `"curadores": [],`;
-            let expositores = `"expositores": []`;
-            json += curadores + expositores;
+            if (results.length !== 0) {
+              json += `"temaCuratorial": "${results[0].temaCuratorial}",`;
+              let curadores = `"curadores": [],`;
+              let expositores = `"expositores": []`;
+              json += curadores + expositores;
+            }
             json += `}`;
             res.send(json);
           }
         });
       }
-      
     }
   });
 });
