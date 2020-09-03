@@ -6,8 +6,8 @@ var middleware = require('../middleware');
 var mysql = require('mysql');
 
 /* GET Editor Login page. */
-router.get('/', function (req, res, next) {
-    res.render('editor', { title: 'Editor', info: null });
+router.get('/', middleware.isLogueado, function (req, res, next) {
+    res.render('editor', { title: 'Editor', info: null, user_field: null });
 });
 
 /* GET Editor Inicio page. */
@@ -15,14 +15,9 @@ router.get('/inicio', middleware.pagina, function (req, res, next) {
     res.render('inicio', { title: 'Inicio' });
 });
 
-/* GET Metodo Secreto Prueba (Requiere sesion iniciada) */
-router.get('/secreto', middleware.estado, function (req, res, next) {
-    res.send('ESTO ES SECRETO.');
-});
-
 /* POST Login Editor */
 router.post('/login', function (req, res, next) {
-    let sql = `select username, contrasena from usuarioadmin where username=${mysql.escape(req.body.user)} and contrasena=${mysql.escape(req.body.pass)}`;
+    let sql = `select username, contrasena from usuarioadmin where username=${mysql.escape(req.body.user)} and AES_DECRYPT(contrasena, '${process.env.MYSQL_AES_SECRET}')=${mysql.escape(req.body.pass)}`;
     connection.query(sql, function (error, results) {
         if (error) {
             debug(error);
@@ -33,7 +28,7 @@ router.post('/login', function (req, res, next) {
                 req.session.admin = true;
                 res.redirect('/editor/inicio');
             } else {
-                res.render('editor', { title: 'Editor', info: 'Usuario y/o contraseña incorrecto(s).' });
+                res.render('editor', { title: 'Editor', info: 'Usuario y/o contraseña incorrecto(s).', user_field: req.body.user });
             }
         }
     });

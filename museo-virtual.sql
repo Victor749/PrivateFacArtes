@@ -10,12 +10,12 @@ create table museo(
     PRIMARY KEY (idMuseo)
 );
 
-create table usuarioAdmin (
-    id INT NOT NULL AUTO_INCREMENT,
+create table usuarioadmin (
     username VARCHAR(255),
-    contrasena VARCHAR(255),
-    PRIMARY KEY (id)
-);
+    contrasena BLOB,
+    correo VARCHAR(255),
+    PRIMARY KEY (username)
+); 
 
 create table sala(
     idSala INT NOT NULL AUTO_INCREMENT,

@@ -18,4 +18,13 @@ middleware.estado = function (req, res, next) {
         return res.sendStatus(401);
 };
 
+// Para uso exclusivo de la pagina de login, para evitar doble inicio de sesion
+// Cuando ya exista una sesion iniciada redirige al inicio del editor
+middleware.isLogueado = function (req, res, next) {
+    if (req.session && req.session.user && req.session.admin)
+        return res.redirect('/editor/inicio');
+    else
+        return next();
+};
+
 module.exports = middleware;
