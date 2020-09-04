@@ -1,34 +1,51 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 
 <head>
   <title><%= title %></title>
-  <link rel='stylesheet' href='/stylesheets/style.css' />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+  <script src="/javascripts/jquery-3.5.1.slim.min.js"></script>
+  <script src="/javascripts/popper.min.js"></script>
+  <script src="/javascripts/bootstrap.min.js"></script>
 </head>
 
 <body>
-  <h1><%= title %></h1>
-  <p>Welcome to <%= title %></p>
-  <form method="POST" action="/editor/login">
-    <label>Usuario: </label>
-    <% if (user_field) { %>
-    <input type="text" name="user" value="<%= user_field %>"/>
-    <% } else { %>
-      <input type="text" name="user" />
-    <% } %>
-    <br />
-    <br />
-    <label>Contraseña: </label>
-    <input type="password" name="pass" />
-    <br />
-    <br />
-    <% if (info) { %>
-    <label style="color: red;"><%= info %></label>
-    <br />
-    <br />
-    <% } %>
-    <input type="submit" />
-  </form>
+  <div class="container pt-4 pb-4">
+    <div class="jumbotron bg-dark rounded text-center">
+      <img src="/images/escudo-final.png" style="width: 27%;" />
+      <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+      <img src="/images/fac-artes.png" style="width: 14%;" />
+      <br />
+      <br />
+      <h1 style="color: whitesmoke;">Editor - Museo Virtual</h1>
+      <h3 style="color: whitesmoke;">Facultad de Artes - Universidad de Cuenca</h3>
+    </div>
+    <form>
+      <fieldset>
+        <div class="form-group">
+          <label>Usuario</label>
+          <% if (user_field) { %>
+          <input type="text" name="user" value="<%= user_field %>" class="form-control"
+            placeholder="Ingrese nombre de usuario" required />
+          <% } else { %>
+          <input type="text" name="user" class="form-control" placeholder="Ingrese nombre de usuario" required />
+          <% } %>
+          <br />
+          <label>Contraseña</label>
+          <input type="password" name="pass" class="form-control" placeholder="Ingrese contraseña" />
+          <br />
+          <% if (info) { %>
+          <label style="color: red;"><%= info %></label>
+          <input type="submit" class="btn btn-link" value="Olvidé mi contraseña." formmethod="GET" formaction="/"/>
+          <br />
+          <% } %>
+        </div>
+        <input type="submit" class="btn btn-primary float-right" value="Log In" formmethod="POST" formaction="/editor/login" />
+      </fieldset>
+    </form>
+  </div>
 </body>
 
 </html>

@@ -1,14 +1,76 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
+<html lang="es">
+
+<head>
+  <title><%= title %></title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+  <script src="/javascripts/jquery-3.5.1.slim.min.js"></script>
+  <script src="/javascripts/popper.min.js"></script>
+  <script src="/javascripts/bootstrap.min.js"></script>
+</head>
+
+<body>
+  <%- include('navbar.ejs') %>
+  <div class="container pt-4 pb-4">
     <h1><%= title %></h1>
-    <p>Welcome <%= username %></p>
-    <form method="GET" action="/editor/logout">
-      <input type="submit" value="Salir" />
+    <p>¡ Bienvenido <%= username %> !</p>
+    <br />
+    <h3>Correo de Recuperación</h3>
+    <br />
+    <form method="POST" action="/editor/cambiar_correo">
+      <fieldset>
+        <div class="form-group">
+          <label>Correo Electrónico</label>
+          <% if (correo) { %>
+          <input type="email" name="correo" class="form-control" placeholder="Ingrese correo electrónico" required
+            value="<%= correo %>">
+          <% } else { %>
+          <input type="email" name="correo" class="form-control" placeholder="Ingrese correo electrónico" required>
+          <% } %>
+          <small class="form-text text-muted">Esta dirección de correo eléctronico se utilizará en caso de que olvide su
+            contraseña.</small>
+        </div>
+        <br />
+        <button type="submit" class="btn btn-primary float-right">Cambiar</button>
+      </fieldset>
     </form>
-  </body>
+    <br />
+    <br />
+    <h3>Cambiar Contraseña</h3>
+    <br />
+    <form class="pure-form" method="POST" action="/editor/cambiar_contrasena">
+      <fieldset>
+        <div class="form-group">
+          <label>Nueva Contraseña</label>
+          <input type="password" id="password" name="password" class="form-control"
+            placeholder="Ingrese nueva contraseña" required value="">
+          <br />
+          <label>Confirmar Contraseña</label>
+          <input type="password" id="confirm_password" name="confirm_password" class="form-control"
+            placeholder="Confirme nueva contraseña" required value="">
+        </div>
+        <br />
+        <button type="submit" class="btn btn-primary float-right pure-button pure-button-primary">Cambiar</button>
+      </fieldset>
+    </form>
+  </div>
+  <script>
+    var password = document.getElementById("password")
+      , confirm_password = document.getElementById("confirm_password");
+
+    function validatePassword() {
+      if (password.value != confirm_password.value) {
+        confirm_password.setCustomValidity("Las contraseñas no coinciden.");
+      } else {
+        confirm_password.setCustomValidity('');
+      }
+    }
+
+    password.onchange = validatePassword;
+    confirm_password.onkeyup = validatePassword;
+  </script>
+</body>
+
 </html>

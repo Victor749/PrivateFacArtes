@@ -1,0 +1,33 @@
+<nav class="navbar navbar-expand-xl navbar-dark bg-dark sticky-top">
+    <span class="navbar-brand"><img src="/images/escudo-final.png" style="height: 50px; width: 150px;" />&nbsp;&nbsp;&nbsp;&nbsp;MVUC-Editor</span>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02"
+        aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarColor02">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/editor/inicio">Inicio<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Museos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Salas</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Enlaces</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Obras</a>
+            </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0" method="GET" action="/editor/logout">
+            <span style="color: whitesmoke;"><%= username %>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <!-- Attribution: Font Awesome Free 5.2.0 by @fontawesome - https://fontawesome.com -->
+            <img src="/images/user.png" style="height: 44px; width: 44px;">
+            <button class="btn btn-link my-2 my-sm-0" style="color: whitesmoke;" type="submit">Log Out</button>
+        </form>
+    </div>
+</nav>
