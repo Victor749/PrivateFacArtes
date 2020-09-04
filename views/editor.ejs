@@ -11,7 +11,11 @@
   <p>Welcome to <%= title %></p>
   <form method="POST" action="/editor/login">
     <label>Usuario: </label>
-    <input type="text" name="user" />
+    <% if (user_field) { %>
+    <input type="text" name="user" value="<%= user_field %>"/>
+    <% } else { %>
+      <input type="text" name="user" />
+    <% } %>
     <br />
     <br />
     <label>Contraseña: </label>
