@@ -9,6 +9,21 @@ router.get('/', function (req, res, next) {
   res.render('salas', { title: 'Salas' });
 });
 
+router.get('/api/getSalas/:idMuseo', function (req, res) {
+  // Consulta de Salas
+  let sql = `select * from sala where sala.idMuseo =  ${req.params.idMuseo}`;
+  connection.query(sql, function (error, results) {
+     if (error) {
+        debug(error);
+        res.sendStatus(500);
+     } else {
+       //if(results.length!=0){
+        res.send(results);
+       //}
+     }
+  });
+});
+
 // Obtener el tema curatorial, expositores y curadores de una sala
 router.get('/api/curatorial/:idSala', function (req, res) {
   // Cadena con JSON

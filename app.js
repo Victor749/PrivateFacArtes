@@ -6,6 +6,7 @@ var cors = require('cors');
 var methodOverride = require("method-override");
 var session = require('express-session');
 
+
 var indexRouter = require('./routes/index');
 var editorRouter = require('./routes/editor');
 var museoRouter = require('./routes/museo');
@@ -62,6 +63,5 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
 
 module.exports = app;

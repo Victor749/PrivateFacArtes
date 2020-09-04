@@ -33,7 +33,6 @@
           
           <div class="row align-items-left mt-5" id="mensajeError1" >
             <div class="alert alert-dismissible alert-danger">
-              <button type="button" class="close" data-dismiss="alert">&times;</button>
               <strong>Elija un museo o cree uno nuevo para acceder a los editores.</strong>
             </div>
           </div>
@@ -47,51 +46,134 @@
             <a href="#" class="btn" style="width: 100%;" onclick="return showData('#editorMuseo')"><h5>Informacion general del Museo</h5></a>
           </div>
           <div id="editorMuseo">
-            <div class="row ">
-              <div class="form-group ">
-                <label for="nombreMuseo">Nombre del museo</label>
-                <input type="text" class="form-control ml-3" id="nombreMuseo" placeholder="Ingrese el nombre del museo." style="border: black 1px solid; width: 400px;" >
+              <div class="row ">
+                <div class="form-group ">
+                  <label for="nombreMuseo">Nombre del museo</label>
+                  <input type="text" class="form-control ml-3" id="nombreMuseo" placeholder="Ingrese el nombre del museo." style="border: black 1px solid; width: 400px;">
+                </div>
               </div>
-            </div>
-            <div class="row">
-              <p>Estado del museo:</p>
-            </div>
-            <div class="row">
-              <div class="form-group ml-3" style="border: black 1px solid;">
-                <select class="custom-select" id="estadoMuseo">
-                  <option >Activo</option>
-                  <option >Inactivo</option>
-                </select>
+              <div class="row">
+                <p>Estado del museo:</p>
               </div>
-            </div>
-            <div class="row ">
-              <p>Primera sala: Elija la primera sala que visualizara el usuario al abrir el museo.</p>
-            </div>
-            <div class="row ">
-              <div class="form-group " >
-                <select class="custom-select ml-3" style="border: black 1px solid;" >
-                  <option >Sala 1</option>
-                  <option selected="">Sala 2</option>
-                </select>
+              <div class="row">
+                <div class="form-group ml-3" style="border: black 1px solid;">
+                  <select class="custom-select" id="estadoMuseo">
+                    <option >Activo</option>
+                    <option >Inactivo</option>
+                  </select>
+                </div>
               </div>
-            </div>
-            <div class="row ">
-              <label for="myfile">Elija un archivo de audio(wav) de fondo:</label>
-            </div>
-            <div class="row ml-1">
-              <input type="file" id="myfile" name="myfile" accept="audio/wav"><br><br>
-            </div>
-            <div class="row ml-5 my-5 ">
-              <button class="btn btn-success mr-3" id="btnGuardarMuseo">Guardar Cambios</button>
-              <button class="btn btn-danger" id="btnDangerMuseo">Eliminar</button>
-            </div>
+              <div class="row ">
+                <p>Primera sala: Elija la primera sala que visualizara el usuario al abrir el museo.</p>
+              </div>
+              <div class="row ">
+                <div class="form-group " >
+                  <select class="custom-select ml-3" style="border: black 1px solid;" id="primeraSala">
+                    <option >Sala 1</option>
+                    <option selected="">Sala 2</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row ">
+                <label for="myfileAudio">Elija un nuevo archivo de audio(wav) de fondo:</label>
+              </div>
+              
+              <div class="row ml-1">
+                <input type="file" id="myfileAudio" name="myfileAudio" accept="audio/wav"><br><br>
+              </div>
+              <div class="row ">
+                <p>Audio Actual Guardado: </p>
+              </div>
+              <div class="row ml-1 mb-3">
+                <input type="text" id="audioActual" width=80 readonly>
+              </div>
+              <div class="row ">
+                <p>Info: Si no tiene salas creadas aun, guarde los cambios del museo para poder acceder al editor de salas. Cree sus salas y luego vuelva a esta seccion a guardar la primera sala que desea que se observe.</p>
+              </div>
+              <div class="row ml-5 my-5 ">
+                <button class="btn btn-success mr-3" id="btnGuardarMuseo" onclick="return saveInfoMuseo()">Guardar Cambios</button>
+                <button class="btn btn-danger" id="btnDangerMuseo">Eliminar</button>
+              </div>
+              <div class="row align-items-left mt-5" id="mensajeError4" >
+                <div class="alert alert-dismissible alert-danger">
+                  <strong>Los campos de nombre y el archivo de audio de fondo son obligatorios.</strong>
+                </div>
+              </div>
           </div>
         </div>
 
       </div>
+      
       <hr class="my-4">
       <div class="row mx-5">
         <div class="col">
+          <div class="row align-items-left mt-5" id="mensajeError3" >
+            <div class="alert alert-dismissible alert-danger">
+              <strong>Para acceder a esta seccion primero debe crear un museo.</strong>
+            </div>
+          </div>
+          <div class="row">
+            <a href="#" class="btn" style="width: 100%;" onclick="return showData('#editorSalas')"><h5>Editor de Salas</h5></a>
+          </div>
+          <div id="editorSalas">
+            <div class="row">
+              <div class="col col-sm-6">
+                  <div class="row my-5">
+                      <p>Elija una sala para editar/eliminar o cree una nueva:</p>
+                      <div class="btn-group ml-3" role="group" aria-label="Button group with nested dropdown">
+                          <button type="button" class="btn btn-primary">Nueva Sala</button>
+                          <div class="btn-group" role="group">
+                            <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                              <a class="dropdown-item" href="#">Sala 1</a>
+                              <a class="dropdown-item" href="#">Sala 1</a>
+                            </div>
+                          </div>
+                        </div>
+                  </div>
+              </div>
+             
+              <div class="col col-sm-6">
+                  
+                  <div class="row mt-5">
+                      <div class="form-group ">
+                          <label for="temaCuratorial">Tema Curatorial</label>
+                          <input type="text" class="form-control ml-3" id="temaCuratorial" placeholder="Ingrese el tema Curatorial de la sala." style="border: black 1px solid; width: 400px;" >
+                        </div>
+                  </div>
+                  <div class="row">
+                      <label for="myfile">Elija la imagen de fondo:</label>
+                  </div>
+                  <div class="row ml-1">
+                  <input type="file" id="myfile" name="myfile" accept="image/jpg"><br><br>
+                  </div>
+                  <div class="row">
+                      <label >Ingrese la rotacion inicial(por defecto es cero):</label>
+                  </div>
+                  <div class="row ml-1">
+                      <input type="number" value="0">
+                  </div>
+                  <div class="row ml-5 my-5 align-items-center">
+                     <button class="btn btn-success mx-3">Guardar Cambios</button>
+                     <button class="btn btn-danger">Eliminar</button>
+                  </div>
+                  <div class="row">
+                      <p>Ir al <a href="#" class="btn btn-info btn-sm">Editor de Obras</a> para agregar, editar o eliminar una obra de esta sala o de cualquier otra locación.</p>
+                  </div>
+              </div>
+  
+          </div>
+          </div>
+        </div>
+      </div>
+      <hr class="my-4">
+      <div class="row mx-5">
+        <div class="col">
+          <div class="row align-items-left mt-5" id="mensajeError2" >
+            <div class="alert alert-dismissible alert-danger">
+              <strong>Para acceder a esta seccion primero debe crear un museo.</strong>
+            </div>
+          </div>
           <div class="row">
             <a href="#" class="btn" style="width: 100%;" onclick="return showData('#editorEnlaces')"><h5>Editor de enlaces</h5></a>
           </div>
@@ -140,63 +222,6 @@
           </div>
         </div>
 
-      </div>
-      <hr class="my-4">
-      <div class="row mx-5">
-        <div class="col">
-          <div class="row">
-            <a href="#" class="btn" style="width: 100%;" onclick="return showData('#editorSalas')"><h5>Editor de Salas</h5></a>
-          </div>
-          <div id="editorSalas">
-            <div class="row">
-              <div class="col col-sm-6">
-                  <div class="row my-5">
-                      <p>Elija una sala para editar/eliminar o cree una nueva:</p>
-                      <div class="btn-group ml-3" role="group" aria-label="Button group with nested dropdown">
-                          <button type="button" class="btn btn-primary">Nueva Sala</button>
-                          <div class="btn-group" role="group">
-                            <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                              <a class="dropdown-item" href="#">Sala 1</a>
-                              <a class="dropdown-item" href="#">Sala 1</a>
-                            </div>
-                          </div>
-                        </div>
-                  </div>
-              </div>
-             
-              <div class="col col-sm-6">
-                  
-                  <div class="row mt-5">
-                      <div class="form-group ">
-                          <label for="temaCuratorial">Tema Curatorial</label>
-                          <input type="text" class="form-control ml-3" id="temaCuratorial" placeholder="Ingrese el tema Curatorial de la sala." style="border: black 1px solid; width: 400px;" >
-                        </div>
-                  </div>
-                  <div class="row">
-                      <label for="myfile">Elija la imagen de fondo:</label>
-                  </div>
-                  <div class="row ml-1">
-                  <input type="file" id="myfile" name="myfile" accept="image/jpg"><br><br>
-                  </div>
-                  <div class="row">
-                      <label for="myfile">Ingrese la rotacion inicial(por defecto es cero):</label>
-                  </div>
-                  <div class="row ml-1">
-                      <input type="number" value="0">
-                  </div>
-                  <div class="row ml-5 my-5 align-items-center">
-                     <button class="btn btn-success mx-3">Guardar Cambios</button>
-                     <button class="btn btn-danger">Eliminar</button>
-                  </div>
-                  <div class="row">
-                      <p>Ir al <a href="#" class="btn btn-info btn-sm">Editor de Obras</a> para agregar, editar o eliminar una obra de esta sala o de cualquier otra locación.</p>
-                  </div>
-              </div>
-  
-          </div>
-          </div>
-        </div>
       </div>
     </div>
 </body>
