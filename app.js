@@ -19,6 +19,7 @@ var comentariosRouter = require('./routes/comentarios');
 var usuariosRouter = require('./routes/usuarios');
 var visor3DRouter = require('./routes/visor3D');
 var crudMuseo = require('./routes/crudMuseo');
+var adminsRouter = require('./routes/admins');
 
 
 var app = express();
@@ -39,7 +40,7 @@ var sess = {
 
 if (app.get('env') === 'production') {
   // Poner la app NodeJS bajo un proxy reverso con NGINX por ejemplo cuando entre en produccion.
-  // El proxy debe implementar HTTPS (TTLS) para almacenar las cookies de sesion de manera segura.
+  // El proxy debe implementar HTTPS (TLS) para almacenar las cookies de sesion de manera segura.
   // Comentar esta porcion de codigo en caso de que no funcione de manera correcta.
   app.set('trust proxy', 1) // trust first proxy
   sess.cookie.secure = true // serve secure cookies
@@ -56,6 +57,7 @@ app.use(cors({ origin: process.env.ORIGIN_SITE }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(function (req, res, next) {
   res.locals.username = req.session.user;
+  res.locals.picture = req.session.photo;
   next();
 });
 app.use(methodOverride("_method"));
@@ -69,6 +71,7 @@ app.use('/comentarios', comentariosRouter);
 app.use('/usuarios', usuariosRouter);
 app.use('/visor3D', visor3DRouter);
 app.use('/crudMuseo', crudMuseo);
+app.use('/editor/usuarios', adminsRouter);
 
 
 // catch 404 and forward to error handler
@@ -80,6 +83,7 @@ app.use(function (req, res, next) {
 app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
+  res.locals.status = err.status;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page

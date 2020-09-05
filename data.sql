@@ -1,4 +1,4 @@
-INSERT INTO `usuarioadmin` (`username`, `contrasena`) VALUES ('admin-ucmv', AES_ENCRYPT('contrasena', 'MYSQL_AES_SECRET'));
+INSERT INTO `usuarioadmin` (`correo`) VALUES ('facartes.mvuc@gmail.com');
 
 INSERT INTO `museo` (`idMuseo`, `nombreMuseo`, `idSalaInicial`, `nombreAudioFondo`, `activo`) VALUES (NULL, 'Museo 1', '1', 'ambient.wav', '1');
 

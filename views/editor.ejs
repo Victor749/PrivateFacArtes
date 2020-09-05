@@ -12,39 +12,29 @@
 </head>
 
 <body>
-  <div class="container pt-4 pb-4">
-    <div class="jumbotron bg-dark rounded text-center">
-      <img src="/images/escudo-final.png" style="width: 27%;" />
+  <div class="container pt-4 pb-4 text-center">
+    <div class="jumbotron bg-dark rounded">
+      <img src="/images/escudo-final.png" style="width: 27%;" alt="Universidad de Cuenca" />
       <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-      <img src="/images/fac-artes.png" style="width: 14%;" />
+      <img src="/images/fac-artes.png" style="width: 14%;" alt="Facultad de Artes" />
       <br />
       <br />
       <h1 style="color: whitesmoke;">Editor - Museo Virtual</h1>
       <h3 style="color: whitesmoke;">Facultad de Artes - Universidad de Cuenca</h3>
     </div>
-    <form>
-      <fieldset>
-        <div class="form-group">
-          <label>Usuario</label>
-          <% if (user_field) { %>
-          <input type="text" name="user" value="<%= user_field %>" class="form-control"
-            placeholder="Ingrese nombre de usuario" required />
-          <% } else { %>
-          <input type="text" name="user" class="form-control" placeholder="Ingrese nombre de usuario" required />
-          <% } %>
-          <br />
-          <label>Contraseña</label>
-          <input type="password" name="pass" class="form-control" placeholder="Ingrese contraseña" />
-          <br />
-          <% if (info) { %>
-          <label style="color: red;"><%= info %></label>
-          <input type="submit" class="btn btn-link" value="Olvidé mi contraseña." formmethod="GET" formaction="/"/>
-          <br />
-          <% } %>
-        </div>
-        <input type="submit" class="btn btn-primary float-right" value="Log In" formmethod="POST" formaction="/editor/login" />
-      </fieldset>
-    </form>
+    <% if (show_alert) { %>
+    <div class="alert alert-dismissible alert-danger">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <strong>La cuenta especificada no está autorizada para usar el Editor MVUC.</strong>
+    </div>
+    <br />
+    <% } %>
+    <p>Inicie sesión con una cuenta de Google autorizada para usar el Editor MVUC.</p>
+    <br />
+    <a type="button" href="<%= loginLink %>" class="btn btn-outline-secondary btn-block">
+      <img src="/images/google.png" alt="Google" style="height: 44px; width: 44px;">
+      <span>&nbsp;&nbsp;Google Sign In</span>
+    </a>
   </div>
 </body>
 

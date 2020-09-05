@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <title><%= title %></title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+  <script src="/javascripts/jquery-3.5.1.slim.min.js"></script>
+  <script src="/javascripts/popper.min.js"></script>
+  <script src="/javascripts/bootstrap.min.js"></script>
+</head>
+
+<body>
+  <%- include('navbar.ejs') %>
+  <div class="container pt-4 pb-4">
+    <h1><%= title %></h1>
+    <p><% for (let i=0; i < results.length; i++) { %></p>
+    <p>- <%= results[i].correo %></p>
+    <p><% } %></p>
+  </div>
+</body>
+
+</html>

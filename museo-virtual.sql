@@ -11,11 +11,9 @@ create table museo(
 );
 
 create table usuarioadmin (
-    username VARCHAR(255),
-    contrasena BLOB,
     correo VARCHAR(255),
-    PRIMARY KEY (username)
-); 
+    PRIMARY KEY (correo)
+);
 
 create table sala(
     idSala INT NOT NULL AUTO_INCREMENT,

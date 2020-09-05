@@ -4,104 +4,86 @@ var connection = require('../connection');
 var debug = require('debug')('backendmuseovirtual:editor');
 var middleware = require('../middleware');
 var mysql = require('mysql');
-var nodemailer = require('nodemailer');
+var { google } = require('googleapis');
+var OAuth2 = google.auth.OAuth2;
+var axios = require('axios');
 
-// Nodemailer Config
-var transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: process.env.GMAIL_ADDRESS,
-        pass: process.env.GMAIL_PASSWORD
-    }
-});
-
-function sendMail(mail) {
-    let mailOptions = {
-        from: process.env.GMAIL_ADDRESS,
-        to: `${mail}`,
-        subject: 'Recuperación de Contraseña - Editor MVUC',
-        text: ''
-    };
-    transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-            debug(error);
-        } else {
-            debug('Email sent: ' + info.response);
-        }
-    });
+var oauth2Credentials = {
+    client_id: "161525782471-43khneealveoa5vdqiv9b5pc3ofppod9.apps.googleusercontent.com",
+    project_id: "editor-museo-virtual",
+    auth_uri: "https://accounts.google.com/o/oauth2/auth",
+    token_uri: "https://oauth2.googleapis.com/token",
+    auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs",
+    client_secret: "yyivieCe3CXUzlf-c0183Qbn",
+    redirect_uris: [`${process.env.SITE_URL}/editor/login`],
+    javascript_origins: [`${process.env.SITE_URL}`],
+    scopes: [
+        "https://www.googleapis.com/auth/userinfo.email",
+        "https://www.googleapis.com/auth/userinfo.profile",
+    ]
 }
+
+var oauth2Client = new OAuth2(oauth2Credentials.client_id, oauth2Credentials.client_secret, oauth2Credentials.redirect_uris[0]);
+
+var loginLink = oauth2Client.generateAuthUrl({
+    access_type: 'offline',
+    scope: oauth2Credentials.scopes
+});
 
 /* GET Editor Login page. */
 router.get('/', middleware.isLogueado, function (req, res, next) {
-    res.render('editor', { title: 'Editor - Museo Virtual Facultad de Artes (Universidad de Cuenca)', info: null, user_field: null });
+    res.render('editor', { title: 'Editor - Museo Virtual Facultad de Artes (Universidad de Cuenca)', loginLink: loginLink, show_alert: false });
 });
 
 /* GET Editor Inicio page. */
 router.get('/inicio', middleware.pagina, function (req, res, next) {
-    let sql = `select correo from usuarioadmin where username=${mysql.escape(res.locals.username)}`;
-    connection.query(sql, function (error, results) {
-        if (error) {
-            debug(error);
-            res.sendStatus(500);
-        } else {
-            if (results.length !== 0) {
-                res.render('inicio', { title: 'Inicio', correo: results[0].correo });
-            } else {
-                res.sendStatus(500);
-            }
-        }
-    });
+    res.render('inicio', { title: 'Inicio' });
 });
 
-/* POST Login Editor */
-router.post('/login', function (req, res, next) {
-    let sql = `select username, contrasena from usuarioadmin where username=${mysql.escape(req.body.user)} and AES_DECRYPT(contrasena, '${process.env.MYSQL_AES_SECRET}')=${mysql.escape(req.body.pass)}`;
-    connection.query(sql, function (error, results) {
-        if (error) {
-            debug(error);
-            res.sendStatus(500);
-        } else {
-            if (results.length !== 0) {
-                req.session.user = results[0].username;
-                req.session.admin = true;
-                res.redirect('/editor/inicio');
-            } else {
-                res.render('editor', { title: 'Editor', info: 'Usuario y/o contraseña incorrecto(s).', user_field: req.body.user });
+/* GET Login Editor */
+router.get('/login', function (req, res, next) {
+    if (req.query.error) {
+        debug(error);
+        return res.redirect('/editor');
+    } else {
+        oauth2Client.getToken(req.query.code, function (err, token) {
+            if (err) {
+                debug(err);
+                return res.redirect('/editor');
             }
-        }
-    });
+            axios({
+                url: 'https://www.googleapis.com/oauth2/v2/userinfo',
+                method: 'get',
+                headers: {
+                    Authorization: `Bearer ${token.access_token}`,
+                },
+            }).then(function (response) {
+                let userInformation = response.data;
+                let sql = `select correo from usuarioadmin where correo = ${mysql.escape(userInformation.email)}`;
+                connection.query(sql, function (error, results) {
+                    if (error) {
+                        debug(error);
+                        res.sendStatus(500);
+                    } else {
+                        if (results.length !== 0) {
+                            req.session.user = userInformation.email;
+                            req.session.photo = userInformation.picture;
+                            req.session.admin = true;
+                            res.redirect('/editor/inicio');
+                        } else {
+                            res.render('editor', { title: 'Editor - Museo Virtual Facultad de Artes (Universidad de Cuenca)', loginLink: loginLink, show_alert: true });
+                        }
+                    }
+                });
+            });
+        });
+    }
 });
 
 /* GET Logout Editor */
 router.get('/logout', middleware.pagina, function (req, res, next) {
     req.session.destroy();
     res.redirect('/editor');
-});
-
-/* POST Cambiar Correo */
-router.post('/cambiar_correo', middleware.pagina, function (req, res, next) {
-    let sql = `update usuarioadmin set correo=${mysql.escape(req.body.correo)} where username=${mysql.escape(res.locals.username)}`;
-    connection.query(sql, function (error, results) {
-        if (error) {
-            debug(error);
-            res.sendStatus(500);
-        } else {
-            res.redirect('/editor/inicio');
-        }
-    });
-});
-
-/* POST Cambiar Contrasena */
-router.post('/cambiar_contrasena', middleware.pagina, function (req, res, next) {
-    let sql = `update usuarioadmin set contrasena=AES_ENCRYPT(${mysql.escape(req.body.password)}, '${process.env.MYSQL_AES_SECRET}') where username=${mysql.escape(res.locals.username)}`;
-    connection.query(sql, function (error, results) {
-        if (error) {
-            debug(error);
-            res.sendStatus(500);
-        } else {
-            res.redirect('/editor/inicio');
-        }
-    });
 });
 
 module.exports = router;
