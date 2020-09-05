@@ -89,3 +89,5 @@ create table enlace(
     FOREIGN KEY (idSala) REFERENCES sala(idSala),
     FOREIGN KEY (idSalaDestino) REFERENCES sala(idSala)
 );
+
+

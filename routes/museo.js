@@ -132,6 +132,24 @@ router.get('/api/salas', function (req, res) {
    });
 });
 
+//Eliminar un museo
+router.delete('/deleteMuseo/:idMuseo', function(req, res){
+   // console.log(req.body.contenido);
+    let sql = `delete from museo where idMuseo = ${req.params.idMuseo}`;
+  
+    connection.query(sql, function(error, result, fields){
+      if(error){
+        debug(error);
+        res.sendStatus(500);
+      }else{
+        resultado = '{"estado":"done"}';
+        res.send(resultado);
+      }
+    });
+       
+});
+
+
 // Obtener información para el catálogo del Museo Activo
 router.get('/api/catalogo', function (req, res) {
    // Cadena con JSON
