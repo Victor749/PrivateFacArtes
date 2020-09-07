@@ -11,8 +11,11 @@ create table museo(
 );
 
 create table usuarioadmin (
+    idAdmin INT NOT NULL AUTO_INCREMENT,
     correo VARCHAR(255),
-    PRIMARY KEY (correo)
+    super BOOLEAN,
+    UNIQUE (correo),
+    PRIMARY KEY (idAdmin)
 );
 
 create table sala(

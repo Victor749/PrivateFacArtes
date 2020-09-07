@@ -15,10 +15,84 @@
   <%- include('navbar.ejs') %>
   <div class="container pt-4 pb-4">
     <h1><%= title %></h1>
-    <p><% for (let i=0; i < results.length; i++) { %></p>
-    <p>- <%= results[i].correo %></p>
-    <p><% } %></p>
+    <p>En esta sección se pueden agregar o eliminar usuarios que pueden cambiar el contenido del museo y agregar o
+      eliminar a otros usuarios. Ingrese usuarios confiables unicamente. El único usuario que no puede ser eliminado por ningún otro es el Super Usuario.
+    </p>
+    <br />
+    <form action="/editor/usuarios/agregar" method="POST">
+      <fieldset>
+        <div class="form-group">
+          <label>Agregar Nueva Cuenta</label>
+          <input type="email" class="form-control" placeholder="Ingrese correo Gmail" name="correo">
+          <small class="form-text text-muted">Asegúrese de ingresar una cuenta de Gmail válida. Si ingresa un correo no
+            válido o diferente de Gmail, ese correo no se habilitará para inicio de sesión.</small>
+        </div>
+        <button type="submit" class="btn btn-primary float-right">Agregar</button>
+      </fieldset>
+    </form>
+    <br />
+    <br />
+    <table class="table table-hover table-responsive-sm">
+      <thead>
+        <tr class="table-active">
+          <th scope="col">Correo (Gmail)</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for (let i=0; i < results.length; i++) { %>
+        <tr id="<%= results[i].idAdmin %>">
+          <td><%= results[i].correo %></td>
+          <% if (results[i].correo !== username && !results[i].super) { %>
+          <td><button type="button" class="btn btn-danger eliminar" data-id="<%= results[i].idAdmin %>"
+              data-info="<%= results[i].correo %>" data-toggle="modal" data-target="#modal_eliminar">Eliminar</button>
+          </td>
+          <% } else if (results[i].correo === username) { %>
+          <td>[Sesión Activa]</td>
+          <% } else { %>
+          <td>[Super Usuario]</td>
+          <% } %>
+        </tr>
+        <% } %>
+      </tbody>
+    </table>
   </div>
+  <div class="modal" id="modal_eliminar">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Eliminar</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div id="body_modal_eliminar" class="modal-body"></div>
+        <div class="modal-footer">
+          <button id="aceptar_eliminar" type="button" class="btn btn-danger" data-dismiss="modal">Aceptar</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal" id="modal-sesion">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Sesión Expirada</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Su tiempo de sesión expiró. Vuelva a Iniciar Sesión.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="/javascripts/delete-admin.js"></script>
 </body>
 
 </html>

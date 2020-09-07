@@ -1,4 +1,4 @@
-INSERT INTO `usuarioadmin` (`correo`) VALUES ('facartes.mvuc@gmail.com');
+INSERT INTO `usuarioadmin` (`correo`, `super`) VALUES ('facartes.mvuc@gmail.com', '1');
 
 INSERT INTO `museo` (`idMuseo`, `nombreMuseo`, `idSalaInicial`, `nombreAudioFondo`, `activo`) VALUES (NULL, 'Museo 1', '1', 'ambient.wav', '1');
 

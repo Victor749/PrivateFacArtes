@@ -7,7 +7,7 @@ var mysql = require('mysql');
 
 /* GET Admins page. */
 router.get('/', middleware.pagina, function (req, res, next) {
-    let sql = `select correo from usuarioadmin`;
+    let sql = `select idAdmin, correo, super from usuarioadmin order by idAdmin DESC`;
     connection.query(sql, function (error, results) {
         if (error) {
             debug(error);
@@ -21,11 +21,16 @@ router.get('/', middleware.pagina, function (req, res, next) {
 /* POST Agregrar correo usuario admin */
 router.post('/agregar', middleware.pagina, function (req, res, next) {
     if (req.body.correo) {
-        let sql = `insert into usuarioadmin(correo) values(${mysql.escape(req.body.correo)})`;
+        let sql = `insert into usuarioadmin(correo, super) values(${mysql.escape(req.body.correo)}, false)`;
         connection.query(sql, function (error, results) {
             if (error) {
-                debug(error);
-                res.sendStatus(500);
+                // Si es un correo duplicado se redirige a la pagina de usuarios
+                if (error.code !== 'ER_DUP_ENTRY') {
+                    debug(error);
+                    res.sendStatus(500);
+                } else {
+                    res.redirect('/editor/usuarios');
+                }
             } else {
                 res.redirect('/editor/usuarios');
             }
@@ -33,6 +38,19 @@ router.post('/agregar', middleware.pagina, function (req, res, next) {
     } else {
         res.sendStatus(400);
     }
+});
+
+/* Delete Quitar correo usuario admin */
+router.delete('/quitar/:idAdmin', middleware.estado, function (req, res, next) {
+    let sql = `delete from usuarioadmin where idAdmin=${mysql.escape(req.params.idAdmin)} and super=false`;
+    connection.query(sql, function (error, results) {
+        if (error) {
+            debug(error);
+            res.sendStatus(500);
+        } else {
+            res.sendStatus(200);
+        }
+    });
 });
 
 module.exports = router;
