@@ -32,7 +32,7 @@ var loginLink = oauth2Client.generateAuthUrl({
 
 /* GET Editor Login page. */
 router.get('/', middleware.isLogueado, function (req, res, next) {
-    res.render('editor', { title: 'Editor - Museo Virtual Facultad de Artes (Universidad de Cuenca)', loginLink: loginLink, show_alert: false });
+    res.render('editor', { title: 'Editor Museo Virtual - Facultad de Artes | Universidad de Cuenca', loginLink: loginLink, show_alert: false });
 });
 
 /* GET Editor Inicio page. */
@@ -59,13 +59,14 @@ router.get('/login', function (req, res, next) {
                 },
             }).then(function (response) {
                 let userInformation = response.data;
-                let sql = `select correo from usuarioadmin where correo = ${mysql.escape(userInformation.email)}`;
+                let sql = `select idAdmin from usuarioadmin where correo = ${mysql.escape(userInformation.email)}`;
                 connection.query(sql, function (error, results) {
                     if (error) {
                         debug(error);
                         res.sendStatus(500);
                     } else {
                         if (results.length !== 0) {
+                            req.session.idAdmin = results[0].idAdmin;
                             req.session.user = userInformation.email;
                             req.session.photo = userInformation.picture;
                             req.session.admin = true;

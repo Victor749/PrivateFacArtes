@@ -51,26 +51,29 @@ if (app.get('env') === 'production') {
 }
 
 
-app.use(session(sess));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors({ origin: process.env.ORIGIN_SITE }));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(function (req, res, next) {
-  res.locals.username = req.session.user;
-  res.locals.picture = req.session.photo;
-  next();
-});
 app.use(methodOverride("_method"));
 
+// Rutas Sin Sesion (Museo Virtual)
 app.use('/', indexRouter);
-app.use('/editor', editorRouter);
 app.use('/museo', museoRouter);
 app.use('/salas', salasRouter);
 app.use('/obras', obrasRouter);
 app.use('/comentarios', comentariosRouter);
 app.use('/usuarios', usuariosRouter);
 app.use('/visor3D', visor3DRouter);
+// Sesion Para Editor
+app.use(session(sess));
+app.use(function (req, res, next) {
+  res.locals.username = req.session.user;
+  res.locals.picture = req.session.photo;
+  next();
+});
+// Rutas Con Sesion (Editor Middleware)
+app.use('/editor', editorRouter);
 app.use('/crudMuseo', crudMuseo);
 app.use('/editor/usuarios', adminsRouter);
 
