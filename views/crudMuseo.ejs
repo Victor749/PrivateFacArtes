@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/bootstrap.min.css' />
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="/javascripts/scriptCrudMuseo.js"></script>
+</head>
+<body>
+    <%- include('navbar.ejs') %>
+    <h1 class="m-5"><%= title %></h1>
+    <div class="jumbotron mx-5">
+      <div class="row mx-5">
+        <div class="col col-sm-6">
+          
+          <div class="row align-items-left mt-3">
+            <p>Crear un nuevo museo o editar/eliminar un antiguo:</p>
+            <div class="btn-group ml-3" role="group" aria-label="Button group with nested dropdown">
+              <button type="button" class="btn btn-primary" id="btnNuevoMuseo">Nuevo</button>
+              <div class="btn-group" role="group">
+                <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" id="grupoMuseos">
+            
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <p>Info: Para activar un museo es necesario que una sala sea creada.</p>
+          </div>
+          
+        </div> 
+        <div class="col col-sm-6">
+          
+          <div class="row ">
+            <div class="form-group ">
+              <label for="nombreMuseo">Nombre del museo</label>
+              <input type="text" class="form-control ml-3" id="nombreMuseo" placeholder="Ingrese el nombre del museo." style="border: black 1px solid; width: 500px;">
+            </div>
+          </div>
+          <div class="row align-items-left" id="mensajeError5" >
+            <div class="alert alert-dismissible alert-danger">
+              <strong>El nombre del museo debe ser unico.</strong>
+            </div>
+          </div>
+          <div class="row">
+            <p>Estado del museo:</p>
+          </div>
+          <div class="row">
+            <div class="form-group ml-3" style="border: black 1px solid;">
+              <select class="custom-select" id="estadoMuseo">
+                <option value=1>Activo</option>
+                <option value=0>Inactivo</option>
+              </select>
+            </div>
+          </div>
+          <div class="row ">
+            <label for="myfileAudio">Elija un nuevo archivo de audio(wav) de fondo:</label>
+          </div>
+          
+          <div class="row ml-1">
+            <input type="file" id="myfileAudio" name="myfileAudio" accept="audio/wav"><br><br>
+          </div>
+          <div class="row ">
+            <p>Audio Actual Guardado: </p>
+          </div>
+          <div class="row ml-1 mb-3">
+            <input type="text" id="audioActual" width=100 placeholder="No llene este campo." readonly>
+            
+          </div>
+          <div class="row ml-5 my-5 align-items-center">
+            <button class="btn btn-success mr-3" id="btnGuardarMuseo" onclick="return saveInfoMuseo()">Guardar Cambios</button>
+            <button class="btn btn-danger" id="btnDangerMuseo" onclick="return accionDangerMuseo()">Eliminar</button>
+          </div>
+          <div class="row align-items-left mt-5" id="mensajeError4" >
+            <div class="alert alert-dismissible alert-danger">
+              <strong>Los campos de nombre y el archivo de audio de fondo son obligatorios en un museo nuevo. En un museo existente el  nombre del museo es obligatorio.</strong>
+            </div>
+          </div>
+          <div class="row align-items-left mt-5" id="mensajeError6" >
+            <div class="alert alert-dismissible alert-danger">
+              <strong>No se puede eliminar un museo activo. Active otro museo y luego elimine este museo.</strong>
+            </div>
+          </div>
+          <div class="row align-items-left mt-5" id="mensajeError7" >
+            <div class="alert alert-dismissible alert-danger">
+              <strong>Carácter inválido en nombre del museo o en el nombre del archivo. No se permiten comillas ('', "").</strong>
+            </div>
+          </div>
+          <div class="alert alert-dismissible alert-success" id="mensajeBien1">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>Cambios realizados correctamente.</strong>
+          </div>
+        </div>
+      </div>
+
+     
+    </div>
+</body>
+</html>

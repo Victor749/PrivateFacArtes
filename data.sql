@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 INSERT INTO `museo` (`idMuseo`, `nombreMuseo`, `idSalaInicial`, `nombreAudioFondo`, `activo`) VALUES (NULL, 'Museo 2', '1', 'ambient.wav', '0');
+=======
+INSERT INTO `usuarioadmin` (`correo`, `super`) VALUES ('facartes.mvuc@gmail.com', '1');
+
+INSERT INTO `museo` (`idMuseo`, `nombreMuseo`, `idSalaInicial`, `nombreAudioFondo`, `activo`) VALUES (NULL, 'Museo 1', '1', 'ambient.wav', '1');
+>>>>>>> bbc25dd7f8af50e8199b702a29ac65b781665e94
 
 INSERT INTO `sala` (`idSala`, `idMuseo`, `nombreImgFondo`, `rotacionInicial`, `temaCuratorial`) VALUES (NULL, '2', '360_1 - Panorama.jpg', '0', 'Sala 1');
 INSERT INTO `sala` (`idSala`, `idMuseo`, `nombreImgFondo`, `rotacionInicial`, `temaCuratorial`) VALUES (NULL, '2', '360_2 - Panorama.jpg', '0', 'Sala 2');

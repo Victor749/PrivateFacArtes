@@ -119,6 +119,7 @@ router.get('/api/salas', function (req, res) {
    });
 });
 
+
 // Obtener información para el catálogo del Museo Activo
 router.get('/api/catalogo', function (req, res) {
    // Cadena con JSON

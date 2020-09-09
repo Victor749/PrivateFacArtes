@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es-ec">
+
+<head>
+  <title><%= title %></title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+  <script src="/javascripts/jquery-3.5.1.slim.min.js"></script>
+  <script src="/javascripts/popper.min.js"></script>
+  <script src="/javascripts/bootstrap.min.js"></script>
+</head>
+
+<body>
+  <%- include('navbar.ejs') %>
+  <div class="container pt-4 pb-4 text-center">
+    <div class="jumbotron bg-dark rounded">
+      <img src="/images/escudo-final.png" style="width: 27%;" alt="Universidad de Cuenca" />
+      <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+      <img src="/images/fac-artes.png" style="width: 14%;" alt="Facultad de Artes" />
+      <br />
+      <br />
+      <h1 style="color: whitesmoke;"><%= title %></h1>
+      <br />
+      <img src="<%= picture %>" style="height: 99px; width: 99px; border-radius: 50%;" alt="<%= picture %>" />
+      <br />
+      <br />
+      <p style="color: whitesmoke;">Bienvenido(a) <%= username %></p>
+    </div>
+  </div>
+</body>
+
+</html>

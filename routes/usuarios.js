@@ -60,7 +60,7 @@ router.post('/new', async (req, res) => {
     connection.query(sql_0, function(err0, results0, fields0){
         if(err0){
             debug(error);
-            return res.sendStatus(500);
+            return res.send('error cero');
         }else if(results0.length >= 1){
             // debug("Already in database");
             // debug(results0);
@@ -69,7 +69,7 @@ router.post('/new', async (req, res) => {
             connection.query(sql, function(error, results, fields){
                 if(error){
                     debug(error);
-                    return res.sendStatus(500);
+                    return res.send('error 1');
                 }else{
                     // debug(results);
                     return res.send(identifier);
