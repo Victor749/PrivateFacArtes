@@ -12,6 +12,7 @@ $(document).ready(function () {
         $('#mensajeError4').hide();
         $('#mensajeError5').hide();
         $('#mensajeError6').hide();
+        $('#mensajeError7').hide();
         $('#mensajeBien1').hide();
     });
     showMuseosAntiguos();
@@ -20,7 +21,7 @@ $(document).ready(function () {
 });
 
 function showMuseosAntiguos(){
-    var url  = "http://localhost:3000/museo/api/getMuseos";
+    var url  = "http://localhost:3000/crudMuseo/getMuseos";
     var xhr  = new XMLHttpRequest()
     xhr.open('GET', url, true)
     xhr.onload = function () {
@@ -42,18 +43,18 @@ function goMuseoEspecifico(posicion){
     console.log(museos[posicion]);
     museoSeleccionado = museos[posicion];
     $('#btnDangerMuseo').html('Eliminar');
-    $('#mensajeError4').hide();
-    $('#mensajeError5').hide();
-    $('#mensajeError6').hide();
-    $('#mensajeBien1').hide();
+    hideStuff();
     $('#nombreMuseo').val(museoSeleccionado.nombreMuseo);
     $('#nombreMuseo').attr('idMuseo', museoSeleccionado.idMuseo);
     if(museoSeleccionado.activo == 1){
         $('#estadoMuseo option:eq(0)').prop('selected', true);
         $('#estadoMuseo').prop('disabled', 'disabled');
-    }else{
+    }else if(museoSeleccionado.idSalaInicial != null){
         $('#estadoMuseo option:eq(1)').prop('selected', true);
         $('#estadoMuseo').prop('disabled', false);
+    }else{
+        $('#estadoMuseo option:eq(1)').prop('selected', true);
+        $('#estadoMuseo').prop('disabled', 'disabled');
     }
     $("#myfileAudio").val("");
     $('#audioActual').val(museoSeleccionado.nombreAudioFondo);
@@ -67,25 +68,46 @@ function cleanOldStuff(id){
     }
 }
 
+function hideStuff(){
+    $('#mensajeError4').hide();
+    $('#mensajeError5').hide();
+    $('#mensajeError6').hide();
+    $('#mensajeError7').hide();
+    $('#mensajeBien1').hide();
+}
+
 function cleanOldInfoMuseo(){
+    hideStuff();
     $('#btnDangerMuseo').html('Cancelar');
     $('#nombreMuseo').val("");
     $('#estadoMuseo option:eq(1)').prop('selected', true);
-    $('#estadoMuseo').prop('disabled', false);
+    $('#estadoMuseo').prop('disabled', 'disabled');
     $('#audioActual').val("");
     $("#myfileAudio").val("");
+    
 }
 
 
 function validateMuseoInfo(){
+    hideStuff();
     if($('#nombreMuseo').val() == '' || (museoSeleccionado == 'nuevo' && $('#myfileAudio')[0].files.length==0)){
         $('#mensajeError4').show();
-        $('#mensajeError5').hide();
+        //$('#mensajeError5').hide();
         
         return false;
     }else{
-        $('#mensajeError4').hide();
-        return validateNameMuseo();
+        //$('#mensajeError4').hide();
+        if (validateNameMuseo()){
+            if((validateString($('#nombreMuseo').val()) && validateString($('#myfileAudio')[0].files[0].name))){
+                //$('#mensajeError7').hide();
+                return true;
+            }else{
+                $('#mensajeError7').show();
+                return false;
+            }
+        }else{
+            return false;
+        }
         
     }
 }
@@ -112,6 +134,16 @@ function validateNameMuseo(){
     }
     $('#mensajeError5').hide();
     return true;
+}
+
+function validateString(data){
+    for (var i=0;i<data.length;i++){
+        if(data[i] == '\''){
+            return false;
+        }
+    }
+    return true;
+
 }
 
 function saveInfoMuseo(){
@@ -158,11 +190,13 @@ function saveInfoMuseo(){
         xhr.open("POST", 'http://localhost:3000/crudMuseo/setMuseoInfo', true);
         xhr.onload = function () {
             if (xhr.readyState == 4 && xhr.status == "200") {
-                $('#audioActual').val(data.get('nombreArchivo'));
+                /*$('#audioActual').val(data.get('nombreArchivo'));
                 $("#myfileAudio").val("");
                 if($("#estadoMuseo option:selected").attr('value') == 1){
                     $('#estadoMuseo').prop('disabled', 'disabled');
-                }
+                }*/
+                museoSeleccionado = "nuevo";
+                cleanOldInfoMuseo();
                 cleanOldStuff('grupoMuseos');
                 showMuseosAntiguos();
                 $('#mensajeBien1').show();
@@ -183,9 +217,13 @@ function accionDangerMuseo(){
     }else if($("#estadoMuseo option:selected").attr('value') == 1){
         $('#mensajeError6').show();
     }else{
-        var url = "http://localhost:3000/museo/deleteMuseo/"+museoSeleccionado.idMuseo;
+        var url = "http://localhost:3000/crudMuseo/deleteMuseo";
         var xhr = new XMLHttpRequest();
+        var data = {};
+        data.idMuseo = museoSeleccionado.idMuseo;
+        data.nombreArchivo = museoSeleccionado.nombreAudioFondo;
         xhr.open("DELETE", url, true);
+        xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
         xhr.onload = function () {
             var respuesta = JSON.parse(xhr.responseText);
             if (xhr.readyState == 4 && xhr.status == "200") {
@@ -193,11 +231,12 @@ function accionDangerMuseo(){
                 cleanOldStuff('grupoMuseos');
                 showMuseosAntiguos();
                 $('#mensajeBien1').show();
+                museoSeleccionado = "nuevo";
             } else {
                 alert('Ha ocurrido un error. Intentelo mas tarde.');
                 console.error(respuesta);
             }
         }
-        xhr.send(null);
+        xhr.send(JSON.stringify(data));
     }
 }

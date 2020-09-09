@@ -24,7 +24,7 @@ create table sala(
     rotacionInicial FLOAT,
     temaCuratorial VARCHAR(255),
     PRIMARY KEY (idSala),
-    FOREIGN KEY (idMuseo) REFERENCES museo(idMuseo)
+    FOREIGN KEY (idMuseo) REFERENCES museo(idMuseo) ON DELETE CASCADE
 );
 
 
@@ -52,7 +52,7 @@ create table obra(
     posZ FLOAT,
     tecnica VARCHAR(255),
     PRIMARY KEY (idObra),
-    FOREIGN KEY (idSala) REFERENCES sala(idSala)
+    FOREIGN KEY (idSala) REFERENCES sala(idSala) ON DELETE CASCADE
 );
 
 
@@ -62,7 +62,7 @@ create table usuario(
     nombreUsuario VARCHAR(255),
     linkFoto VARCHAR(255),
     email VARCHAR(255),
-    PRIMARY KEY (idUsuario)
+    PRIMARY KEY (idUsuario) 
 );
 
 
@@ -73,8 +73,8 @@ create table comentario(
     contenido TEXT,
     fecha VARCHAR(255),
     PRIMARY KEY (idComentario),
-    FOREIGN KEY (idObra) REFERENCES obra(idObra),
-    FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario)
+    FOREIGN KEY (idObra) REFERENCES obra(idObra) ON DELETE CASCADE,
+    FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario) ON DELETE CASCADE
 );
 
 
@@ -86,8 +86,32 @@ create table enlace(
     posYIcono FLOAT,
     posZIcono FLOAT,
     PRIMARY KEY (idEnlace),
-    FOREIGN KEY (idSala) REFERENCES sala(idSala),
-    FOREIGN KEY (idSalaDestino) REFERENCES sala(idSala)
+    FOREIGN KEY (idSala) REFERENCES sala(idSala) ON DELETE CASCADE,
+    FOREIGN KEY (idSalaDestino) REFERENCES sala(idSala) ON DELETE CASCADE
 );
+
+
+/*Si no funcionan, crear los triggers directamente en phpMyAdmin -> tabla sala -> menu:disparadores */
+CREATE TRIGGER `eliminarSala` AFTER DELETE ON `sala`
+FOR EACH ROW BEGIN
+    DECLARE x int;
+    SELECT `idSalaInicial` INTO x from `museo` where `idMuseo` = OLD.idMuseo;
+    if x = OLD.idSala
+    THEN
+	    UPDATE museo set idSalaInicial = null WHERE idMuseo = OLD.idMuseo;
+    END IF;
+END
+
+CREATE TRIGGER `insertarSala` AFTER INSERT ON `sala`
+ FOR EACH ROW BEGIN
+DECLARE x int;
+    SELECT idSalaInicial INTO x from museo where museo.idMuseo = NEW.idMuseo;
+    if x <=> NULL
+    	THEN
+	    	UPDATE museo set idSalaInicial = NEW.idSala WHERE museo.idMuseo = NEW.idMuseo;
+    END IF;
+END
+
+
 
 

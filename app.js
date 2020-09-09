@@ -19,7 +19,7 @@ var comentariosRouter = require('./routes/comentarios');
 var usuariosRouter = require('./routes/usuarios');
 var visor3DRouter = require('./routes/visor3D');
 var crudMuseo = require('./routes/crudMuseo');
-
+var crudSalas = require('./routes/crudSalas');
 
 var app = express();
 
@@ -70,7 +70,7 @@ app.use('/comentarios', comentariosRouter);
 app.use('/usuarios', usuariosRouter);
 app.use('/visor3D', visor3DRouter);
 app.use('/crudMuseo', crudMuseo);
-
+app.use('/crudSalas', crudSalas);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

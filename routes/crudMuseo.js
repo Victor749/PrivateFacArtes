@@ -23,10 +23,33 @@ const upload = multer({ storage: storage });
   
 
 /* GET crud del museo. */
-router.get('/', /*middleware.pagina,*/ function (req, res, next) {
+router.get('/', middleware.pagina, function (req, res, next) {
     res.render('crudMuseo', { title: 'Seccion museo.'});
 });
 
+//eliminar archivos antiguos.
+router.get('/deleteOldFiles/:oldFileName', /*middleware.estado,*/ function (req, res, next) {
+    fs.unlinkSync('./public/static_assets/'+req.param.oldFileName);
+    console.log('here');
+    res.send('{"estado":"done"}');
+});
+
+
+//Obtener todos los museos
+router.get('/getMuseos', middleware.estado, function (req, res, next) {
+    let sql = `select * from museo`;
+    connection.query(sql, function (error, results) {
+       if (error) {
+          debug(error);
+          res.sendStatus(500);
+       } else {
+          res.send(results);
+       }
+    });
+ });
+ 
+
+//funcion usada en editar e insertar museo
 function funciones(data, res){
     if(data.idMuseo == -1){
         //nuevo museo
@@ -41,20 +64,21 @@ function funciones(data, res){
             res.send(results);
         });
     }else{
-        if(data.audioActual != data.nombreArchivo){
-            if(data.estadoArchivo == 'nuevo'){
-                fs.unlinkSync('./public/static_assets/'+data.audioActual);
-            }else{
-                fs.rename('./public/static_assets/'+data.audioActual, './public/static_assets/'+data.nombreArchivo, () => { 
-                    console.log("\nFile Renamed!\n"); });
-            }
-            
-        }
+        
         var sql = `update museo set nombreMuseo = '${data.nombreMuseo}', nombreAudioFondo = '${data.nombreArchivo}', activo = ${data.activo} where idMuseo = ${data.idMuseo}`;
         connection.query(sql, function(error, results, fields){
             if(error){
                 debug(error);
                 res.sendStatus(500);
+            }
+            if(data.audioActual != data.nombreArchivo){
+                if(data.estadoArchivo == 'nuevo'){
+                    fs.unlinkSync('./public/static_assets/'+data.audioActual);
+                }else{
+                    fs.rename('./public/static_assets/'+data.audioActual, './public/static_assets/'+data.nombreArchivo, () => { 
+                        console.log("\nFile Renamed!\n"); });
+                }
+                
             }
             console.log(results);
             res.send(results);
@@ -62,7 +86,32 @@ function funciones(data, res){
     }
 }
 
-router.post('/setMuseoInfo' , upload.any(), /*middleware.estado,*/ function (req, res) {
+//Eliminar un museo
+router.delete('/deleteMuseo', middleware.estado, function(req, res){
+    // console.log(req.body.contenido);
+    var data = req.body;
+    
+    let sql = `delete from museo where idMuseo = ${data.idMuseo}`;
+
+    connection.query(sql, function(error, result, fields){
+    if(error){
+        debug(error);
+        res.sendStatus(500);
+    }else{
+        try{
+            fs.unlinkSync('./public/static_assets/'+data.nombreArchivo);
+            console.log('over here');
+        }catch(e){
+            console.log(e);
+        }
+        resultado = '{"estado":"done"}';
+        res.send(resultado);
+    }
+    });
+        
+ });
+
+router.post('/setMuseoInfo' , middleware.estado, upload.any(), function (req, res) {
     var data = req.body;
     //var forReturn = res;
     //Creacion de transaccion -> no se guarda ningun cambio si primero no se desactiva el museo actual activado

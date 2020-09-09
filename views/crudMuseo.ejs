@@ -17,7 +17,7 @@
       <div class="row mx-5">
         <div class="col col-sm-6">
           
-          <div class="row align-items-left  mt-3">
+          <div class="row align-items-left mt-3">
             <p>Crear un nuevo museo o editar/eliminar un antiguo:</p>
             <div class="btn-group ml-3" role="group" aria-label="Button group with nested dropdown">
               <button type="button" class="btn btn-primary" id="btnNuevoMuseo">Nuevo</button>
@@ -28,6 +28,10 @@
                 </div>
               </div>
             </div>
+          </div>
+
+          <div class="row mt-3">
+            <p>Info: Para activar un museo es necesario que una sala sea creada.</p>
           </div>
           
         </div> 
@@ -75,12 +79,17 @@
           </div>
           <div class="row align-items-left mt-5" id="mensajeError4" >
             <div class="alert alert-dismissible alert-danger">
-              <strong>Los campos de nombre y el archivo de audio de fondo son obligatorios.</strong>
+              <strong>Los campos de nombre y el archivo de audio de fondo son obligatorios en un museo nuevo. En un museo existente el  nombre del museo es obligatorio.</strong>
             </div>
           </div>
           <div class="row align-items-left mt-5" id="mensajeError6" >
             <div class="alert alert-dismissible alert-danger">
               <strong>No se puede eliminar un museo activo. Active otro museo y luego elimine este museo.</strong>
+            </div>
+          </div>
+          <div class="row align-items-left mt-5" id="mensajeError7" >
+            <div class="alert alert-dismissible alert-danger">
+              <strong>Carácter inválido en nombre del museo o en el nombre del archivo. No se permiten comillas ('', "").</strong>
             </div>
           </div>
           <div class="alert alert-dismissible alert-success" id="mensajeBien1">
