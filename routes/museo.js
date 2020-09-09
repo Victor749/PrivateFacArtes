@@ -173,4 +173,19 @@ router.get('/api/catalogo', function (req, res) {
    });
 });
 
+/* Get para conseguir todos los museos*/ 
+router.get('/all/api/json', function (req, res) {
+
+   let sql = `select * from museo`;
+
+   connection.query(sql, function(error, results, fields){
+      if(error){
+         debug(error);
+         return res.sendStatus(500);
+      }
+      res.send(results);
+   });
+
+});
+
 module.exports = router;

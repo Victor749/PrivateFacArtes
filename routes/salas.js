@@ -58,4 +58,20 @@ router.get('/api/curatorial/:idSala', function (req, res) {
   });
 });
 
+
+router.get('/all/api/json/:idMuseo', function(req, res){
+
+  let idMuseo = req.params.idMuseo;
+  let sql = `select * from sala where idMuseo = ${idMuseo}`;
+
+  connection.query(sql, function(error, results, fields){
+    if(error){
+      debug(error);
+      return res.sendStatus(500);
+    }
+    res.send(results);
+  });
+
+});
+
 module.exports = router;

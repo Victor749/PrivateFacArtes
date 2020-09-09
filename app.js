@@ -13,6 +13,7 @@ var obrasRouter = require('./routes/obras');
 var comentariosRouter = require('./routes/comentarios');
 var usuariosRouter = require('./routes/usuarios');
 var visor3DRouter = require('./routes/visor3D');
+var enlacesRouter = require('./routes/enlaces');
 
 
 var app = express();
@@ -36,6 +37,7 @@ app.use('/obras', obrasRouter);
 app.use('/comentarios', comentariosRouter);
 app.use('/usuarios', usuariosRouter);
 app.use('/visor3D', visor3DRouter);
+app.use('/enlaces', enlacesRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

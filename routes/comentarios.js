@@ -33,10 +33,10 @@ router.post('/new', function(req, res){
         connection.query(sql, function(error, results, fields){
             if(error){
                 debug(error);
-                return res.send(500);
+                return res.sendStatus(500);
             }
             // debug(results);
-            return res.send(200);
+            return res.sendStatus(200);
         });
     });
 

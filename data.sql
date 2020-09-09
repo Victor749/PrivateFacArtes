@@ -1,13 +1,13 @@
-INSERT INTO `museo` (`idMuseo`, `nombreMuseo`, `idSalaInicial`, `nombreAudioFondo`, `activo`) VALUES (NULL, 'Museo 1', '1', 'ambient.wav', '1');
+INSERT INTO `museo` (`idMuseo`, `nombreMuseo`, `idSalaInicial`, `nombreAudioFondo`, `activo`) VALUES (NULL, 'Museo 2', '1', 'ambient.wav', '0');
 
-INSERT INTO `sala` (`idSala`, `idMuseo`, `nombreImgFondo`, `rotacionInicial`, `temaCuratorial`) VALUES (NULL, '1', '360_1 - Panorama.jpg', '0', 'Sala 1');
-INSERT INTO `sala` (`idSala`, `idMuseo`, `nombreImgFondo`, `rotacionInicial`, `temaCuratorial`) VALUES (NULL, '1', '360_2 - Panorama.jpg', '0', 'Sala 2');
-INSERT INTO `sala` (`idSala`, `idMuseo`, `nombreImgFondo`, `rotacionInicial`, `temaCuratorial`) VALUES (NULL, '1', '360_3 - Panorama.jpg', '0', 'Sala 3');
-INSERT INTO `sala` (`idSala`, `idMuseo`, `nombreImgFondo`, `rotacionInicial`, `temaCuratorial`) VALUES (NULL, '1', '360_4 - Panorama.jpg', '0', 'Sala 4');
-INSERT INTO `sala` (`idSala`, `idMuseo`, `nombreImgFondo`, `rotacionInicial`, `temaCuratorial`) VALUES (NULL, '1', '360_5 - Panorama.jpg', '0', 'Sala 5');
-INSERT INTO `sala` (`idSala`, `idMuseo`, `nombreImgFondo`, `rotacionInicial`, `temaCuratorial`) VALUES (NULL, '1', '360_6 - Panorama.jpg', '0', 'Sala 6');
-INSERT INTO `sala` (`idSala`, `idMuseo`, `nombreImgFondo`, `rotacionInicial`, `temaCuratorial`) VALUES (NULL, '1', '360_7 - Panorama.jpg', '0', 'Sala 7');
-INSERT INTO `sala` (`idSala`, `idMuseo`, `nombreImgFondo`, `rotacionInicial`, `temaCuratorial`) VALUES (NULL, '1', '360_8 - Panorama.jpg', '0', 'Sala 8');
+INSERT INTO `sala` (`idSala`, `idMuseo`, `nombreImgFondo`, `rotacionInicial`, `temaCuratorial`) VALUES (NULL, '2', '360_1 - Panorama.jpg', '0', 'Sala 1');
+INSERT INTO `sala` (`idSala`, `idMuseo`, `nombreImgFondo`, `rotacionInicial`, `temaCuratorial`) VALUES (NULL, '2', '360_2 - Panorama.jpg', '0', 'Sala 2');
+INSERT INTO `sala` (`idSala`, `idMuseo`, `nombreImgFondo`, `rotacionInicial`, `temaCuratorial`) VALUES (NULL, '2', '360_3 - Panorama.jpg', '0', 'Sala 3');
+INSERT INTO `sala` (`idSala`, `idMuseo`, `nombreImgFondo`, `rotacionInicial`, `temaCuratorial`) VALUES (NULL, '2', '360_4 - Panorama.jpg', '0', 'Sala 4');
+INSERT INTO `sala` (`idSala`, `idMuseo`, `nombreImgFondo`, `rotacionInicial`, `temaCuratorial`) VALUES (NULL, '2', '360_5 - Panorama.jpg', '0', 'Sala 5');
+INSERT INTO `sala` (`idSala`, `idMuseo`, `nombreImgFondo`, `rotacionInicial`, `temaCuratorial`) VALUES (NULL, '2', '360_6 - Panorama.jpg', '0', 'Sala 6');
+INSERT INTO `sala` (`idSala`, `idMuseo`, `nombreImgFondo`, `rotacionInicial`, `temaCuratorial`) VALUES (NULL, '2', '360_7 - Panorama.jpg', '0', 'Sala 7');
+INSERT INTO `sala` (`idSala`, `idMuseo`, `nombreImgFondo`, `rotacionInicial`, `temaCuratorial`) VALUES (NULL, '2', '360_8 - Panorama.jpg', '0', 'Sala 8');
 
 INSERT INTO `enlace` (`idEnlace`, `idSala`, `idSalaDestino`, `posXIcono`, `posYIcono`, `posZIcono`) VALUES (NULL, '1', '2', '-20', '0', '0');
 INSERT INTO `enlace` (`idEnlace`, `idSala`, `idSalaDestino`, `posXIcono`, `posYIcono`, `posZIcono`) VALUES (NULL, '2', '1', '-15', '80', '0');
