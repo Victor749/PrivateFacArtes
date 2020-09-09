@@ -1,3 +1,28 @@
-<h1><%= message %></h1>
-<h2><%= error.status %></h2>
-<pre><%= error.stack %></pre>
+<!DOCTYPE html>
+<html lang="es-ec">
+
+<head>
+    <title><%= message %></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container pt-4 pb-4 text-center">
+        <div class="jumbotron bg-dark rounded">
+            <img src="/images/escudo-final.png" style="width: 27%;" alt="Universidad de Cuenca" />
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <img src="/images/fac-artes.png" style="width: 14%;" alt="Facultad de Artes" />
+            <br />
+            <br />
+            <h1 style="color: whitesmoke;">Museo Virtual</h1>
+            <h3 style="color: whitesmoke;">Facultad de Artes - Universidad de Cuenca</h3>
+        </div>
+        <h1><%= message %></h1>
+        <h2><%= status %></h2>
+        <pre><%= error.stack %></pre>
+    </div>
+</body>
+
+</html>

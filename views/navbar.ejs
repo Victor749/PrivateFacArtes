@@ -1,14 +1,15 @@
 <nav class="navbar navbar-expand-xl navbar-dark bg-dark sticky-top">
-    <span class="navbar-brand"><img src="/images/escudo-final.png" style="height: 50px; width: 150px;" />&nbsp;&nbsp;&nbsp;&nbsp;MVUC-Editor</span>
+    <span class="navbar-brand"><img src="/images/escudo-final.png" alt="Universidad de Cuenca"
+            style="height: 50px; width: 150px;" />&nbsp;&nbsp;&nbsp;&nbsp;Editor-MVUC</span>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02"
         aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarColor02">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="/editor/inicio">Inicio<span class="sr-only">(current)</span></a>
+        <ul class="navbar-nav mr-auto" id="barra-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="/editor/inicio">Inicio</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="./crudMuseo">Museos</a>
@@ -22,12 +23,20 @@
             <li class="nav-item">
                 <a class="nav-link" href="#">Obras</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/editor/usuarios">Usuarios</a>
+            </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0" method="GET" action="/editor/logout">
-            <span style="color: whitesmoke;"><%= username %>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-            <!-- Attribution: Font Awesome Free 5.2.0 by @fontawesome - https://fontawesome.com -->
-            <img src="/images/user.png" style="height: 44px; width: 44px;">
-            <button class="btn btn-link my-2 my-sm-0" style="color: whitesmoke;" type="submit">Log Out</button>
+        <form class="form-inline my-2 my-xl-0" method="GET" action="/editor/logout">
+            <span class="nav-item" style="color: whitesmoke;"><small><%= username %></small></span>
+            <img src="<%= picture %>" style="height: 44px; width: 44px; border-radius: 50%;" alt="<%= picture %>"></a>
+            <button class="btn btn-link my-2 my-sm-0" type="submit" style="color: whitesmoke;">Log Out</button>
         </form>
     </div>
 </nav>
+<script>
+    $(document).ready(function () {
+        var pathname = window.location.pathname;
+        $('#barra-nav > li > a[href="' + pathname + '"]').parent().addClass('active');
+    })
+</script>
