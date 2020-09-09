@@ -27,16 +27,9 @@ router.get('/', middleware.pagina, function (req, res, next) {
     res.render('crudMuseo', { title: 'Seccion museo.'});
 });
 
-//eliminar archivos antiguos.
-router.get('/deleteOldFiles/:oldFileName', /*middleware.estado,*/ function (req, res, next) {
-    fs.unlinkSync('./public/static_assets/'+req.param.oldFileName);
-    console.log('here');
-    res.send('{"estado":"done"}');
-});
-
 
 //Obtener todos los museos
-router.get('/getMuseos', middleware.estado, function (req, res, next) {
+router.get('/getMuseos'/*, middleware.estado,*/, function (req, res, next) {
     let sql = `select * from museo`;
     connection.query(sql, function (error, results) {
        if (error) {
@@ -54,7 +47,7 @@ function funciones(data, res){
     if(data.idMuseo == -1){
         //nuevo museo
         var sql = `insert into museo(idMuseo, nombreMuseo, idSalaInicial, nombreAudioFondo, activo) values
-        (null, '${data.nombreMuseo}', null, '${data.nombreArchivo}', ${data.activo})`;
+        (null, ${mysql.escape(data.nombreMuseo)}, null, ${mysql.escape(data.nombreArchivo)}, ${data.activo})`;
         connection.query(sql, function(error, results, fields){
             if(error){
                 debug(error);
@@ -65,7 +58,7 @@ function funciones(data, res){
         });
     }else{
         
-        var sql = `update museo set nombreMuseo = '${data.nombreMuseo}', nombreAudioFondo = '${data.nombreArchivo}', activo = ${data.activo} where idMuseo = ${data.idMuseo}`;
+        var sql = `update museo set nombreMuseo = ${mysql.escape(data.nombreMuseo)}, nombreAudioFondo = ${mysql.escape(data.nombreArchivo)}, activo = ${data.activo} where idMuseo = ${data.idMuseo}`;
         connection.query(sql, function(error, results, fields){
             if(error){
                 debug(error);

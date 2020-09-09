@@ -41,7 +41,14 @@ function showMuseosAntiguos(){
                 info = '<option class="dropdown-item" href="#" value='+i+'>'+museos[i].nombreMuseo+'</option>';
                 $('#museos').append(info);
             }
-            goMuseoEspecifico(0);
+            if(museos.length > 0){
+                goMuseoEspecifico(0);
+            }
+        }else if(xhr.status == '401'){
+            $("#modal-sesion").modal();
+            $('#modal-sesion').on('hidden.bs.modal', function () {
+                window.location.replace("/editor");
+            });
         } else {
             console.error(respuesta);
         }
@@ -100,7 +107,12 @@ function guardarPrimera(){
         if (xhr.readyState == 4 && xhr.status == "200") {
             $('#mensajeBien1').show();
             museoSeleccionado.idSalaInicial = idSala;
-        } else {
+        } else if(xhr.status == '401'){
+            $("#modal-sesion").modal();
+            $('#modal-sesion').on('hidden.bs.modal', function () {
+                window.location.replace("/editor");
+            });
+        }else {
             alert('Ha ocurrido un error. Intentelo mas tarde.');
         }
     }
@@ -138,9 +150,9 @@ function validarData(){
         return false;
     }else{
         temaC = $('#temaCuratorial').val();
-        nameFile = $('#myfileImagen')[0].files[0].name;
-        $('#mensajeError1').hide();
-        if(validateString(temaC) && validateString(nameFile)){
+       // nameFile = $('#myfileImagen')[0].files[0].name;
+        $('#mensajeError1').hide();//validateString(nameFile)
+        if(validateString(temaC) && ((salaEspecifica == 'nuevo' && validateString($('#myfileImagen')[0].files[0].name)) || (salaEspecifica!='nuevo' && $('#myfileImagen')[0].files.length>0 && validateString($('#myfileImagen')[0].files[0].name)) || (salaEspecifica!='nuevo' && $('#myfileImagen')[0].files.length==0))){
             $('#mensajeError3').hide();
             return true;
         }else{
@@ -200,7 +212,12 @@ function saveSala(){
                     goMuseoEspecifico(-1);
                 }
 
-            } else {
+            } else if(xhr.status == '401'){
+                $("#modal-sesion").modal();
+                $('#modal-sesion').on('hidden.bs.modal', function () {
+                    window.location.replace("/editor");
+                });
+            }else {
                 alert('Ha ocurrido un error. Intentelo mas tarde.');
             }
         }
@@ -218,7 +235,12 @@ function saveImage(data){
             $('#mensajeBien2').show();
             cleanSalaInfo();
             goMuseoEspecifico(-1);
-        } else {
+        } else if(xhr.status == '401'){
+            $("#modal-sesion").modal();
+            $('#modal-sesion').on('hidden.bs.modal', function () {
+                window.location.replace("/editor");
+            });
+        }else {
             alert('Ha ocurrido un error. No se guardo la imagen.');
             cleanSalaInfo();
             goMuseoEspecifico(-1);
@@ -248,7 +270,12 @@ function actionDangerSala(){
                     cleanSalaInfo();
                     goMuseoEspecifico(-1);
                     $('#mensajeBien2').show();
-                } else {
+                } else if(xhr.status == '401'){
+                    $("#modal-sesion").modal();
+                    $('#modal-sesion').on('hidden.bs.modal', function () {
+                        window.location.replace("/editor");
+                    });
+                }else {
                     alert('Ha ocurrido un error. Intentelo mas tarde.');
                     console.error(respuesta);
                 }

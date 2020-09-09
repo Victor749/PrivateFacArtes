@@ -32,7 +32,12 @@ function showMuseosAntiguos(){
                 info = '<a class="dropdown-item" href="#" onclick="return goMuseoEspecifico('+i+')">'+museos[i].nombreMuseo+'</a>';
                 $('#grupoMuseos').append(info);
             }
-        } else {
+        } else if(xhr.status == '401'){
+            $("#modal-sesion").modal();
+            $('#modal-sesion').on('hidden.bs.modal', function () {
+                window.location.replace("/editor");
+            });
+        }else {
             console.error(respuesta);
         }
     }
@@ -98,8 +103,7 @@ function validateMuseoInfo(){
     }else{
         //$('#mensajeError4').hide();
         if (validateNameMuseo()){
-            if((validateString($('#nombreMuseo').val()) && validateString($('#myfileAudio')[0].files[0].name))){
-                //$('#mensajeError7').hide();
+            if(validateString($('#nombreMuseo').val()) && ((museoSeleccionado == 'nuevo' && validateString($('#myfileAudio')[0].files[0].name)) || (museoSeleccionado!='nuevo' && $('#myfileAudio')[0].files.length>0 && validateString($('#myfileAudio')[0].files[0].name)) || (museoSeleccionado!='nuevo' && $('#myfileAudio')[0].files.length==0))){
                 return true;
             }else{
                 $('#mensajeError7').show();
@@ -200,7 +204,12 @@ function saveInfoMuseo(){
                 cleanOldStuff('grupoMuseos');
                 showMuseosAntiguos();
                 $('#mensajeBien1').show();
-            } else {
+            } else if(xhr.status == '401'){
+                $("#modal-sesion").modal();
+                $('#modal-sesion').on('hidden.bs.modal', function () {
+                    window.location.replace("/editor");
+                });
+            }else{
                 alert('Ha ocurrido un error. Intentelo mas tarde.');
             }
         }
@@ -232,7 +241,12 @@ function accionDangerMuseo(){
                 showMuseosAntiguos();
                 $('#mensajeBien1').show();
                 museoSeleccionado = "nuevo";
-            } else {
+            } else if(xhr.status == '401'){
+                $("#modal-sesion").modal();
+                $('#modal-sesion').on('hidden.bs.modal', function () {
+                    window.location.replace("/editor");
+                });
+            }else{
                 alert('Ha ocurrido un error. Intentelo mas tarde.');
                 console.error(respuesta);
             }

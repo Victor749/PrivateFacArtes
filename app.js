@@ -21,6 +21,7 @@ var visor3DRouter = require('./routes/visor3D');
 var crudMuseo = require('./routes/crudMuseo');
 var crudSalas = require('./routes/crudSalas');
 var adminsRouter = require('./routes/admins');
+var editorComentarios = require('./routes/editorComentarios');
 
 
 var app = express();
@@ -78,6 +79,7 @@ app.use('/editor', editorRouter);
 app.use('/crudMuseo', crudMuseo);
 app.use('/crudSalas', crudSalas);
 app.use('/editor/usuarios', adminsRouter);
+app.use('/editorComentarios', editorComentarios);
 
 
 // catch 404 and forward to error handler

@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var connection = require('../connection');
 var debug = require('debug')('backendmuseovirtual:comentarios');
-
+var mysql = require('mysql');
 
 router.post('/new', function(req, res){
 
@@ -28,7 +28,7 @@ router.post('/new', function(req, res){
         const { idUsuario } = results0[0];
         let sql = `insert into 
         comentario(idComentario, idUsuario, idObra, contenido, fecha) 
-        values(null, '${idUsuario}', ${idObra}, '${contenido}', '${date}')`;
+        values(null, '${idUsuario}', ${idObra}, '${mysql.escape(contenido)}', '${date}')`;
 
         connection.query(sql, function(error, results, fields){
             if(error){
@@ -81,7 +81,7 @@ router.get('/getComentario/:idObra/:actual/:limit/:identifier', function(req, re
 router.put('/editComentario', function(req, res){
  // console.log(req.body.contenido);
   data = req.body;
-  let sql = `update comentario set fecha = '${data.fecha}', contenido = '${data.contenido}' where idComentario = ${data.idComentario}`;
+  let sql = `update comentario set fecha = '${data.fecha}', contenido = ${mysql.escape(data.contenido)} where idComentario = ${data.idComentario}`;
 
   connection.query(sql, function(error, result, fields){
     if(error){

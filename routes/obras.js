@@ -25,6 +25,24 @@ router.get('/api/json/:id_obra', function(req, res){
 
 });
 
+
+//Obtener obras de una sala
+router.get('/api/getObras/:idSala', function(req, res){
+   
+  let sql = `select * from obra where idSala=${req.params.idSala}`;
+  
+  connection.query(sql, function (error, results) {
+    
+    if (error) {
+      debug(error);
+      res.sendStatus(500);
+   }else{
+     res.send(results);
+   }
+  });
+
+});
+
 router.put('/:id_obra', function(req, res){
   // debug(req.body);
   // debug(req.params);
