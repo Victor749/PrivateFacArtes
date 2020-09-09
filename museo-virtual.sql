@@ -91,4 +91,6 @@ create table enlace(
     FOREIGN KEY (idSalaDestino) REFERENCES sala(idSala)
 );
 
-
+ALTER TABLE `museo` ADD INDEX `activo` (`activo`) USING BTREE;
+ALTER TABLE `usuarioadmin` ADD INDEX `super` (`super`) USING BTREE;
+ALTER TABLE `usuario` ADD INDEX `identificador` (`identificador`) USING BTREE;

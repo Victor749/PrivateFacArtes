@@ -8,6 +8,7 @@ var session = require('express-session');
 // Almacenamiento de sesion en memoria que previene leaks. Se considera 
 // suficiente debido a que no se espera manejar muchas sesiones.
 var MemoryStore = require('memorystore')(session);
+var helmet = require('helmet');
 
 
 var indexRouter = require('./routes/index');
@@ -42,18 +43,33 @@ if (app.get('env') === 'production') {
   // Poner la app NodeJS bajo un proxy reverso con NGINX por ejemplo cuando entre en produccion.
   // El proxy debe implementar HTTPS (TLS) para almacenar las cookies de sesion de manera segura.
   // Comentar esta porcion de codigo en caso de que no funcione de manera correcta.
-  app.set('trust proxy', 1) // trust first proxy
-  sess.cookie.secure = true // serve secure cookies
-  // Comente la siguiente linea en caso de que no querer usar el logger morgan en modo produccion
-  app.use(logger('combined', { skip: function (req, res) { return res.statusCode < 400 } })); // Solo muestra errores 
+  if (process.env.PROXY_SEGURO === 'yes') {
+    app.set('trust proxy', 1) // trust first proxy
+    sess.cookie.secure = true // serve secure cookies
+  } else {
+    app.set('trust proxy', false);
+  }
+  // En produccion se guardan los logs de error en el archivo logs/http-errors.log con rotado diario
+  var rfs = require('rotating-file-stream');
+  var errorLogStream = rfs.createStream('http-errors.log', {
+    interval: '1d', // rotate daily
+    path: path.join(__dirname, 'logs')
+  });
+  app.use(logger('combined', { stream: errorLogStream, skip: function (req, res) { return res.statusCode < 400 } })); // Solo escribe errores 
 } else {
+  app.set('trust proxy', false);
   app.use(logger('dev'));
 }
 
 
+app.use(cors({ origin: process.env.ORIGIN_SITE }));
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cors({ origin: process.env.ORIGIN_SITE }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(methodOverride("_method"));
 
