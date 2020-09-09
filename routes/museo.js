@@ -9,19 +9,6 @@ router.get('/', function (req, res, next) {
    res.render('museo', { title: 'Museo' });
 });
 
-//Obtener todos los museos
-router.get('/api/getMuseos', function (req, res, next) {
-   let sql = `select * from museo`;
-   connection.query(sql, function (error, results) {
-      if (error) {
-         debug(error);
-         res.sendStatus(500);
-      } else {
-         res.send(results);
-      }
-   });
-});
-
 // Obtener estructura del Museo Activo en Formato JSON
 router.get('/api/json', function (req, res) {
    async function start() {
@@ -130,23 +117,6 @@ router.get('/api/salas', function (req, res) {
          res.send(results);
       }
    });
-});
-
-//Eliminar un museo
-router.delete('/deleteMuseo/:idMuseo', function(req, res){
-   // console.log(req.body.contenido);
-    let sql = `delete from museo where idMuseo = ${req.params.idMuseo}`;
-  
-    connection.query(sql, function(error, result, fields){
-      if(error){
-        debug(error);
-        res.sendStatus(500);
-      }else{
-        resultado = '{"estado":"done"}';
-        res.send(resultado);
-      }
-    });
-       
 });
 
 
