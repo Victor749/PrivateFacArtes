@@ -3,6 +3,7 @@ var router = express.Router();
 var connection = require('../connection');
 var dbObj = require('../connection/sync');
 var debug = require('debug')('backendmuseovirtual:museo');
+var logger = require('../logger').child({ from: 'museo' });
 
 /* GET Museo page. */
 router.get('/', function (req, res, next) {
@@ -99,6 +100,7 @@ router.get('/api/json', function (req, res) {
          res.send(json);
       } catch (error) {
          debug(error);
+         logger.error(error);
          res.sendStatus(500);
       }
    }
@@ -112,6 +114,7 @@ router.get('/api/salas', function (req, res) {
    connection.query(sql, function (error, results) {
       if (error) {
          debug(error);
+         logger.error(error);
          res.sendStatus(500);
       } else {
          res.send(results);

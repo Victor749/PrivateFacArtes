@@ -55,7 +55,8 @@ if (app.get('env') === 'production') {
   var rfs = require('rotating-file-stream');
   var errorLogStream = rfs.createStream('http-errors.log', {
     interval: '1d', // rotate daily
-    path: path.join(__dirname, 'logs')
+    path: path.join(__dirname, 'logs/http-morgan'),
+    maxFiles: 9
   });
   app.use(logger('combined', { stream: errorLogStream, skip: function (req, res) { return res.statusCode < 400 } })); // Solo escribe errores 
 } else {
