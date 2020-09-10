@@ -28,7 +28,7 @@ router.post('/new', function(req, res){
         const { idUsuario } = results0[0];
         let sql = `insert into 
         comentario(idComentario, idUsuario, idObra, contenido, fecha) 
-        values(null, '${idUsuario}', ${idObra}, '${mysql.escape(contenido)}', '${date}')`;
+        values(null, '${idUsuario}', ${idObra}, ${mysql.escape(contenido)}, '${date}')`;
 
         connection.query(sql, function(error, results, fields){
             if(error){
