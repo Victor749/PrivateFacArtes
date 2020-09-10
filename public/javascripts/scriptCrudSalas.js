@@ -159,18 +159,22 @@ function validarData(){
             $('#mensajeError3').show();
             return false;
         }
-        
+        //return true;
     }
 }
 
 function validateString(data){
     for (var i=0;i<data.length;i++){
-        if(data[i] == '\''){
+        if(data[i] == '\'' || data[i] == '"'){
             return false;
         }
     }
     return true;
 
+}
+
+function transformEspacios(data){
+    
 }
 
 function saveSala(){
@@ -184,8 +188,8 @@ function saveSala(){
         }
         if($('#myfileImagen')[0].files.length > 0){
             if(salaEspecifica != 'nuevo'){
-                data.append(salaEspecifica.idSala+'-'+$('#myfileImagen')[0].files[0].name, $('#myfileImagen')[0].files[0]);
-                data.append('nuevoArchivo', salaEspecifica.idSala+'-'+$('#myfileImagen')[0].files[0].name);
+                data.append(salaEspecifica.idSala+'-'+$('#myfileImagen')[0].files[0].name.replace(' ', ''), $('#myfileImagen')[0].files[0]);
+                data.append('nuevoArchivo', salaEspecifica.idSala+'-'+$('#myfileImagen')[0].files[0].name.replace(' ', ''));
             }
         }
         if(salaEspecifica!='nuevo'){
@@ -202,8 +206,8 @@ function saveSala(){
                     var data = new FormData();
                     resultados = JSON.parse(xhr.responseText);
                     console.log(resultados);
-                    data.append(resultados.insertId+'-'+$('#myfileImagen')[0].files[0].name, $('#myfileImagen')[0].files[0]);
-                    data.append('nuevoArchivo', resultados.insertId+'-'+$('#myfileImagen')[0].files[0].name);
+                    data.append(resultados.insertId+'-'+$('#myfileImagen')[0].files[0].name.replace(' ', ''), $('#myfileImagen')[0].files[0]);
+                    data.append('nuevoArchivo', resultados.insertId+'-'+$('#myfileImagen')[0].files[0].name.replace(' ', ''));
                     data.append('idSala', resultados.insertId);
                     saveImage(data);
                 }else{

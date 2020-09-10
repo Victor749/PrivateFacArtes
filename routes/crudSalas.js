@@ -69,7 +69,7 @@ router.post('/saveSala' , middleware.estado, upload.any(),  function (req, res) 
         }else{
             //console.log('well', data);
             //console.log(result);
-            if(idSala!=-1 && data.nuevoArchivo!=data.antiguoFile){
+            if(idSala!=-1 && ( data.nuevoArchivo!==undefined) && data.nuevoArchivo!=data.antiguoFile){
               console.log('here');
               try{
                   fs.unlinkSync('./public/static_assets/'+data.antiguoFile);
