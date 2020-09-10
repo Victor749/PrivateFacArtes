@@ -15,10 +15,11 @@
     <h1 class="m-5"><%= title %></h1>
     <div class="jumbotron mx-5">
       <div class="row mx-5">
-        <div class="col col-sm-6">
+        <div class="col col-auto col-sm-6 ">
           
           <div class="row align-items-left mt-3">
             <p>Crear un nuevo museo o editar/eliminar un antiguo:</p>
+            
             <div class="btn-group ml-3" role="group" aria-label="Button group with nested dropdown">
               <button type="button" class="btn btn-primary" id="btnNuevoMuseo">Nuevo</button>
               <div class="btn-group" role="group">
@@ -28,6 +29,7 @@
                 </div>
               </div>
             </div>
+        
           </div>
 
           <div class="row mt-3">
@@ -35,12 +37,12 @@
           </div>
           
         </div> 
-        <div class="col col-sm-6">
+        <div class="col col-auto col-sm-6 ">
           
           <div class="row ">
-            <div class="form-group ">
+            <div class="form-group">
               <label for="nombreMuseo">Nombre del museo</label>
-              <input type="text" class="form-control ml-3" id="nombreMuseo" placeholder="Ingrese el nombre del museo." style="border: black 1px solid; width: 500px;">
+              <input type="text" class="form-control ml-3" id="nombreMuseo" placeholder="Ingrese el nombre del museo...." style="border: black 1px solid;">
             </div>
           </div>
           <div class="row align-items-left" id="mensajeError5" >
@@ -73,33 +75,35 @@
             <input type="text" id="audioActual" width=100 placeholder="No llene este campo." readonly>
             
           </div>
-          <div class="row ml-5 my-5 align-items-center">
-            <button class="btn btn-success mr-3" id="btnGuardarMuseo" onclick="return saveInfoMuseo()">Guardar Cambios</button>
-            <button class="btn btn-danger" id="btnDangerMuseo" onclick="return accionDangerMuseo()">Eliminar</button>
+          <div class="row ml-5 my-5 align-items-center justify-content-center">
+            <button class="btn btn-success mr-3 mt-3" id="btnGuardarMuseo" onclick="return saveInfoMuseo()">Guardar Cambios</button>
+            <button class="btn btn-danger mt-3" id="btnDangerMuseo" onclick="return accionDangerMuseo()">Eliminar</button>
           </div>
-          <div class="row align-items-left mt-5" id="mensajeError4" >
+          <div class="row align-items-left justify-content-center mt-5" id="mensajeError4" >
             <div class="alert alert-dismissible alert-danger">
               <strong>Los campos de nombre y el archivo de audio de fondo son obligatorios en un museo nuevo. En un museo existente el  nombre del museo es obligatorio.</strong>
             </div>
           </div>
-          <div class="row align-items-left mt-5" id="mensajeError6" >
+          <div class="row align-items-left justify-content-center mt-5" id="mensajeError6" >
             <div class="alert alert-dismissible alert-danger">
               <strong>No se puede eliminar un museo activo. Active otro museo y luego elimine este museo.</strong>
             </div>
           </div>
-          <div class="row align-items-left mt-5" id="mensajeError7" >
+          <div class="row align-items-left justify-content-center mt-5" id="mensajeError7" >
             <div class="alert alert-dismissible alert-danger">
               <strong>Carácter inválido en nombre del museo o en el nombre del archivo. No se permiten comillas ('', "").</strong>
             </div>
           </div>
-          <div class="alert alert-dismissible alert-success" id="mensajeBien1">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <strong>Cambios realizados correctamente.</strong>
+          <div class="row align-items-left justify-content-center mt-5" id="mensajeBien1" >
+            <div class="alert alert-dismissible alert-success" >
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              <strong>Cambios realizados correctamente.</strong>
+            </div>
           </div>
         </div>
       </div>
 
-     
+  
     </div>
 
     <div class="modal" id="modal-sesion">

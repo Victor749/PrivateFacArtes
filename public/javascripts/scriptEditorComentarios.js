@@ -137,8 +137,8 @@ function cargarC(){
         if (xhr.readyState == 4 && xhr.status == "200") {
             for(var i=0;i<data.length;i++){
                 info = '<tr class="'+data[i].idComentario+'"><td>'+'<div class="row justify-content-center mb-5" >'+
-                            '<div class="col col-sm-1 mr-5"><img src="'+data[i].linkFoto+'" height=60 width=60></div>'+
-                            '<div class="col col-sm-9"><div class="row align-items-left ml-2" ><b style="color:black;">'+data[i].nombreUsuario+'</b></div>'+
+                            '<div class="col col-auto col-sm-1 mr-5"><img src="'+data[i].linkFoto+'" height=60 width=60></div>'+
+                            '<div class="col col-auto col-sm-9"><div class="row align-items-left ml-2" ><b style="color:black;">'+data[i].nombreUsuario+'</b></div>'+
                             '<div class="row align-items-left ml-3 mb-2" ><p class="text-muted">'+data[i].fecha+'</p></div>'+
                             '<div class="row align-items-left ml-2 text-justify" ><p>'+data[i].contenido+'</p></div>'+
                             '</td><td><div class="row align-items-right" ><button onclick="eliminar('+data[i].idComentario+')" class="btn btn-danger">Eliminar</button></div>'+
