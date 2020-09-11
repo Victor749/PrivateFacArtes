@@ -4,6 +4,7 @@ var connection = require('../connection');
 var debug = require('debug')('backendmuseovirtual:admins');
 var middleware = require('../middleware');
 var mysql = require('mysql');
+var logger = require('../logger').child({ from: 'admins' });
 
 /* GET Admins page. */
 router.get('/', middleware.pagina, function (req, res, next) {
@@ -11,6 +12,7 @@ router.get('/', middleware.pagina, function (req, res, next) {
     connection.query(sql, function (error, results) {
         if (error) {
             debug(error);
+            logger.error(error);
             res.sendStatus(500);
         } else {
             res.render('admins', { title: 'Usuarios', results: results });
@@ -27,6 +29,7 @@ router.post('/agregar', middleware.pagina, function (req, res, next) {
                 // Si es un correo duplicado se redirige a la pagina de usuarios
                 if (error.code !== 'ER_DUP_ENTRY') {
                     debug(error);
+                    logger.error(error);
                     res.sendStatus(500);
                 } else {
                     res.redirect('/editor/usuarios');
@@ -46,6 +49,7 @@ router.delete('/quitar/:idAdmin', middleware.estado, function (req, res, next) {
     connection.query(sql, function (error, results) {
         if (error) {
             debug(error);
+            logger.error(error);
             res.sendStatus(500);
         } else {
             res.sendStatus(200);

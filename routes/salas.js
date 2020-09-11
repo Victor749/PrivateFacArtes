@@ -3,6 +3,7 @@ var router = express.Router();
 var connection = require('../connection');
 var debug = require('debug')('backendmuseovirtual:salas');
 var mysql = require('mysql');
+var logger = require('../logger').child({ from: 'salas' });
 
 /* GET Salas page. */
 router.get('/', function (req, res, next) {
@@ -15,6 +16,7 @@ router.get('/api/getSalas/:idMuseo', function (req, res) {
   connection.query(sql, function (error, results) {
      if (error) {
         debug(error);
+        logger.error(error);
         res.sendStatus(500);
      } else {
        //if(results.length!=0){
@@ -34,6 +36,7 @@ router.get('/api/curatorial/:idSala', function (req, res) {
   connection.query(sql, function (error, results) {
     if (error) {
       debug(error);
+      logger.error(error);
       res.sendStatus(500);
     } else {
       if (results.length !== 0) {
@@ -58,6 +61,7 @@ router.get('/api/curatorial/:idSala', function (req, res) {
         connection.query(sql, function (error, results) {
           if (error) {
             debug(error);
+            logger.error(error);
             res.sendStatus(500);
           } else {
             if (results.length !== 0) {

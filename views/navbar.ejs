@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-xl navbar-dark bg-dark sticky-top">
+<nav class="navbar navbar-expand-xl navbar-dark bg-dark">
     <span class="navbar-brand"><img src="/images/escudo-final.png" alt="Universidad de Cuenca"
             style="height: 50px; width: 150px;" />&nbsp;&nbsp;&nbsp;&nbsp;Editor-MVUC</span>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02"
@@ -18,10 +18,7 @@
                 <a class="nav-link" href="/crudSalas">Salas</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Enlaces</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Obras</a>
+                <a class="nav-link" href="#">Obras y Enlaces</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/editorComentarios">Comentarios</a>
@@ -30,11 +27,16 @@
                 <a class="nav-link" href="/editor/usuarios">Usuarios</a>
             </li>
         </ul>
-        <form class="form-inline my-2 my-xl-0" method="GET" action="/editor/logout">
-            <span class="nav-item" style="color: whitesmoke;"><small><%= username %></small></span>
-            <img src="<%= picture %>" style="height: 44px; width: 44px; border-radius: 50%;" alt="<%= picture %>"></a>
-            <button class="btn btn-link my-2 my-sm-0" type="submit" style="color: whitesmoke;">Log Out</button>
-        </form>
+        <div class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+                aria-expanded="false" style="color: whitesmoke;"><img src="<%= picture %>" style="height: 44px; width: 44px; border-radius: 50%;"
+                    alt="<%= picture %>">&nbsp;</a>
+            <div data-display="static" class="dropdown-menu dropdown-menu-xl-right">
+                <span class="dropdown-item"><%= username %></span>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="/editor/logout">Cerrar Sesión</a>
+            </div>
+        </div>
     </div>
 </nav>
 <script>

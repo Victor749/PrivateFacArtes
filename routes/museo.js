@@ -136,6 +136,7 @@ router.get('/api/catalogo', function (req, res) {
    connection.query(sql, function (error, results) {
       if (error) {
          debug(error);
+         logger.error(error);
          res.sendStatus(500);
       } else {
          if (results.length !== 0) {
