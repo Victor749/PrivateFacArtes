@@ -3,6 +3,7 @@ var router = express.Router();
 var middleware = require('../middleware');
 var connection = require('../connection');
 var debug = require('debug')('backendmuseovirtual:crudMuseo');
+var logger = require('../logger').child({ from: 'crudMuseo' });
 var mysql = require('mysql');
 var fs = require('fs');
 const multer = require('multer');
@@ -33,7 +34,8 @@ router.get('/getMuseos'/*, middleware.estado,*/, function (req, res, next) {
     let sql = `select * from museo`;
     connection.query(sql, function (error, results) {
        if (error) {
-          debug(error);
+          //debug(error);
+          logger.error(error);
           res.sendStatus(500);
        } else {
           res.send(results);
@@ -50,10 +52,11 @@ function funciones(data, res){
         (null, ${mysql.escape(data.nombreMuseo)}, null, ${mysql.escape(data.nombreArchivo)}, ${data.activo})`;
         connection.query(sql, function(error, results, fields){
             if(error){
-                debug(error);
+                //debug(error);
+                logger.error(error);
                 res.sendStatus(500);
             }
-            console.log(results);
+            //console.log(results);
             res.send(results);
         });
     }else{
@@ -61,7 +64,8 @@ function funciones(data, res){
         var sql = `update museo set nombreMuseo = ${mysql.escape(data.nombreMuseo)}, nombreAudioFondo = ${mysql.escape(data.nombreArchivo)}, activo = ${data.activo} where idMuseo = ${data.idMuseo}`;
         connection.query(sql, function(error, results, fields){
             if(error){
-                debug(error);
+                //debug(error);
+                logger.error(error);
                 res.sendStatus(500);
             }
             if(data.audioActual != data.nombreArchivo){
@@ -69,11 +73,11 @@ function funciones(data, res){
                     fs.unlinkSync('./public/static_assets/'+data.audioActual);
                 }else{
                     fs.rename('./public/static_assets/'+data.audioActual, './public/static_assets/'+data.nombreArchivo, () => { 
-                        console.log("\nFile Renamed!\n"); });
+                        debug("\nFile Renamed!\n"); });
                 }
                 
             }
-            console.log(results);
+            //console.log(results);
             res.send(results);
         });
     }
@@ -88,14 +92,16 @@ router.delete('/deleteMuseo', middleware.estado, function(req, res){
 
     connection.query(sql, function(error, result, fields){
     if(error){
-        debug(error);
+        //debug(error);
+        logger.error(error);
         res.sendStatus(500);
     }else{
         try{
             fs.unlinkSync('./public/static_assets/'+data.nombreArchivo);
-            console.log('over here');
+            //console.log('over here');
         }catch(e){
-            console.log(e);
+            //console.log(e);
+            logger.error(e);
         }
         resultado = '{"estado":"done"}';
         res.send(resultado);
