@@ -103,8 +103,27 @@ router.post('/new', function(req, res){
       res.send('Se ha añadido el enlace correctamente');
     }
   });
-
   // res.send('MAKIN A NEW OBRA');
+});
+
+router.delete('/:idEnlace', function(req, res){
+  debug(req.body);
+  debug(req.params);
+
+  let sql = `delete from enlace where idEnlace=${req.params.idEnlace}`;
+  connection.query(sql, function(error, results, fields){
+    if(error){
+      debug(error);
+      return res.sendStatus(500);
+    }
+    debug(results);
+    if(results.affectedRows == 0){
+      res.send('No pudo eliminar este enlace');
+    }else{
+      res.send('Se ha eliminado su enlace correctamente');
+    }
+  });
+
 });
 
 module.exports = router;

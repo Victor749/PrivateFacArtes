@@ -43,6 +43,26 @@ router.get('/api/json/:id_obra', function(req, res){
 
 });
 
+router.delete('/:idObra', function(req, res){
+  debug(req.body);
+  debug(req.params);
+
+  let sql = `delete from obra where idObra=${req.params.idObra}`;
+  connection.query(sql, function(error, results, fields){
+    if(error){
+      debug(error);
+      return res.sendStatus(500);
+    }
+    debug(results);
+    if(results.affectedRows == 0){
+      res.send('No pudo eliminar esta obra');
+    }else{
+      res.send('Se ha eliminado su obra correctamente');
+    }
+  });
+
+});
+
 router.put('/contador/:id_obra', function(req, res){
   // debug(req.body);
   // debug(req.params);
@@ -76,7 +96,7 @@ router.put('/contador/:id_obra', function(req, res){
 
 router.get('/edit', function(req, res){
 
-  res.render('./obras', {title: 'Editar enlaces'});
+  res.render('indexEnlaces');
 
 });
 
@@ -187,7 +207,6 @@ router.put('/imagenes/:idObra', upload.any(), function(req, res){
       // }else{
         imagenes += `${imagen.fieldname}${path.extname(imagen.originalname)};`;
       // }
-      
     }
   }
 
@@ -210,6 +229,75 @@ router.put('/imagenes/:idObra', upload.any(), function(req, res){
   }
   // res.send('HEY MEN, IMAGEEES');
 });
+
+router.put('/objeto3D/:idObra', upload.any() ,function(req, res){
+
+  debug(req.files);
+  debug(req.body);
+  let { filename } = req.files[0];
+  let { idObra } = req.params;
+
+  let sql_0 = `update obra set obj = '${filename}' where idObra=${idObra}`;
+
+  debug(sql_0);
+  connection.query(sql_0, function(error_0, results_0, fields_0){
+    if(error_0){
+      debug(error_0);
+      return res.sendStatus(500);
+    }
+    if(results_0.affectedRows == 0){
+      res.send('No se añadio ningun objeto 3D');
+    }else{
+      res.send('Se ha actualizado el objeto 3D correctamente');
+      // fs.unlinkSync(path.join(__dirname, `../public/static_assets/${objetoActual}`));
+    }
+  });
+
+});
+
+router.delete('/objeto3D/:idObra', function(req, res){
+  debug(req.files);
+  debug(req.body);
+
+  debug('Holaaa');
+
+  let sql = `select obj from obra where idObra = ${req.params.idObra}`;
+
+  connection.query(sql, function(error, results, fiedls){
+    if(error){
+      debug(error);
+      return res.sendStatus(500);
+    }
+    if(results.length > 0){
+      objeto = results[0].obj; 
+      debug(objeto);
+
+      try {
+        
+        fs.unlinkSync(path.join(__dirname, `../public/static_assets/${objeto}`));
+        
+        let sql_1 = `update obra set obj = null where idObra = ${req.params.idObra}`;
+        connection.query(sql_1, function(error1, results1, fields1){
+          if(error1){
+            debug(error1);
+            return res.sendStatus(500);
+          }
+          if(results1.affectedRows == 0){
+            return res.send('No se elimino el objeto 3D');
+          }else{
+            return res.send('Se ha eliminado el objeto 3D correctamente');
+          }
+        });
+      } catch(err) {
+        debug(error);
+        return res.sendStatus(500);
+      }
+    }
+  });
+
+});
+
+
 
 
 router.put('/contenido/:idObra', function(req, res){
@@ -292,50 +380,6 @@ router.post('/new', function(req, res){
   // res.send('MAKIN A NEW OBRA');
 });
 
-router.delete('/:idObra', function(req, res){
-
-  debug(req.body);
-  debug(req.params);
-
-  
-
-
-  let sql = `select imagenes from obra where idObra = ${req.params.idObra}`;
-
-  connection.query(sql, function(error, results, fiedls){
-    if(error){
-      debug(error);
-      return res.sendStatus(500);
-    }
-    if(results.length > 0){
-      imagenes = results[0].imagenes.split(';');
-      imagenes = imagenes.filter(item => item !== '');
-      debug(imagenes);
-      try {
-        for(let i = 0; i<imagenes.length; i++){
-          fs.unlinkSync(path.join(__dirname, `../public/static_assets/${imagenes[i]}`));
-          debug('AQUI');
-        }
-        let sql_1 = `delete from obra where idObra = ${req.params.idObra}`;
-        connection.query(sql_1, function(error1, results1, fields1){
-          if(error1){
-            debug(error1);
-            return res.sendStatus(500);
-          }
-          if(results1.affectedRows == 0){
-            return res.send('No se elimino ninguna imagen');
-          }else{
-            return res.send('Se ha eliminado sus fotos correctamente');
-          }
-        });
-      } catch(err) {
-        debug(error);
-        return res.sendStatus(500);
-      }
-    }
-  });
-
-});
 
 
 module.exports = router;

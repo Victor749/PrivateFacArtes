@@ -93,6 +93,7 @@ create table enlace(
 
 
 /*Si no funcionan, crear los triggers directamente en phpMyAdmin -> tabla sala -> menu:disparadores */
+DELIMITER //
 CREATE TRIGGER `eliminarSala` AFTER DELETE ON `sala`
 FOR EACH ROW BEGIN
     DECLARE x int;
@@ -102,7 +103,9 @@ FOR EACH ROW BEGIN
 	    UPDATE museo set idSalaInicial = null WHERE idMuseo = OLD.idMuseo;
     END IF;
 END
+//
 
+DELIMITER //
 CREATE TRIGGER `insertarSala` AFTER INSERT ON `sala`
  FOR EACH ROW BEGIN
 DECLARE x int;
@@ -112,7 +115,4 @@ DECLARE x int;
 	    	UPDATE museo set idSalaInicial = NEW.idSala WHERE museo.idMuseo = NEW.idMuseo;
     END IF;
 END
-
-
-
-
+//
