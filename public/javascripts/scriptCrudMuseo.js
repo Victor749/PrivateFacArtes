@@ -158,6 +158,7 @@ function transformData(data){
             dataA+=data[i];
         }
     }
+    console.log('dataA', dataA);
     return dataA;
 }
 
@@ -174,7 +175,7 @@ function saveInfoMuseo(){
         }else{
             if($('#nombreMuseo').val() != museoSeleccionado.nombreMuseo){
                 nombreAudio = $('#audioActual').val().split('-');
-                nuevoAudio = $('#nombreMuseo').val()+'-';
+                nuevoAudio = transformData($('#nombreMuseo').val())+'-';
                 for(var i=1;i<nombreAudio.length;i++){
                     nuevoAudio+=nombreAudio[i];
                 }
