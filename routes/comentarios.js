@@ -129,7 +129,7 @@ router.delete('/deleteComentario/:idComentario', function(req, res){
        logger.error(error);
        res.sendStatus(500);
      }else{
-       console.log(result);
+      // console.log(result);
        if(result.length > 0 ){
         res.send(result[0]);
        }else{

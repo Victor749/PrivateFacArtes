@@ -49,7 +49,7 @@ router.post('/saveSala' , middleware.estado, upload.any(),  function (req, res) 
     rotacion = parseFloat(data.rotacion);
     idMuseo = data.idMuseo;
     tema = data.tema;
-    console.log(rotacion);
+   // console.log(rotacion);
     sql = ``;
     if(idSala == -1){
         sql = `insert into sala(idSala, idMuseo, nombreImgFondo, rotacionInicial, temaCuratorial) values(null, ${idMuseo},null, ${rotacion}, ${mysql.escape(tema)})`;
@@ -73,7 +73,7 @@ router.post('/saveSala' , middleware.estado, upload.any(),  function (req, res) 
             //console.log('well', data);
             //console.log(result);
             if(idSala!=-1 && ( data.nuevoArchivo!==undefined) && data.nuevoArchivo!=data.antiguoFile){
-              console.log('here');
+             // console.log('here');
               try{
                   fs.unlinkSync('./public/static_assets/'+data.antiguoFile);
               }catch (e){
@@ -113,8 +113,8 @@ router.put('/saveImage' , middleware.estado, upload.any(), function (req, res) {
 router.delete('/deleteSala', middleware.estado, function(req, res){
     // console.log(req.body.contenido);
     var data = req.body;
-    console.log(data);
-    console.log(data.nombreArchivo);
+    //console.log(data);
+    //console.log(data.nombreArchivo);
     
     
     let sql = `delete from sala where idSala = ${data.idSala}`;
