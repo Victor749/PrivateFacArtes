@@ -43,7 +43,7 @@ router.get('/api/getObras/:idSala', function(req, res){
 
 });
 
-router.put('/:id_obra', function(req, res){
+router.put('/contador/:id_obra', function(req, res){
   // debug(req.body);
   // debug(req.params);
 

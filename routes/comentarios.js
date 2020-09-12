@@ -50,7 +50,7 @@ router.get('/getComentario/:idObra/:actual/:limit/:identifier', function(req, re
     actual = parseInt(req.params.actual);
     limit = parseInt(req.params.limit);
     identifier = req.params.identifier;
-    console.log(identifier);
+    //console.log(identifier);
     let sql = `select  idComentario, comentario.idUsuario, usuario.nombreUsuario, usuario.identificador, usuario.email, contenido, usuario.linkFoto, comentario.fecha from obra,comentario,usuario where obra.idObra=${req.params.idObra} and comentario.idObra=${req.params.idObra} and comentario.idUsuario = usuario.idUsuario order by comentario.idComentario desc limit ${actual}, ${limit}`;
     connection.query(sql, function (error, results) {
       
@@ -68,11 +68,11 @@ router.get('/getComentario/:idObra/:actual/:limit/:identifier', function(req, re
         //console.log(results[i].identificador);
         if(!(identifier != undefined && (identifier == results[i].identificador))){
           results[i].idUsuario = 'hide';
-          console.log('hidden stuff');
+         // console.log('hidden stuff');
         }
         resultadoC.push(results[i]);
       }
-      console.log(resultadoC);
+     // console.log(resultadoC);
       res.send(resultadoC);
     }
   });
