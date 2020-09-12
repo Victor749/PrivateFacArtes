@@ -1,0 +1,185 @@
+<html>
+  <link>
+    <title>manageLinks</title>
+    <style>body { margin: 0; }</style>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/stylesheets/obrasEditor.styles.css"/>
+  </head>
+
+  
+
+  <body>
+
+    <%- include('navbar.ejs') %>
+
+    <div class="row">
+      <div class="controller column mt-5 ml-5 col-10 col-sm-4 mb-5 pt-3"> 
+        <div class="d-flex pb-2">
+          <h3 for="">Museo: </h3>
+          <select id="museos" class="form-control">
+          </select>
+        </div>
+        <div class="d-flex pb-2">
+          <h4 for="">Sala: </h4>
+          <select id="salas" class="form-control">
+          </select>
+        </div>
+        <div class="d-flex">
+          <label class="labelEditorObra" for="">Tipo de Elemento: </label>
+          <select id="tipo" class="form-control">
+            <option>Botones de obras</option>
+            <option>Enlaces a salas</option>
+          </select>
+        </div>
+        <div class="pb-2">
+          <label class="labelEditorObra" for="">Elementos en sala: </label>
+          <div class="d-flex">
+            <select id="navButtons" class="form-control" hidden>
+            </select>
+            <select id="infoButtons" class="form-control">
+            </select>
+            <button id="btnEditar" class=" btn btn-success">Editar</button>
+          </div>
+        </div>
+        <div class="row coordinates pb-1">
+          <div class="col-6 pr-0">
+            <div class="row align-items-center col-12 p-0 m-0 pb-2 input-group">
+              <h5>X: </h5>
+              <input id="ejex" class="form-control " type="number" step="1"/>
+            </div>
+            <div class="input-group row align-items-center p-0 pb-2 m-0 col-12">
+              <h5>Y: </h5>
+              <input id="ejey" class="form-control" type="number" step="1"/>  
+            </div>
+            <div class="input-group row align-items-center p-0 m-0 col-12 pb-2">
+              <h5>Z: </h5>
+              <input id="ejez" class="pl-2 form-control" type="number" step="10"/>  
+            </div>
+          </div>
+          <div class="d-flex p-0 column justify-content-center col-6">
+            <button id="btnGuardarCoordenadas" class="btn btn-primary">Guardar Coordenadas</button>
+          </div>
+        </div>
+        <div class="pb-4">
+          <button id="btnEliminar" class="btn btn-danger">Eliminar Componente</button>
+          <button id="btnAnadir"  class="btn btn-info">Añadir</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="container"></div>
+    
+    <div class="row justify-content-center">
+      <div id="" class="col-12 col-sm-4 mt-5 ml-5" >
+        <form id="formaEditarObra" class="infoData justify-content-center" hidden>
+          <div>
+            <label for="">Asignatura: </label>
+            <input name="asignatura"  class="form-control" id="asignatura" placeholder="Asignatura de obra"/>
+          </div>
+          <div>
+            <label for="">Ciclo: </label>
+            <input name="ciclo"  class="form-control" id="ciclo" placeholder="Ciclo de realizacion de obra"/>
+          </div>
+          <div>
+            <label for="">Autor: </label>
+            <input name="autor"  class="form-control" id="autor" placeholder="Autor de obra"/>
+            </div>
+            <div>
+            <label for="">Título: </label>
+            <input name="titulo"  class="form-control" id="titulo" placeholder="Título de obra"/>
+          </div>
+          <div>
+            <label for="">Género: </label>
+            <input name="genero"  class="form-control" id="genero" placeholder="Género de obra"/>
+          </div>
+          <div>
+            <label for="">Facebook: </label>
+            <input name="facebook"  class="form-control" id="facebook" placeholder="Link de facebook"/>
+          </div>
+          <div>
+            <label for="">Instagram: </label>
+            <input name="instagram"  class="form-control" id="instagram" placeholder="Link de Instagram"/>
+          </div>
+          <div>
+            <label for="">Proyecto Web: </label>
+            <input name="proyectoWeb"  class="form-control" id="proyectoWeb" placeholder="Link de Proyecto Web"/>
+          </div>
+          <div>
+            <label for="">Dimensiones (cm): </label>
+            <input id="dimensiones"   class="form-control" placeholder="(Altura x Ancho cm) "/>
+          </div>
+          <div>
+            <label for="">Fecha Producción: </label>
+            <input id="fechaProduccion" class="form-control"  placeholder="Fecha de realizacion de obra"/>
+          </div>
+          <div>
+            <label for="">Tutor: </label>
+            <input id="tutor"  class="form-control" placeholder="Tutor con el que se lo realizó"/>
+          </div>
+          <div>
+            <label for="">Descripción: </label>
+            <input id="descripcion"  class="form-control" placeholder="Descripción de obra"/>
+          </div>
+          <div>
+            <label for="">Link de Youtube: </label>
+            <input id="youtube"  class="form-control" placeholder="Link de video de Youtube de obra"/>
+          </div>
+          <button id="guardarContenido"  class="btn btn-success btn-block" type="button" >Guardar</button>
+        </form>
+
+        <form id="formaEditarEnlace" class="infoEnlaceData" hidden>
+          <label for="" id="enlaceName">Enlace a: </label>
+          <select id="salasDisponible" class="form-control pb-2">
+          </select>
+          <button id="guardarEnlace" class="btn btn-block btn-success" type="button" >Guardar</button>
+        </form>
+
+      </div>
+      
+      <div class="col-12 col-sm-3 m-0 p-0 infoData mt-5 ml-5" hidden>
+        <div class="divImagenes mt-3">
+          <label for="">Imagenes: </label>
+          <div id="allImagenes">
+ 
+          </div>
+          <!-- <input id="imagenes" placeholder="Imagenes" class="form-control"/> -->
+          <input id="imagenesUpload" type="file" placeholder="Imagenes" class="form-control" multiple/>
+          <button id="guardarImagenes" class="btn btn-success" type="button" >Guardar</button>
+          <button id="deleteImagenes" class="btn btn-danger" type="button" >Eliminar todas</button>
+
+          <img id="showingImage" src="" alt="" width="100%" hidden>
+        </div>
+        
+        
+
+        <div class="mt-3">
+          <label for="">Objeto 3D: </label>
+          <label id="objetoName">Objeto 3D: </label>
+          <input id="objeto3DUpload" accept="application/x-tgif" type="file" placeholder="Imagenes" class="form-control"/>
+          <button id="guardarObjeto" class="btn btn-success" type="button" >Guardar</button>
+          <button id="deleteObjeto" class="btn btn-danger" type="button" >Eliminar todas</button>
+        </div>
+      </div>
+
+    </div>
+
+    <script src="../javascripts/client.bundle.js"></script>
+    <script>
+      // Initialize the React 360 application
+      React360.init(
+        '../javascripts/index.bundle.js',
+        document.getElementById('container'),
+        {
+          // assetRoot: 'static_assets/',
+          assetRoot: 'http://localhost:3000/static_assets/',
+        }
+      );
+    </script>
+  </body>
+</html>
+

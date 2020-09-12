@@ -19,6 +19,7 @@ var obrasRouter = require('./routes/obras');
 var comentariosRouter = require('./routes/comentarios');
 var usuariosRouter = require('./routes/usuarios');
 var visor3DRouter = require('./routes/visor3D');
+var enlacesRouter = require('./routes/enlaces');
 var crudMuseo = require('./routes/crudMuseo');
 var crudSalas = require('./routes/crudSalas');
 var adminsRouter = require('./routes/admins');
@@ -80,7 +81,7 @@ app.use(methodOverride("_method"));
 app.use('/', indexRouter);
 app.use('/museo', museoRouter);
 app.use('/salas', salasRouter);
-app.use('/obras', obrasRouter);
+
 app.use('/comentarios', comentariosRouter);
 app.use('/usuarios', usuariosRouter);
 app.use('/visor3D', visor3DRouter);
@@ -93,6 +94,8 @@ app.use(function (req, res, next) {
 });
 // Rutas Con Sesion (Editor Middleware)
 app.use('/editor', editorRouter);
+app.use('/obras', obrasRouter);
+app.use('/enlaces', enlacesRouter);
 app.use('/crudMuseo', crudMuseo);
 app.use('/crudSalas', crudSalas);
 app.use('/editor/usuarios', adminsRouter);

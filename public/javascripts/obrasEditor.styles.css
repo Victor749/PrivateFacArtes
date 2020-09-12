@@ -1,0 +1,25 @@
+
+.controller{
+    position:absolute;
+    left: 0;
+    top: 80;
+    z-index: 1;
+    background-color: rgba(255,255,255,0.5);
+    opacity: 0.4;
+    transition-property: opacity;
+    transition-duration: 0.3s;
+}
+
+.controller:hover{
+    opacity: 1;
+    
+}
+
+.labelEditorObra{
+    color: black;
+}
+
+.divImagenes{
+    border-bottom: 2px solid black;
+    padding-bottom: 50px;
+}

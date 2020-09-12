@@ -95,16 +95,19 @@ ALTER TABLE `museo` ADD INDEX `activo` (`activo`) USING BTREE;
 ALTER TABLE `usuarioadmin` ADD INDEX `super` (`super`) USING BTREE;
 ALTER TABLE `usuario` ADD INDEX `identificador` (`identificador`) USING BTREE;
 
+DELIMITER //
 CREATE TRIGGER `eliminarSala` AFTER DELETE ON `sala`
-FOR EACH ROW BEGIN
-    DECLARE x int;
+    FOR EACH ROW BEGIN
+DECLARE x int;
     SELECT `idSalaInicial` INTO x from `museo` where `idMuseo` = OLD.idMuseo;
     if x = OLD.idSala
     THEN
 	    UPDATE museo set idSalaInicial = null WHERE idMuseo = OLD.idMuseo;
     END IF;
 END
+//
 
+DELIMITER //
 CREATE TRIGGER `insertarSala` AFTER INSERT ON `sala`
  FOR EACH ROW BEGIN
 DECLARE x int;
@@ -114,3 +117,4 @@ DECLARE x int;
 	    	UPDATE museo set idSalaInicial = NEW.idSala WHERE museo.idMuseo = NEW.idMuseo;
     END IF;
 END
+//
