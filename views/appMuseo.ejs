@@ -14,17 +14,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <meta name="description" content="Museo Virtual de la Facultad de Artes de la Universidad de Cuenca.">
     <meta name="keywords" content="Museo, Virtual, Universidad, Cuenca, Facultad, Artes, UCuenca, MVUC">
-    <link rel="stylesheet" href="./src/styles/modal.styles.css"/>
-    <link rel="stylesheet" href="./src/styles/viewer.styles.css"/>
-    <link rel="stylesheet" href="./src/styles/button.styles.css"/>
-    <link rel="stylesheet" href="./src/styles/bootstrap.min.css"/>
-    <script src="./src/scripts/jquery-3.5.1.js" ></script>
-    <script src="./src/scripts/popper.min.js"></script>
-    <script src="./src/scripts/bootstrap.min.js"></script>
-    <script src="./src/scripts/jspdf/dist/jspdf.min.js"></script>
-    <script src="./src/scripts/catalogo.js"></script>
-    <script src="./src/scripts/menu.js"></script>
-    <script src="./src/scripts/comentarios.js"></script>
+    <link rel="stylesheet" href="/stylesheets/modal.styles.css"/>
+    <link rel="stylesheet" href="/stylesheets/viewer.styles.css"/>
+    <link rel="stylesheet" href="/stylesheets/button.styles.css"/>
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css"/>
+    <script src="/javascripts/jquery-3.5.1.js" ></script>
+    <script src="/javascripts/popper.min.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/jspdf/dist/jspdf.min.js"></script>
+    <script src="/javascripts/catalogo.js"></script>
+    <script src="/javascripts/menu.js"></script>
+    <script src="/javascripts/comentarios.js"></script>
     
   </head>
   <body>
@@ -99,7 +99,7 @@
                 <img src="/static_assets/chevron-circle-right-solid.svg" style="width: 7%;"
                   alt="chevron-circle-right-solid.svg" />&nbsp;&nbsp;Desplazar entre Ficha Museográfica / Video /
                 Comentarios</li>
-              <li><img src="/images/3DIcon.png" style="width: 9%;" alt="3DIcon.png" />&nbsp;&nbsp;Ver
+              <li><img src="/images/3Dicon.png" style="width: 9%;" alt="3Dicon.png" />&nbsp;&nbsp;Ver
                 Modelo 3D</li>
             </ul>
           </div>
@@ -110,11 +110,11 @@
       </div>
     </div>
     <!-- <script src="https://connect.facebook.net/en_US/fbinstant.6.2.js"></script> -->
-    <script src="./client.bundle.js"></script>
+    <script src="../javascripts/client.bundle.js"></script>
   <script>
     // Initialize the React 360 application
     React360.init(
-      'index.bundle.js',
+      '../javascripts/index.bundle.js',
       document.getElementById('container'),
       {
         //bridgeFile: 'NonBlobBridge.js',

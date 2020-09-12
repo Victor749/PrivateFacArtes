@@ -150,7 +150,7 @@ router.put('/coordinates/:idObra', middleware.estado, function(req, res){
   let posZ = req.body.z;
 
   let sql = `update obra set posX = ${posX}, posY = ${posY}, posZ = ${posZ} where idObra = '${req.params.idObra}'`;
-  console.log(sql);
+  //console.log(sql);
 
   connection.query(sql, function(error, results, fields){
     if(error){

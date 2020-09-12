@@ -56,7 +56,7 @@ router.get('/api/json', function (req, res) {
                        "temaCuratorial": "${salasResults[i].temaCuratorial}",
                        "tooltips": [`;
                // Consulta de Enlaces por Sala
-               let enlacesResults = await dbObj.executeQuery(`select enlace.idSalaDestino as idSalaDestino, enlace.posXIcono as posXIcono, 
+               let enlacesResults = await dbObj.executeQuery(`select enlace.idEnlace as idEnlace , enlace.idSalaDestino as idSalaDestino, enlace.posXIcono as posXIcono, 
                enlace.posYIcono as posYIcono, enlace.posZIcono as posZIcono, sala.temaCuratorial as temaCuratorial from enlace 
                join sala on enlace.idSalaDestino = sala.idSala where enlace.idSala = ${idSalaActual}`);
                for (let i = 0; i < enlacesResults.length; i++) {
@@ -65,7 +65,8 @@ router.get('/api/json', function (req, res) {
                      "rotationX": ${enlacesResults[i].posXIcono},
                      "rotationZ": ${enlacesResults[i].posZIcono},
                      "text": "${enlacesResults[i].temaCuratorial}",
-                     "linkedPhotoId": "ucmv-${enlacesResults[i].idSalaDestino}"
+                     "linkedPhotoId": "ucmv-${enlacesResults[i].idSalaDestino}",
+                     "idEnlace": "${enlacesResults[i].idEnlace}"
                   }`;
                   if (i !== enlacesResults.length - 1) {
                      json += `,`;
