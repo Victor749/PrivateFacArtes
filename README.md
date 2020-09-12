@@ -8,6 +8,7 @@ Además este repositorio contiene los archivos de configuración (como scripts S
 
 - NodeJS v12.18.3. 
 - NPM 6.14.6.
+- MySQL 10.5.5-MariaDB for Linux (x86_64)
 
 2. Pasos para Ejecutar
 
