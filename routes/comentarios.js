@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var connection = require('../connection');
 var debug = require('debug')('backendmuseovirtual:comentarios');
+var logger = require('../logger').child({ from: 'comentarios' });
 var mysql = require('mysql');
 
 router.post('/new', function(req, res){
@@ -19,6 +20,7 @@ router.post('/new', function(req, res){
     connection.query(sql_0, function(error0, results0, fields0){
         if(error0){
             debug(error0);
+            logger.error(error0);
             res.sendStatus(500);
         }else if(results0.length == 0){
             // debug(results0);
@@ -33,6 +35,7 @@ router.post('/new', function(req, res){
         connection.query(sql, function(error, results, fields){
             if(error){
                 debug(error);
+                logger.error(error);
                 res.sendStatus(500);
                 //return res.send(500);
             }
@@ -45,7 +48,7 @@ router.post('/new', function(req, res){
 });
 
 router.get('/getComentario/:idObra/:actual/:limit/:identifier', function(req, res){
-   console.log('in');
+   //console.log('in');
     // System.Threading.Thread.Sleep(4000);
     actual = parseInt(req.params.actual);
     limit = parseInt(req.params.limit);
@@ -56,6 +59,7 @@ router.get('/getComentario/:idObra/:actual/:limit/:identifier', function(req, re
       
     if (error) {
       debug(error);
+      logger.error(error);
       res.sendStatus(500);
     }else{
      /* finIndex = actual+limit;
@@ -86,6 +90,7 @@ router.put('/editComentario', function(req, res){
   connection.query(sql, function(error, result, fields){
     if(error){
       debug(error);
+      logger.error(error);
       res.sendStatus(500);
     }else{
       resultado = '{"estado":"done"}';
@@ -103,6 +108,7 @@ router.delete('/deleteComentario/:idComentario', function(req, res){
    connection.query(sql, function(error, result, fields){
      if(error){
        debug(error);
+       logger.error(error);
        res.sendStatus(500);
      }else{
        resultado = '{"estado":"done"}';
@@ -120,10 +126,16 @@ router.delete('/deleteComentario/:idComentario', function(req, res){
    connection.query(sql, function(error, result, fields){
      if(error){
        debug(error);
+       logger.error(error);
        res.sendStatus(500);
      }else{
        console.log(result);
-       res.send(result[0]);
+       if(result.length > 0 ){
+        res.send(result[0]);
+       }else{
+        res.sendStatus(500);
+       }
+       
      }
    });
       
