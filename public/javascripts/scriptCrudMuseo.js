@@ -32,7 +32,12 @@ function showMuseosAntiguos(){
                 info = '<a class="dropdown-item" href="#" onclick="return goMuseoEspecifico('+i+')">'+museos[i].nombreMuseo+'</a>';
                 $('#grupoMuseos').append(info);
             }
-        } else {
+        } else if(xhr.status == '401'){
+            $("#modal-sesion").modal();
+            $('#modal-sesion').on('hidden.bs.modal', function () {
+                window.location.replace("/editor");
+            });
+        }else {
             console.error(respuesta);
         }
     }
@@ -98,13 +103,13 @@ function validateMuseoInfo(){
     }else{
         //$('#mensajeError4').hide();
         if (validateNameMuseo()){
-            if((validateString($('#nombreMuseo').val()) && validateString($('#myfileAudio')[0].files[0].name))){
-                //$('#mensajeError7').hide();
+           if(validateString($('#nombreMuseo').val()) && ((museoSeleccionado == 'nuevo' && validateString($('#myfileAudio')[0].files[0].name)) || (museoSeleccionado!='nuevo' && $('#myfileAudio')[0].files.length>0 && validateString($('#myfileAudio')[0].files[0].name)) || (museoSeleccionado!='nuevo' && $('#myfileAudio')[0].files.length==0))){
                 return true;
             }else{
                 $('#mensajeError7').show();
                 return false;
             }
+            //return true;
         }else{
             return false;
         }
@@ -138,12 +143,22 @@ function validateNameMuseo(){
 
 function validateString(data){
     for (var i=0;i<data.length;i++){
-        if(data[i] == '\''){
+        if(data[i] == '\'' || data[i] == '"'){
             return false;
         }
     }
     return true;
 
+}
+
+function transformData(data){
+    dataA = '';
+    for(var i=0;i<data.length;i++){
+        if(data[i] != ' '){
+            dataA+=data[i];
+        }
+    }
+    return dataA;
 }
 
 function saveInfoMuseo(){
@@ -152,8 +167,9 @@ function saveInfoMuseo(){
         //console.log(document.getElementById('myfileAudio').files[0]);
         var data = new FormData();
         if($('#myfileAudio')[0].files.length>0){
-            data.append($('#nombreMuseo').val()+'-'+$('#myfileAudio')[0].files[0].name, $('#myfileAudio')[0].files[0]);
-            data.append('nombreArchivo', $('#nombreMuseo').val()+'-'+$('#myfileAudio')[0].files[0].name);
+            //console.log(transformData($('#nombreMuseo').val()),  $('#myfileAudio')[0].files[0].name.replace(' ', ''));
+            data.append(transformData($('#nombreMuseo').val())+'-'+$('#myfileAudio')[0].files[0].name.replace(' ', ''), $('#myfileAudio')[0].files[0]);
+            data.append('nombreArchivo', transformData($('#nombreMuseo').val())+'-'+$('#myfileAudio')[0].files[0].name.replace(' ', ''));
             data.append('estadoArchivo', 'nuevo');
         }else{
             if($('#nombreMuseo').val() != museoSeleccionado.nombreMuseo){
@@ -200,7 +216,12 @@ function saveInfoMuseo(){
                 cleanOldStuff('grupoMuseos');
                 showMuseosAntiguos();
                 $('#mensajeBien1').show();
-            } else {
+            } else if(xhr.status == '401'){
+                $("#modal-sesion").modal();
+                $('#modal-sesion').on('hidden.bs.modal', function () {
+                    window.location.replace("/editor");
+                });
+            }else{
                 alert('Ha ocurrido un error. Intentelo mas tarde.');
             }
         }
@@ -232,7 +253,12 @@ function accionDangerMuseo(){
                 showMuseosAntiguos();
                 $('#mensajeBien1').show();
                 museoSeleccionado = "nuevo";
-            } else {
+            } else if(xhr.status == '401'){
+                $("#modal-sesion").modal();
+                $('#modal-sesion').on('hidden.bs.modal', function () {
+                    window.location.replace("/editor");
+                });
+            }else{
                 alert('Ha ocurrido un error. Intentelo mas tarde.');
                 console.error(respuesta);
             }

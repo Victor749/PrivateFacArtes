@@ -91,12 +91,14 @@ create table enlace(
     FOREIGN KEY (idSalaDestino) REFERENCES sala(idSala) ON DELETE CASCADE
 );
 
+ALTER TABLE `museo` ADD INDEX `activo` (`activo`) USING BTREE;
+ALTER TABLE `usuarioadmin` ADD INDEX `super` (`super`) USING BTREE;
+ALTER TABLE `usuario` ADD INDEX `identificador` (`identificador`) USING BTREE;
 
-/*Si no funcionan, crear los triggers directamente en phpMyAdmin -> tabla sala -> menu:disparadores */
 DELIMITER //
 CREATE TRIGGER `eliminarSala` AFTER DELETE ON `sala`
-FOR EACH ROW BEGIN
-    DECLARE x int;
+    FOR EACH ROW BEGIN
+DECLARE x int;
     SELECT `idSalaInicial` INTO x from `museo` where `idMuseo` = OLD.idMuseo;
     if x = OLD.idSala
     THEN

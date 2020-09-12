@@ -2,8 +2,10 @@ var express = require('express');
 var router = express.Router();
 var connection = require('../connection');
 var debug = require('debug')('backendmuseovirtual:enlaces');
+var middleware = require('../middleware');
+var logger = require('../logger').child({ from: 'enlaces' });
 
-// Obtener todos los enlaces dada una obra
+// Obtener todos los enlaces dada una sala
 router.get('/all/api/json/:id_sala', function(req, res){
    
     let sql = `select * from enlace where idSala=${req.params.id_sala}`;
@@ -11,6 +13,7 @@ router.get('/all/api/json/:id_sala', function(req, res){
     connection.query(sql, function (error, results) {
         if (error) {
             debug(error);
+            logger.error(error);
             return res.sendStatus(500);
         }
         return res.send(results);
@@ -36,7 +39,7 @@ router.get('/all/api/json/:id_sala', function(req, res){
 
 // });
 
-router.put('/contenido/:idEnlace', function(req, res){
+router.put('/contenido/:idEnlace', middleware.estado ,function(req, res){
   debug(req.params);
   debug(req.body);
 
@@ -44,19 +47,20 @@ router.put('/contenido/:idEnlace', function(req, res){
   connection.query(sql, function(error, results, fields){
     if(error){
       debug(error);
+      logger.error(error);
       return res.sendStatus(500);
     }
     if(results.affectedRows == 0){
-      res.send('No este enlace');
+      return res.send('No este enlace');
     }else{
-      res.send('Se ha actualizado enlace correctamente');
+      return res.send('Se ha actualizado enlace correctamente');
     }
   });
 
   // res.send('HEYY UPDATING LINK REFERENCE');
 });
 
-router.put('/coordinates/:idEnlace', function(req, res){
+router.put('/coordinates/:idEnlace', middleware.estado, function(req, res){
     // debug("hola");
     debug(req.params);
     debug(req.body);
@@ -71,12 +75,13 @@ router.put('/coordinates/:idEnlace', function(req, res){
     connection.query(sql, function(error, results, fields){
       if(error){
         debug(error);
+        logger.error(error);
         return res.sendStatus(500);
       }
       if(results.affectedRows == 0){
-        res.send('No existe este enlace');
+        return res.send('No existe este enlace');
       }else{
-        res.send('Se ha actualizado el enlace');
+        return res.send('Se ha actualizado el enlace');
       }
     });
   
@@ -84,7 +89,7 @@ router.put('/coordinates/:idEnlace', function(req, res){
   
   });
 
-router.post('/new', function(req, res){
+router.post('/new', middleware.estado ,function(req, res){
   debug(req.body);
   debug(req.params);
 
@@ -95,18 +100,19 @@ router.post('/new', function(req, res){
   connection.query(sql, function(error, results, fields){
     if(error){
       debug(error);
+      logger.error(error);
       return res.sendStatus(500);
     }
     if(results.affectedRows == 0){
-      res.send('No pudo añadir el enlace');
+      return res.send('No pudo añadir el enlace');
     }else{
-      res.send('Se ha añadido el enlace correctamente');
+      return res.send('Se ha añadido el enlace correctamente');
     }
   });
   // res.send('MAKIN A NEW OBRA');
 });
 
-router.delete('/:idEnlace', function(req, res){
+router.delete('/:idEnlace', middleware.estado ,function(req, res){
   debug(req.body);
   debug(req.params);
 
@@ -114,13 +120,14 @@ router.delete('/:idEnlace', function(req, res){
   connection.query(sql, function(error, results, fields){
     if(error){
       debug(error);
+      logger.error(error);
       return res.sendStatus(500);
     }
     debug(results);
     if(results.affectedRows == 0){
-      res.send('No pudo eliminar este enlace');
+      return res.send('No pudo eliminar este enlace');
     }else{
-      res.send('Se ha eliminado su enlace correctamente');
+      return res.send('Se ha eliminado su enlace correctamente');
     }
   });
 

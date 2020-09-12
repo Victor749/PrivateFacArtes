@@ -2,13 +2,12 @@ var express = require('express');
 var router = express.Router();
 var connection = require('../connection');
 var debug = require('debug')('backendmuseovirtual:comentarios');
-
+var mysql = require('mysql');
+var logger = require('../logger').child({ from: 'comentarios' });
 
 router.post('/new', function(req, res){
-
     // debug(req.params);
     // debug(req.body);
-
     let today = new Date();
     let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
 
@@ -19,26 +18,30 @@ router.post('/new', function(req, res){
     connection.query(sql_0, function(error0, results0, fields0){
         if(error0){
             debug(error0);
-            res.sendStatus(500);
+            logger.error(error0);
+            return res.sendStatus(500);
         }else if(results0.length == 0){
             // debug(results0);
-            res.sendStatus(404);
+            return res.sendStatus(404);
         }
         // debug(results0);
         const { idUsuario } = results0[0];
         let sql = `insert into 
         comentario(idComentario, idUsuario, idObra, contenido, fecha) 
-        values(null, '${idUsuario}', ${idObra}, '${contenido}', '${date}')`;
+        values(null, '${idUsuario}', ${idObra}, ${mysql.escape(contenido)}, '${date}')`;
 
         connection.query(sql, function(error, results, fields){
             if(error){
                 debug(error);
-                res.sendStatus(500);
+                logger.error(error);
+                // debug('hey0');
+                return res.sendStatus(500);
                 //return res.send(500);
             }
-            // debug(results);
+            // debug('hey1');
+            
             //console.log(results);
-            res.send(results);
+            return res.send(results);
         });
     });
 
@@ -81,18 +84,18 @@ router.get('/getComentario/:idObra/:actual/:limit/:identifier', function(req, re
 router.put('/editComentario', function(req, res){
  // console.log(req.body.contenido);
   data = req.body;
-  let sql = `update comentario set fecha = '${data.fecha}', contenido = '${data.contenido}' where idComentario = ${data.idComentario}`;
+  let sql = `update comentario set fecha = '${data.fecha}', contenido = ${mysql.escape(data.contenido)} where idComentario = ${data.idComentario}`;
 
   connection.query(sql, function(error, result, fields){
     if(error){
       debug(error);
+      logger.error(error);
       res.sendStatus(500);
     }else{
       resultado = '{"estado":"done"}';
       res.send(resultado);
     }
-  });
-     
+  });  
 });
 
 router.delete('/deleteComentario/:idComentario', function(req, res){

@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var middleware = require('../middleware');
 var connection = require('../connection');
-var debug = require('debug')('backendmuseovirtual:crudMuseo');
+var debug = require('debug')('backendmuseovirtual:crudSalas');
 var mysql = require('mysql');
 var fs = require('fs');
 const multer = require('multer');
@@ -21,7 +21,7 @@ var storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-/* GET crud del museo. */
+/* GET crud de la sala. */
 router.get('/', middleware.pagina, function (req, res, next) {
     res.render('crudSalas', { title: 'Seccion Salas.'});
 });
@@ -40,12 +40,6 @@ router.get('/saveSalaInicial/:idMuseo/:idSala', /*middleware.estado,*/ function 
       });
 });
 
-//eliminar archivos antiguos.
-router.get('/deleteOldFiles/:oldFileName', middleware.estado, function (req, res, next) {
-    fs.unlinkSync('./public/static_assets/'+req.param.oldFileName);
-    console.log('here');
-    res.send('{"estado":"done"}');
-});
 
 router.post('/saveSala' , middleware.estado, upload.any(),  function (req, res) {
     var data = req.body;
@@ -56,7 +50,7 @@ router.post('/saveSala' , middleware.estado, upload.any(),  function (req, res) 
     console.log(rotacion);
     sql = ``;
     if(idSala == -1){
-        sql = `insert into sala(idSala, idMuseo, nombreImgFondo, rotacionInicial, temaCuratorial) values(null, ${idMuseo},null, ${rotacion}, '${tema}')`;
+        sql = `insert into sala(idSala, idMuseo, nombreImgFondo, rotacionInicial, temaCuratorial) values(null, ${idMuseo},null, ${rotacion}, ${mysql.escape(tema)})`;
     }else{
         //console.log(data);
         nuevoArchivo = data.nuevoArchivo;
@@ -64,7 +58,7 @@ router.post('/saveSala' , middleware.estado, upload.any(),  function (req, res) 
         if(nuevoArchivo == undefined){
             nuevoArchivo = data.antiguoFile;
         }
-        sql = `update sala set nombreImgFondo = '${nuevoArchivo}', rotacionInicial = ${rotacion} , temaCuratorial = '${tema}' where idSala = ${idSala}`;
+        sql = `update sala set nombreImgFondo = ${mysql.escape(nuevoArchivo)}, rotacionInicial = ${rotacion} , temaCuratorial = ${mysql.escape(tema)} where idSala = ${idSala}`;
 
     }
     //console.log(sql);
@@ -75,7 +69,7 @@ router.post('/saveSala' , middleware.estado, upload.any(),  function (req, res) 
         }else{
             //console.log('well', data);
             //console.log(result);
-            if(idSala!=-1 && data.nuevoArchivo!=data.antiguoFile){
+            if(idSala!=-1 && ( data.nuevoArchivo!==undefined) && data.nuevoArchivo!=data.antiguoFile){
               console.log('here');
               try{
                   fs.unlinkSync('./public/static_assets/'+data.antiguoFile);
@@ -95,7 +89,7 @@ router.put('/saveImage' , middleware.estado, upload.any(), function (req, res) {
     //console.log('saving image', data);
     idSala = data.idSala;
     nuevoArchivo = data.nuevoArchivo;
-    sql = `update sala set nombreImgFondo = '${nuevoArchivo}' where idSala=${idSala}`;
+    sql = `update sala set nombreImgFondo = ${mysql.escape(nuevoArchivo)} where idSala=${idSala}`;
     //console.log(sql);
     connection.query(sql, function(error, result, fields){
         if(error){

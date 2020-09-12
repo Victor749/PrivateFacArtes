@@ -8,10 +8,18 @@
     opacity: 0.4;
     transition-property: opacity;
     transition-duration: 0.3s;
+    user-select: none;
+}
+
+.controller  *{
+    user-select: none;
 }
 
 .controller:hover{
-    opacity: 1;
+    opacity: 1; 
+}
+
+#container{
     
 }
 

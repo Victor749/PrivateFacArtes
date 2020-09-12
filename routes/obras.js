@@ -6,6 +6,8 @@ var debug = require('debug')('backendmuseovirtual:obras');
 var path = require('path');
 var multer = require('multer');
 var fs = require('fs');
+var middleware = require('../middleware');
+var logger = require('../logger').child({ from: 'obras' });
 
 var storage = multer.diskStorage({
   destination: function (req, file, callback) {
@@ -20,8 +22,8 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage });
 
 /* GET Obras page. */
-router.get('/', function(req, res, next) {
-  res.render('obras', { title: 'Obras' });
+router.get('/', middleware.pagina ,function(req, res, next) {
+  res.redirect('/obras/edit');
 });
 
 // Obtener Información de una Obra
@@ -33,6 +35,7 @@ router.get('/api/json/:id_obra', function(req, res){
     
     if (error) {
       debug(error);
+      logger.error(error);
       res.sendStatus(500);
    }else if(results.length > 0){
       res.send(results[0]);
@@ -43,22 +46,38 @@ router.get('/api/json/:id_obra', function(req, res){
 
 });
 
-router.delete('/:idObra', function(req, res){
-  debug(req.body);
-  debug(req.params);
+router.delete('/:idObra', middleware.estado, function(req, res){
 
   let sql = `delete from obra where idObra=${req.params.idObra}`;
   connection.query(sql, function(error, results, fields){
     if(error){
       debug(error);
+      logger.error(error);
       return res.sendStatus(500);
     }
-    debug(results);
+    // debug(results);
     if(results.affectedRows == 0){
       res.send('No pudo eliminar esta obra');
     }else{
       res.send('Se ha eliminado su obra correctamente');
     }
+  });
+});
+
+//Obtener obras de una sala
+router.get('/api/getObras/:idSala', middleware.estado, function(req, res){
+   
+  let sql = `select * from obra where idSala=${req.params.idSala}`;
+  
+  connection.query(sql, function (error, results) {
+    
+    if (error) {
+      debug(error);
+      logger.error(error);
+      res.sendStatus(500);
+   }else{
+     res.send(results);
+   }
   });
 
 });
@@ -73,6 +92,7 @@ router.put('/contador/:id_obra', function(req, res){
   connection.query(sql, function(error, result, fields){
     if(error){
       debug(error);
+      logger.error(error);
       res.sendStatus(500);
     }else{
       // debug(result);
@@ -82,9 +102,10 @@ router.put('/contador/:id_obra', function(req, res){
 
       connection.query(sql_2, function(error2, results2, fields2){
         if(error2){
-          // debug(error2);
+          debug(error2);
+          logger.error(error);
           res.sendStatus(500);
-        }else{
+        }else if(results.length > 0){
           // debug(results2[0]);
           res.send(results2[0]);
         }
@@ -94,15 +115,13 @@ router.put('/contador/:id_obra', function(req, res){
 });
 
 
-router.get('/edit', function(req, res){
-
+router.get('/edit', middleware.pagina, function(req, res){
   res.render('indexEnlaces');
-
 });
 
 
 
-router.get('/all/api/json/:idSala', function(req, res){
+router.get('/all/api/json/:idSala', middleware.estado ,function(req, res){
 
   let sala = req.params.idSala;
 
@@ -112,7 +131,8 @@ router.get('/all/api/json/:idSala', function(req, res){
 
   connection.query(sql, function(error, results, fields){
     if(error){
-      debug(500);
+      debug(error);
+      logger.error(error);
       return res.sendStatus(500);
     }
     // debug(results);
@@ -121,7 +141,7 @@ router.get('/all/api/json/:idSala', function(req, res){
 
 });
 
-router.put('/coordinates/:idObra', function(req, res){
+router.put('/coordinates/:idObra', middleware.estado, function(req, res){
   // debug("hola");
   // debug(req.params);
   // debug(req.body);
@@ -136,6 +156,7 @@ router.put('/coordinates/:idObra', function(req, res){
   connection.query(sql, function(error, results, fields){
     if(error){
       debug(error);
+      logger.error(error);
       return res.sendStatus(500);
     }
     if(results.affectedRows == 0){
@@ -149,7 +170,7 @@ router.put('/coordinates/:idObra', function(req, res){
 
 });
 
-router.delete('/imagenes/:idObra', function(req, res){
+router.delete('/imagenes/:idObra', middleware.estado, function(req, res){
 
   debug('Holaaa');
 
@@ -158,6 +179,7 @@ router.delete('/imagenes/:idObra', function(req, res){
   connection.query(sql, function(error, results, fiedls){
     if(error){
       debug(error);
+      logger.error(error);
       return res.sendStatus(500);
     }
     if(results.length > 0){
@@ -173,6 +195,7 @@ router.delete('/imagenes/:idObra', function(req, res){
         connection.query(sql_1, function(error1, results1, fields1){
           if(error1){
             debug(error1);
+            logger.error(error1);
             return res.sendStatus(500);
           }
           if(results1.affectedRows == 0){
@@ -182,7 +205,8 @@ router.delete('/imagenes/:idObra', function(req, res){
           }
         });
       } catch(err) {
-        debug(error);
+        debug(err);
+        logger.error(err);
         return res.sendStatus(500);
       }
     }
@@ -192,7 +216,7 @@ router.delete('/imagenes/:idObra', function(req, res){
 
 });
 
-router.put('/imagenes/:idObra', upload.any(), function(req, res){
+router.put('/imagenes/:idObra', middleware.estado, upload.any(), function(req, res){
   
   // debug(req.params);
   // debug(req.body);
@@ -216,12 +240,13 @@ router.put('/imagenes/:idObra', upload.any(), function(req, res){
     connection.query(sql, function(error, results, fields){
       if(error){
         debug(error);
+        logger.error(error);
         return res.sendStatus(500);
       }
       if(results.affectedRows == 0){
-        res.send('No se añadio ninguna imagen');
+        return res.send('No se añadio ninguna imagen');
       }else{
-        res.send('Se ha actualizado las imagenes de las obras');
+        return res.send('Se ha actualizado las imagenes de las obras');
       }
     });
   }else{
@@ -230,12 +255,19 @@ router.put('/imagenes/:idObra', upload.any(), function(req, res){
   // res.send('HEY MEN, IMAGEEES');
 });
 
-router.put('/objeto3D/:idObra', upload.any() ,function(req, res){
+router.put('/objeto3D/:idObra', middleware.estado, upload.any() ,function(req, res){
 
   debug(req.files);
   debug(req.body);
-  let { filename } = req.files[0];
-  let { idObra } = req.params;
+  try{
+    let { filename } = req.files[0];
+    let { idObra } = req.params;
+  }catch(e){
+    debug(e);
+    logger.error(error);
+    return res.sendStatus(500);
+  }
+  
 
   let sql_0 = `update obra set obj = '${filename}' where idObra=${idObra}`;
 
@@ -243,19 +275,20 @@ router.put('/objeto3D/:idObra', upload.any() ,function(req, res){
   connection.query(sql_0, function(error_0, results_0, fields_0){
     if(error_0){
       debug(error_0);
+      logger.error(error_0);
       return res.sendStatus(500);
     }
     if(results_0.affectedRows == 0){
-      res.send('No se añadio ningun objeto 3D');
+      return res.send('No se añadio ningun objeto 3D');
     }else{
-      res.send('Se ha actualizado el objeto 3D correctamente');
+      return res.send('Se ha actualizado el objeto 3D correctamente');
       // fs.unlinkSync(path.join(__dirname, `../public/static_assets/${objetoActual}`));
     }
   });
 
 });
 
-router.delete('/objeto3D/:idObra', function(req, res){
+router.delete('/objeto3D/:idObra', middleware.estado, function(req, res){
   debug(req.files);
   debug(req.body);
 
@@ -266,6 +299,7 @@ router.delete('/objeto3D/:idObra', function(req, res){
   connection.query(sql, function(error, results, fiedls){
     if(error){
       debug(error);
+      logger.error(error);
       return res.sendStatus(500);
     }
     if(results.length > 0){
@@ -290,6 +324,7 @@ router.delete('/objeto3D/:idObra', function(req, res){
         });
       } catch(err) {
         debug(error);
+        logger.error(error);
         return res.sendStatus(500);
       }
     }
@@ -300,7 +335,7 @@ router.delete('/objeto3D/:idObra', function(req, res){
 
 
 
-router.put('/contenido/:idObra', function(req, res){
+router.put('/contenido/:idObra', middleware.estado, function(req, res){
 
   let { asignatura, ciclo , autor , titulo , genero , facebook , instagram , proyectoWeb , dimensiones , fechaProduccion , tutor , descripcion , youtube } = req.body;
 
@@ -321,42 +356,42 @@ router.put('/contenido/:idObra', function(req, res){
   connection.query(sql, function(error, results, fields){
     if(error){
       debug(error);
+      logger.error(error);
       return res.sendStatus(500);
     }
     if(results.affectedRows == 0){
-      res.send('No existe esa obra');
+      return res.send('No existe esa obra');
     }else{
-      res.send('Se ha actualizado la información de la obra');
+      return res.send('Se ha actualizado la información de la obra');
     }
   });
 
   // res.send('HEYYY MEEEN');
 
-
 });
 
-router.get('/file/:fileName', function(req, res){
-  debug(req.body);
-  debug(req.params);
-  try{
-    debug(process.env.PWD);
-    debug(process.cwd());
-    debug('Hola');
-    debug(path.join(__dirname, '../public/static_assets'));
-    debug('Hola');
-  }catch(e){
-    console.log(error);
-  }
+// router.get('/file/:fileName', middleware.estado, function(req, res){
+//   debug(req.body);
+//   debug(req.params);
+//   try{
+//     debug(process.env.PWD);
+//     debug(process.cwd());
+//     debug('Hola');
+//     debug(path.join(__dirname, '../public/static_assets'));
+//     debug('Hola');
+//   }catch(e){
+//     logger.error(e);
+//     console.log(error);
+//   }
   
+//   res.sendFile(path.join(__dirname, '../public/static_assets', 'activeA.png'), function(error){
+//     if(error){
+//       debug(error);
+//     }
+//   });
+// });
 
-  res.sendFile(path.join(__dirname, '../public/static_assets', 'activeA.png'), function(error){
-    if(error){
-      debug(error);
-    }
-  });
-});
-
-router.post('/new', function(req, res){
+router.post('/new', middleware.estado, function(req, res){
   debug(req.body);
   debug(req.params);
 
@@ -368,15 +403,15 @@ router.post('/new', function(req, res){
   connection.query(sql, function(error, results, fields){
     if(error){
       debug(error);
+      logger.error(error);
       return res.sendStatus(500);
     }
     if(results.affectedRows == 0){
-      res.send('No pudo añadir su obra');
+      return res.send('No pudo añadir su obra');
     }else{
-      res.send('Se ha añadido su obra correctamente');
+      return res.send('Se ha añadido su obra correctamente');
     }
   });
-
   // res.send('MAKIN A NEW OBRA');
 });
 
