@@ -105,7 +105,7 @@ router.put('/contador/:id_obra', function(req, res){
           debug(error2);
           logger.error(error);
           res.sendStatus(500);
-        }else if(results.length > 0){
+        }else if(results2.length > 0){
           // debug(results2[0]);
           res.send(results2[0]);
         }
@@ -118,7 +118,6 @@ router.put('/contador/:id_obra', function(req, res){
 router.get('/edit', middleware.pagina, function(req, res){
   res.render('indexEnlaces');
 });
-
 
 
 router.get('/all/api/json/:idSala', middleware.estado ,function(req, res){

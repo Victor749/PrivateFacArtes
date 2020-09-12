@@ -6,7 +6,7 @@ var logger = require('../logger').child({ from: 'index' });
 
 /* GET Index page. */
 router.get('/', function (req, res, next) {
-   res.render('index', { title: 'Index' });
+   res.render('appMuseo');
 });
 
 

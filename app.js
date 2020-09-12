@@ -39,6 +39,7 @@ var sess = {
   cookie: { maxAge: 28800000 }, // 8 horas
   store: new MemoryStore({
     checkPeriod: 28800000 // prune expired entries every 8h
+    // 28800000
   })
 }
 
