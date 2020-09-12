@@ -4,7 +4,9 @@ var router = express.Router();
 var middleware = require('../middleware');
 var connection = require('../connection');
 var debug = require('debug')('backendmuseovirtual:editorComentarios');
+var logger = require('../logger').child({ from: 'editorComentarios' });
 var mysql = require('mysql');
+
 
 /* GET editor. */
 router.get('/', middleware.pagina, function (req, res, next) {
@@ -20,7 +22,8 @@ router.get('/getComentarios/:idObra/:actual/:limit', middleware.estado, function
     connection.query(sql, function (error, results) {
       
     if (error) {
-      debug(error);
+      //debug(error);
+      logger.error(error);
       res.sendStatus(500);
     }else{
       res.send(results);
@@ -36,7 +39,8 @@ router.delete('/deleteComentario/:idComentario', middleware.estado,function(req,
    
      connection.query(sql, function(error, result, fields){
        if(error){
-         debug(error);
+         //debug(error);
+         logger.error(error);
          res.sendStatus(500);
        }else{
          resultado = '{"estado":"done"}';

@@ -3,6 +3,7 @@ var router = express.Router();
 var middleware = require('../middleware');
 var connection = require('../connection');
 var debug = require('debug')('backendmuseovirtual:crudSalas');
+var logger = require('../logger').child({ from: 'crudSalas' });
 var mysql = require('mysql');
 var fs = require('fs');
 const multer = require('multer');
@@ -31,7 +32,8 @@ router.get('/saveSalaInicial/:idMuseo/:idSala', /*middleware.estado,*/ function 
     sql = `update museo set idSalaInicial = ${req.params.idSala} where idMuseo = ${req.params.idMuseo}`;
     connection.query(sql, function(error, result, fields){
         if(error){
-          debug(error);
+          //debug(error);
+          logger.error(error);
           res.sendStatus(500);
         }else{
           //resultado = '{"estado":"done"}';
@@ -65,6 +67,7 @@ router.post('/saveSala' , middleware.estado, upload.any(),  function (req, res) 
     connection.query(sql, function(error, result, fields){
         if(error){
           //console.log(error);
+          logger.error(error);
           res.sendStatus(500);
         }else{
             //console.log('well', data);
@@ -74,7 +77,8 @@ router.post('/saveSala' , middleware.estado, upload.any(),  function (req, res) 
               try{
                   fs.unlinkSync('./public/static_assets/'+data.antiguoFile);
               }catch (e){
-                  console.log(e);
+                  //console.log(e);
+                  logger.error(e);
               }
               
               //console.log('here');
@@ -93,7 +97,8 @@ router.put('/saveImage' , middleware.estado, upload.any(), function (req, res) {
     //console.log(sql);
     connection.query(sql, function(error, result, fields){
         if(error){
-          debug(error);
+         // debug(error);
+         logger.error(error);
           res.sendStatus(500);
         }else{
           resultado = '{"estado":"done"}';
@@ -116,15 +121,17 @@ router.delete('/deleteSala', middleware.estado, function(req, res){
    
     connection.query(sql, function(error, result, fields){
        if(error){
-         debug(error);
+         //debug(error);
+         logger.error(error);
          res.sendStatus(500);
        }else{
         if(data.nombreArchivo != null){
           try{
             fs.unlinkSync('./public/static_assets/'+data.nombreArchivo);
-            console.log('over here');
+           // console.log('over here');
           }catch(e){
-            console.log(e);
+            //console.log(e);
+            logger.error(e);
           }
          
         }

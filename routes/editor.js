@@ -7,6 +7,7 @@ var mysql = require('mysql');
 var { google } = require('googleapis');
 var OAuth2 = google.auth.OAuth2;
 var axios = require('axios');
+var logger = require('../logger').child({ from: 'editor' });
 
 var oauth2Credentials = {
     client_id: "161525782471-43khneealveoa5vdqiv9b5pc3ofppod9.apps.googleusercontent.com",
@@ -32,7 +33,13 @@ var loginLink = oauth2Client.generateAuthUrl({
 
 /* GET Editor Login page. */
 router.get('/', middleware.isLogueado, function (req, res, next) {
-    res.render('editor', { title: 'Editor Museo Virtual - Facultad de Artes | Universidad de Cuenca', loginLink: loginLink, show_alert: false });
+    let mail = '';
+    let show_alert = false;
+    if (req.query.mail) {
+        mail = req.query.mail;
+        show_alert = true;
+    }
+    res.render('editor', { title: 'Editor Museo Virtual - Facultad de Artes | Universidad de Cuenca', loginLink: loginLink, show_alert: show_alert, mail: mail });
 });
 
 /* GET Editor Inicio page. */
@@ -44,40 +51,52 @@ router.get('/inicio', middleware.pagina, function (req, res, next) {
 router.get('/login', function (req, res, next) {
     if (req.query.error) {
         debug(error);
+        logger.error(error);
         return res.redirect('/editor');
     } else {
-        oauth2Client.getToken(req.query.code, function (err, token) {
-            if (err) {
-                debug(err);
-                return res.redirect('/editor');
-            }
-            axios({
-                url: 'https://www.googleapis.com/oauth2/v2/userinfo',
-                method: 'get',
-                headers: {
-                    Authorization: `Bearer ${token.access_token}`,
-                },
-            }).then(function (response) {
-                let userInformation = response.data;
-                let sql = `select idAdmin from usuarioadmin where correo = ${mysql.escape(userInformation.email)}`;
-                connection.query(sql, function (error, results) {
-                    if (error) {
-                        debug(error);
-                        res.sendStatus(500);
-                    } else {
-                        if (results.length !== 0) {
-                            req.session.idAdmin = results[0].idAdmin;
-                            req.session.user = userInformation.email;
-                            req.session.photo = userInformation.picture;
-                            req.session.admin = true;
-                            res.redirect('/editor/inicio');
+        if (req.query.code) {
+            oauth2Client.getToken(req.query.code, function (err, token) {
+                if (err) {
+                    debug(err);
+                    logger.error(err);
+                    return res.redirect('/editor');
+                }
+                axios({
+                    url: 'https://www.googleapis.com/oauth2/v2/userinfo',
+                    method: 'get',
+                    headers: {
+                        Authorization: `Bearer ${token.access_token}`,
+                    },
+                }).then(function (response) {
+                    let userInformation = response.data;
+                    let sql = `select idAdmin from usuarioadmin where correo = ${mysql.escape(userInformation.email)}`;
+                    connection.query(sql, function (error, results) {
+                        if (error) {
+                            debug(error);
+                            logger.error(error);
+                            res.redirect('/editor');
                         } else {
-                            res.render('editor', { title: 'Editor - Museo Virtual Facultad de Artes (Universidad de Cuenca)', loginLink: loginLink, show_alert: true });
+                            if (results.length !== 0) {
+                                req.session.idAdmin = results[0].idAdmin;
+                                req.session.user = userInformation.email;
+                                req.session.photo = userInformation.picture;
+                                req.session.admin = true;
+                                res.redirect('/editor/inicio');
+                            } else {
+                                res.redirect(`/editor?mail=${userInformation.email}`);
+                            }
                         }
-                    }
+                    });
+                })
+                .catch(function (error) {
+                    debug(error);
+                    logger.error(error);
+                    res.redirect('/editor');
                 });
             });
-        });
+        } else {
+            return res.redirect('/editor');
+        }
     }
 });
 

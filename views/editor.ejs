@@ -26,9 +26,8 @@
       <h3 style="color: whitesmoke;">Facultad de Artes - Universidad de Cuenca</h3>
     </div>
     <% if (show_alert) { %>
-    <div class="alert alert-dismissible alert-danger">
-      <button type="button" class="close" data-dismiss="alert">&times;</button>
-      <strong>La cuenta especificada no está autorizada para usar el Editor MVUC.</strong>
+    <div class="alert alert-danger">
+      <strong>La cuenta <b><%= mail %></b> no está autorizada para usar el Editor MVUC.</strong>
     </div>
     <br />
     <% } %>

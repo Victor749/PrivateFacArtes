@@ -16,8 +16,9 @@
   <%- include('navbar.ejs') %>
   <div class="container pt-4 pb-4">
     <h1><%= title %></h1>
-    <p>En esta sección se pueden agregar o eliminar usuarios que pueden cambiar el contenido del museo y agregar o
+    <p class="text-justify">En esta sección se pueden agregar o eliminar usuarios que pueden cambiar el contenido del museo y agregar o
       eliminar a otros usuarios. Ingrese usuarios confiables unicamente. El único usuario que no puede ser eliminado por ningún otro es el Super Usuario.
+      Puede agregrar cuentas de correo Gmail con dominio: @gmail.com, @ucuenca.edu.ec, etc.
     </p>
     <br />
     <form action="/editor/usuarios/agregar" method="POST">

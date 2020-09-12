@@ -1,5 +1,6 @@
 var connection = require('../connection');
 var debug = require('debug')('backendmuseovirtual:middleware');
+var logger = require('../logger').child({ from: 'middleware' });
 
 let middleware = {};
 
@@ -11,6 +12,7 @@ middleware.pagina = function (req, res, next) {
         connection.query(sql, function (error, results) {
             if (error) {
                 debug(error);
+                logger.error(error);
                 return res.sendStatus(500);
             } else {
                 if (results.length !== 0) {
@@ -34,6 +36,7 @@ middleware.estado = function (req, res, next) {
         connection.query(sql, function (error, results) {
             if (error) {
                 debug(error);
+                logger.error(error);
                 return res.sendStatus(500);
             } else {
                 if (results.length !== 0) {
@@ -57,6 +60,7 @@ middleware.isLogueado = function (req, res, next) {
         connection.query(sql, function (error, results) {
             if (error) {
                 debug(error);
+                logger.error(error);
                 return res.sendStatus(500);
             } else {
                 if (results.length !== 0) {

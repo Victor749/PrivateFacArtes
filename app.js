@@ -85,7 +85,6 @@ app.use('/salas', salasRouter);
 app.use('/comentarios', comentariosRouter);
 app.use('/usuarios', usuariosRouter);
 app.use('/visor3D', visor3DRouter);
-app.use('/enlaces', enlacesRouter);
 // Sesion Para Editor
 app.use(session(sess));
 app.use(function (req, res, next) {
