@@ -120,7 +120,6 @@ router.get('/edit', middleware.pagina, function(req, res){
 });
 
 
-
 router.get('/all/api/json/:idSala', middleware.estado ,function(req, res){
 
   let sala = req.params.idSala;

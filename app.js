@@ -2,7 +2,7 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var logger = require('morgan');
-var cors = require('cors');
+// var cors = require('cors');
 var methodOverride = require("method-override");
 var session = require('express-session');
 // Almacenamiento de sesion en memoria que previene leaks. Se considera 
@@ -39,6 +39,7 @@ var sess = {
   cookie: { maxAge: 28800000 }, // 8 horas
   store: new MemoryStore({
     checkPeriod: 28800000 // prune expired entries every 8h
+    // 28800000
   })
 }
 
@@ -66,7 +67,7 @@ if (app.get('env') === 'production') {
 }
 
 
-app.use(cors({ origin: process.env.ORIGIN_SITE }));
+// app.use(cors({ origin: process.env.ORIGIN_SITE }));
 app.use(
   helmet({
     contentSecurityPolicy: false,

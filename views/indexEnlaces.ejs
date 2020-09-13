@@ -168,15 +168,34 @@
 
     </div>
 
-    <script src="../javascripts/client.bundle.js"></script>
+    <div class="modal" id="modal-sesion">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Sesión Expirada</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Su tiempo de sesión expiró. Vuelva a Iniciar Sesión.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../javascripts/clientEnlaces.bundle.js"></script>
     <script>
       // Initialize the React 360 application
       React360.init(
-        '../javascripts/index.bundle.js',
+        '../javascripts/indexEnlaces.bundle.js',
         document.getElementById('container'),
         {
           // assetRoot: 'static_assets/',
-          assetRoot: 'http://localhost:3000/static_assets/',
+          assetRoot: '/static_assets/',
         }
       );
     </script>
