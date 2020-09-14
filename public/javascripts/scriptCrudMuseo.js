@@ -95,26 +95,32 @@ function cleanOldInfoMuseo(){
 
 function validateMuseoInfo(){
     hideStuff();
-    if($('#nombreMuseo').val() == '' || (museoSeleccionado == 'nuevo' && $('#myfileAudio')[0].files.length==0)){
-        $('#mensajeError4').show();
-        //$('#mensajeError5').hide();
-        
-        return false;
-    }else{
-        //$('#mensajeError4').hide();
-        if (validateNameMuseo()){
-           if(validateString($('#nombreMuseo').val()) && ((museoSeleccionado == 'nuevo' && validateString($('#myfileAudio')[0].files[0].name)) || (museoSeleccionado!='nuevo' && $('#myfileAudio')[0].files.length>0 && validateString($('#myfileAudio')[0].files[0].name)) || (museoSeleccionado!='nuevo' && $('#myfileAudio')[0].files.length==0))){
-                return true;
+    if($('#nombreMuseo').val().trim() != ''){
+        if($('#nombreMuseo').val() == '' || (museoSeleccionado == 'nuevo' && $('#myfileAudio')[0].files.length==0)){
+            $('#mensajeError4').show();
+            //$('#mensajeError5').hide();
+            
+            return false;
+        }else{
+            //$('#mensajeError4').hide();
+            if (validateNameMuseo()){
+               if(validateString($('#nombreMuseo').val()) && ((museoSeleccionado == 'nuevo' && validateString($('#myfileAudio')[0].files[0].name)) || (museoSeleccionado!='nuevo' && $('#myfileAudio')[0].files.length>0 && validateString($('#myfileAudio')[0].files[0].name)) || (museoSeleccionado!='nuevo' && $('#myfileAudio')[0].files.length==0))){
+                    return true;
+                }else{
+                    $('#mensajeError7').show();
+                    return false;
+                }
+                //return true;
             }else{
-                $('#mensajeError7').show();
                 return false;
             }
-            //return true;
-        }else{
-            return false;
+            
         }
-        
+    }else{
+        $('#mensajeError4').show();
+        return false;
     }
+    
 }
 
 function validateNameMuseo(){

@@ -145,21 +145,27 @@ function goSalaEspecifica(posicion){
 }
 
 function validarData(){
-    if($('#temaCuratorial').val() == '' || (salaEspecifica == 'nuevo' && $('#myfileImagen')[0].files.length==0)){
+    if($('#temaCuratorial').val().trim() != ''){
+
+        if($('#temaCuratorial').val() == '' || (salaEspecifica == 'nuevo' && $('#myfileImagen')[0].files.length==0)){
+            $('#mensajeError1').show();
+            return false;
+        }else{
+            temaC = $('#temaCuratorial').val();
+        // nameFile = $('#myfileImagen')[0].files[0].name;
+            $('#mensajeError1').hide();//validateString(nameFile)
+            if(validateString(temaC) && ((salaEspecifica == 'nuevo' && validateString($('#myfileImagen')[0].files[0].name)) || (salaEspecifica!='nuevo' && $('#myfileImagen')[0].files.length>0 && validateString($('#myfileImagen')[0].files[0].name)) || (salaEspecifica!='nuevo' && $('#myfileImagen')[0].files.length==0))){
+                $('#mensajeError3').hide();
+                return true;
+            }else{
+                $('#mensajeError3').show();
+                return false;
+            }
+            //return true;
+        }
+    }else{
         $('#mensajeError1').show();
         return false;
-    }else{
-        temaC = $('#temaCuratorial').val();
-       // nameFile = $('#myfileImagen')[0].files[0].name;
-        $('#mensajeError1').hide();//validateString(nameFile)
-        if(validateString(temaC) && ((salaEspecifica == 'nuevo' && validateString($('#myfileImagen')[0].files[0].name)) || (salaEspecifica!='nuevo' && $('#myfileImagen')[0].files.length>0 && validateString($('#myfileImagen')[0].files[0].name)) || (salaEspecifica!='nuevo' && $('#myfileImagen')[0].files.length==0))){
-            $('#mensajeError3').hide();
-            return true;
-        }else{
-            $('#mensajeError3').show();
-            return false;
-        }
-        //return true;
     }
 }
 

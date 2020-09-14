@@ -157,6 +157,7 @@ function cargarC(){
                 $('#mensajeError2').show();
                 $('#mensajeError1').hide();
             }else{
+                console.log('here');
                 $('#btnCargar').show();
                 actual+=limit;
             }

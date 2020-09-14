@@ -259,15 +259,16 @@ router.put('/objeto3D/:idObra', middleware.estado, upload.any() ,function(req, r
   debug(req.files);
   debug(req.body);
   try{
-    let { filename } = req.files[0];
-    let { idObra } = req.params;
+    var { filename } = req.files[0];
+    var { idObra } = req.params;
   }catch(e){
+    console.log('entro al error');
     debug(e);
     logger.error(error);
     return res.sendStatus(500);
   }
   
-
+  console.log('afuera', filename, idObra);
   let sql_0 = `update obra set obj = '${filename}' where idObra=${idObra}`;
 
   debug(sql_0);

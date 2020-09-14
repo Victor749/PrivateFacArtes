@@ -42,7 +42,6 @@ router.get('/saveSalaInicial/:idMuseo/:idSala', /*middleware.estado,*/ function 
       });
 });
 
-
 router.post('/saveSala' , middleware.estado, upload.any(),  function (req, res) {
     var data = req.body;
     idSala = data.idSala;
