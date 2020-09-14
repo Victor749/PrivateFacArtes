@@ -60,11 +60,11 @@ router.delete('/:idObra', middleware.estado, function(req, res){
       objeto3D = results[0].obj;
       imagenes = results[0].imagenes.split(';');
       imagenes = imagenes.filter(item => item !== '');
-      debug(imagenes);
+      // debug(imagenes);
       try {
         for(let i = 0; i<imagenes.length; i++){
           fs.unlinkSync(path.join(__dirname, `../public/static_assets/${imagenes[i]}`));
-          debug('AQUI');
+          // debug('AQUI');
         }
         if(objeto3D != null && objeto3D != ''){
           fs.unlinkSync(path.join(__dirname, `../public/static_assets/${objeto3D}`));
@@ -201,7 +201,7 @@ router.put('/coordinates/:idObra', middleware.estado, function(req, res){
 
 router.delete('/imagenes/:idObra', middleware.estado, function(req, res){
 
-  debug('Holaaa');
+  // debug('Holaaa');
 
   let sql = `select imagenes from obra where idObra = ${req.params.idObra}`;
 
@@ -214,11 +214,11 @@ router.delete('/imagenes/:idObra', middleware.estado, function(req, res){
     if(results.length > 0){
       imagenes = results[0].imagenes.split(';');
       imagenes = imagenes.filter(item => item !== '');
-      debug(imagenes);
+      // debug(imagenes);
       try {
         for(let i = 0; i<imagenes.length; i++){
           fs.unlinkSync(path.join(__dirname, `../public/static_assets/${imagenes[i]}`));
-          debug('AQUI');
+          // debug('AQUI');
         }
         let sql_1 = `update obra set imagenes = '' where idObra = ${req.params.idObra}`;
         connection.query(sql_1, function(error1, results1, fields1){
@@ -265,7 +265,7 @@ router.put('/imagenes/:idObra', middleware.estado, upload.any(), function(req, r
 
   if(imagenes != ''){
     let sql = `update obra set imagenes = CONCAT(imagenes, '${imagenes}') where idObra='${req.params.idObra}'`;
-    debug(sql);
+    // debug(sql);
     connection.query(sql, function(error, results, fields){
       if(error){
         debug(error);
@@ -286,23 +286,23 @@ router.put('/imagenes/:idObra', middleware.estado, upload.any(), function(req, r
 
 router.put('/objeto3D/:idObra', middleware.estado, upload.any() ,function(req, res){
 
-  debug(req.files);
-  debug(req.body);
+  // debug(req.files);
+  // debug(req.body);
   
   try{
     var { filename } = req.files[0];
     var { idObra } = req.params;
   }catch(e){
-    console.log('entro al error');
+    // console.log('entro al error');
     debug(e);
     logger.error(error);
     return res.sendStatus(500);
   }
   
-  console.log('afuera', filename, idObra);
+  // console.log('afuera', filename, idObra);
   let sql_0 = `update obra set obj = '${filename}' where idObra=${idObra}`;
 
-  debug(sql_0);
+  // debug(sql_0);
   connection.query(sql_0, function(error_0, results_0, fields_0){
     if(error_0){
       debug(error_0);
@@ -320,10 +320,10 @@ router.put('/objeto3D/:idObra', middleware.estado, upload.any() ,function(req, r
 });
 
 router.delete('/objeto3D/:idObra', middleware.estado, function(req, res){
-  debug(req.files);
-  debug(req.body);
+  // debug(req.files);
+  // debug(req.body);
 
-  debug('Holaaa');
+  // debug('Holaaa');
 
   let sql = `select obj from obra where idObra = ${req.params.idObra}`;
 
@@ -335,7 +335,7 @@ router.delete('/objeto3D/:idObra', middleware.estado, function(req, res){
     }
     if(results.length > 0){
       objeto = results[0].obj; 
-      debug(objeto);
+      // debug(objeto);
 
       try {
         
@@ -368,11 +368,11 @@ router.delete('/objeto3D/:idObra', middleware.estado, function(req, res){
 
 router.put('/contenido/:idObra', middleware.estado, function(req, res){
 
-  let { asignatura, ciclo , autor , titulo , genero , facebook , instagram , proyectoWeb , dimensiones , fechaProduccion , tutor , descripcion , youtube } = req.body;
+  let { asignatura, ciclo , autor , titulo , genero , facebook , instagram , proyectoWeb , dimensiones , fechaProduccion , tutor , descripcion , youtube, tecnica } = req.body;
 
-  debug(req.params);
-  debug(req.body);
-  debug(req.files);
+  // debug(req.params);
+  // debug(req.body);
+  // debug(req.files);
 
   ciclo = Number(ciclo);
   if(isNaN(ciclo) || ciclo == 0){
@@ -380,9 +380,9 @@ router.put('/contenido/:idObra', middleware.estado, function(req, res){
   }
 
 
-  let sql = `update obra set  asignatura = '${asignatura}', ciclo = ${ciclo},  autor = '${autor}', titulo = '${titulo}', genero = '${genero}', facebook = '${facebook}', instagram = '${instagram}', proyectoWeb = '${proyectoWeb}', dimensiones = '${dimensiones}', fechaProduccion = '${fechaProduccion}', tutor = '${tutor}', descripcion = '${descripcion}', linkVideoYoutube = '${youtube}' where idObra = ${req.params.idObra}`;
+  let sql = `update obra set  asignatura = '${asignatura}', ciclo = ${ciclo},  autor = '${autor}', titulo = '${titulo}', genero = '${genero}', facebook = '${facebook}', instagram = '${instagram}', proyectoWeb = '${proyectoWeb}', dimensiones = '${dimensiones}', fechaProduccion = '${fechaProduccion}', tutor = '${tutor}', descripcion = '${descripcion}', linkVideoYoutube = '${youtube}', tecnica = '${tecnica}' where idObra = ${req.params.idObra}`;
 
-  debug(sql);
+  // debug(sql);
 
   connection.query(sql, function(error, results, fields){
     if(error){
@@ -423,8 +423,8 @@ router.put('/contenido/:idObra', middleware.estado, function(req, res){
 // });
 
 router.post('/new', middleware.estado, function(req, res){
-  debug(req.body);
-  debug(req.params);
+  // debug(req.body);
+  // debug(req.params);
 
   let museo = req.body.museo;
   let sala = req.body.sala;

@@ -40,8 +40,8 @@ router.get('/all/api/json/:id_sala', function(req, res){
 // });
 
 router.put('/contenido/:idEnlace', middleware.estado ,function(req, res){
-  debug(req.params);
-  debug(req.body);
+  // debug(req.params);
+  // debug(req.body);
 
   let sql = `update enlace set idSalaDestino = ${req.body.sala} where idEnlace = ${req.params.idEnlace}`;
   connection.query(sql, function(error, results, fields){
@@ -62,8 +62,8 @@ router.put('/contenido/:idEnlace', middleware.estado ,function(req, res){
 
 router.put('/coordinates/:idEnlace', middleware.estado, function(req, res){
     // debug("hola");
-    debug(req.params);
-    debug(req.body);
+    // debug(req.params);
+    // debug(req.body);
   
     let posX = req.body.x;
     let posY = req.body.y;
@@ -90,8 +90,8 @@ router.put('/coordinates/:idEnlace', middleware.estado, function(req, res){
   });
 
 router.post('/new', middleware.estado ,function(req, res){
-  debug(req.body);
-  debug(req.params);
+  // debug(req.body);
+  // debug(req.params);
 
   let sala = req.body.sala;
 
@@ -113,8 +113,8 @@ router.post('/new', middleware.estado ,function(req, res){
 });
 
 router.delete('/:idEnlace', middleware.estado ,function(req, res){
-  debug(req.body);
-  debug(req.params);
+  // debug(req.body);
+  // debug(req.params);
 
   let sql = `delete from enlace where idEnlace=${req.params.idEnlace}`;
   connection.query(sql, function(error, results, fields){
@@ -123,7 +123,7 @@ router.delete('/:idEnlace', middleware.estado ,function(req, res){
       logger.error(error);
       return res.sendStatus(500);
     }
-    debug(results);
+    // debug(results);
     if(results.affectedRows == 0){
       return res.send('No pudo eliminar este enlace');
     }else{

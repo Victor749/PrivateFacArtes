@@ -27,3 +27,11 @@
     border-bottom: 2px solid black;
     padding-bottom: 50px;
 }
+
+#btnEliminar{
+    width: 70%;
+}
+
+#btnAnadir{
+    width: 30%;
+}
