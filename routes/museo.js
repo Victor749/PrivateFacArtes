@@ -5,11 +5,6 @@ var dbObj = require('../connection/sync');
 var debug = require('debug')('backendmuseovirtual:museo');
 var logger = require('../logger').child({ from: 'museo' });
 
-/* GET Museo page. */
-router.get('/', function (req, res, next) {
-   res.render('museo', { title: 'Museo' });
-});
-
 // Obtener estructura del Museo Activo en Formato JSON
 router.get('/api/json', function (req, res) {
    async function start() {
