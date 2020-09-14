@@ -129,7 +129,7 @@ function buscarComentarios(){
 
 function cargarC(){
     idObra = obraSeleccionada.idObra;
-    var url  = "http://localhost:3000/editorComentarios/getComentarios/"+idObra+'/'+actual+'/'+limit;
+    var url  = "/editorComentarios/getComentarios/"+idObra+'/'+actual+'/'+limit;
     var xhr  = new XMLHttpRequest()
     xhr.open('GET', url, true)
     xhr.onload = function () {
