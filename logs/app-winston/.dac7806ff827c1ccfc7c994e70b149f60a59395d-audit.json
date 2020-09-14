@@ -9,6 +9,11 @@
             "date": 1599760400948,
             "name": "logs\\app-winston\\app-errors-2020-09-10.log",
             "hash": "8b4342d2443e46b9352b29960bb4b2fa"
+        },
+        {
+            "date": 1599937593655,
+            "name": "logs\\app-winston\\app-errors-2020-09-12.log",
+            "hash": "7cda220e448c6a0c5fbf7160a1d6de40"
         }
     ]
 }
