@@ -48,20 +48,50 @@ router.get('/api/json/:id_obra', function(req, res){
 
 router.delete('/:idObra', middleware.estado, function(req, res){
 
-  let sql = `delete from obra where idObra=${req.params.idObra}`;
-  connection.query(sql, function(error, results, fields){
+  let sql = `select imagenes, obj from obra where idObra = ${req.params.idObra}`;
+
+  connection.query(sql, function(error, results, fiedls){
     if(error){
       debug(error);
       logger.error(error);
       return res.sendStatus(500);
     }
-    // debug(results);
-    if(results.affectedRows == 0){
-      res.send('No pudo eliminar esta obra');
-    }else{
-      res.send('Se ha eliminado su obra correctamente');
+    if(results.length > 0){
+      objeto3D = results[0].obj;
+      imagenes = results[0].imagenes.split(';');
+      imagenes = imagenes.filter(item => item !== '');
+      debug(imagenes);
+      try {
+        for(let i = 0; i<imagenes.length; i++){
+          fs.unlinkSync(path.join(__dirname, `../public/static_assets/${imagenes[i]}`));
+          debug('AQUI');
+        }
+        if(objeto3D != null && objeto3D != ''){
+          fs.unlinkSync(path.join(__dirname, `../public/static_assets/${objeto3D}`));
+        }
+        let sql_1 = `delete from obra where idObra=${req.params.idObra}`;
+        connection.query(sql_1, function(error_1, results_1, fields_1){
+          if(error_1){
+            debug(error_1);
+            logger.error(error_1);
+            return res.sendStatus(500);
+          }
+          // debug(results);
+          if(results_1.affectedRows == 0){
+            res.send('No pudo eliminar esta obra');
+          }else{
+            res.send('Se ha eliminado su obra correctamente');
+          }
+        });
+      } catch(err) {
+        debug(err);
+        logger.error(err);
+        return res.sendStatus(500);
+      }
     }
   });
+
+  
 });
 
 //Obtener obras de una sala
@@ -258,9 +288,10 @@ router.put('/objeto3D/:idObra', middleware.estado, upload.any() ,function(req, r
 
   debug(req.files);
   debug(req.body);
+  
   try{
-    let { filename } = req.files[0];
-    let { idObra } = req.params;
+    var { filename } = req.files[0];
+    var { idObra } = req.params;
   }catch(e){
     debug(e);
     logger.error(error);
