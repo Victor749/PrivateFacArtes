@@ -2,7 +2,6 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var logger = require('morgan');
-// var cors = require('cors');
 var methodOverride = require("method-override");
 var session = require('express-session');
 // Almacenamiento de sesion en memoria que previene leaks. Se considera 
@@ -45,7 +44,7 @@ var sess = {
 
 if (app.get('env') === 'production') {
   // Poner la app NodeJS bajo un proxy reverso con NGINX por ejemplo cuando entre en produccion.
-  // El proxy debe implementar HTTPS (TLS) para almacenar las cookies de sesion de manera segura.
+  // El proxy debe implementar HTTPS (TLS/SSL) para almacenar las cookies de sesion de manera segura.
   // Comentar esta porcion de codigo en caso de que no funcione de manera correcta.
   if (process.env.PROXY_SEGURO === 'yes') {
     app.set('trust proxy', 1) // trust first proxy
@@ -67,7 +66,6 @@ if (app.get('env') === 'production') {
 }
 
 
-// app.use(cors({ origin: process.env.ORIGIN_SITE }));
 app.use(
   helmet({
     contentSecurityPolicy: false,
