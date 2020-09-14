@@ -30,7 +30,7 @@ function hideStuff(){
 
 function showMuseosAntiguos(){
     cleanOldStuff('museos');
-    var url  = "http://localhost:3000/crudMuseo/getMuseos";
+    var url  = "/crudMuseo/getMuseos";
     var xhr  = new XMLHttpRequest()
     xhr.open('GET', url, true)
     xhr.onload = function () {
@@ -67,7 +67,7 @@ function goMuseoEspecifico(posicion){
     cleanSalaInfo();
     cleanOldStuff('salas');
     cleanOldStuff('primeraSala');
-    var url  = "http://localhost:3000/salas/api/getSalas/"+museoSeleccionado.idMuseo;
+    var url  = "/salas/api/getSalas/"+museoSeleccionado.idMuseo;
     var xhr  = new XMLHttpRequest()
     xhr.open('GET', url, true)
     xhr.onload = function () {
@@ -102,7 +102,7 @@ function guardarPrimera(){
     idMuseo = museoSeleccionado.idMuseo;
     idSala = $("#primeraSala option:selected").attr('value');
     var xhr = new XMLHttpRequest();
-    xhr.open("GET", 'http://localhost:3000/crudSalas/saveSalaInicial/'+idMuseo+'/'+idSala, true);
+    xhr.open("GET", '/crudSalas/saveSalaInicial/'+idMuseo+'/'+idSala, true);
     xhr.onload = function () {
         if (xhr.readyState == 4 && xhr.status == "200") {
             $('#mensajeBien1').show();
@@ -205,7 +205,7 @@ function saveSala(){
         }
         data.append('idMuseo', museoSeleccionado.idMuseo);
         var xhr = new XMLHttpRequest();
-        xhr.open("POST", 'http://localhost:3000/crudSalas/saveSala', true);
+        xhr.open("POST", '/crudSalas/saveSala', true);
         xhr.onload = function () {
             if (xhr.readyState == 4 && xhr.status == "200") {
                 if(salaEspecifica == 'nuevo'){
@@ -239,7 +239,7 @@ function saveSala(){
 
 function saveImage(data){
     var xhr = new XMLHttpRequest();
-    xhr.open("PUT", 'http://localhost:3000/crudSalas/saveImage', true);
+    xhr.open("PUT", '/crudSalas/saveImage', true);
     xhr.onload = function () {
         if (xhr.readyState == 4 && xhr.status == "200") {
             $('#mensajeBien2').show();
@@ -269,7 +269,7 @@ function actionDangerSala(){
             var data = {};
             data.idSala = salaEspecifica.idSala;
             data.nombreArchivo = salaEspecifica.nombreImgFondo;
-            var url = "http://localhost:3000/crudSalas/deleteSala";
+            var url = "/crudSalas/deleteSala";
             var xhr = new XMLHttpRequest();
             xhr.open("DELETE", url, true);
             xhr.setRequestHeader('Content-type','application/json; charset=utf-8');

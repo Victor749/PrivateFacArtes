@@ -21,7 +21,7 @@ $(document).ready(function () {
 });
 
 function showMuseosAntiguos(){
-    var url  = "http://localhost:3000/crudMuseo/getMuseos";
+    var url  = "/crudMuseo/getMuseos";
     var xhr  = new XMLHttpRequest()
     xhr.open('GET', url, true)
     xhr.onload = function () {
@@ -210,7 +210,7 @@ function saveInfoMuseo(){
         //$('#audioActual2').val(data.);
         
         var xhr = new XMLHttpRequest();
-        xhr.open("POST", 'http://localhost:3000/crudMuseo/setMuseoInfo', true);
+        xhr.open("POST", '/crudMuseo/setMuseoInfo', true);
         xhr.onload = function () {
             if (xhr.readyState == 4 && xhr.status == "200") {
                 /*$('#audioActual').val(data.get('nombreArchivo'));
@@ -245,7 +245,7 @@ function accionDangerMuseo(){
     }else if($("#estadoMuseo option:selected").attr('value') == 1){
         $('#mensajeError6').show();
     }else{
-        var url = "http://localhost:3000/crudMuseo/deleteMuseo";
+        var url = "/crudMuseo/deleteMuseo";
         var xhr = new XMLHttpRequest();
         var data = {};
         data.idMuseo = museoSeleccionado.idMuseo;
