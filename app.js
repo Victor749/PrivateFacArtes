@@ -46,7 +46,7 @@ if (app.get('env') === 'production') {
   // Poner la app NodeJS bajo un proxy reverso con NGINX por ejemplo cuando entre en produccion.
   // El proxy debe implementar HTTPS (TLS/SSL) para almacenar las cookies de sesion de manera segura.
   // Comentar esta porcion de codigo en caso de que no funcione de manera correcta.
-  if (process.env.PROXY_SEGURO === 'yes') {
+  if (process.env.COOKIES_SEGURAS === 'yes') {
     app.set('trust proxy', 1) // trust first proxy
     sess.cookie.secure = true // serve secure cookies
   } else {
