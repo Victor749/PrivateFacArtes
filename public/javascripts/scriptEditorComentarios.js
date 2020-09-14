@@ -38,7 +38,7 @@ function cleanOldStuff(id){
 
 function getMuseos(){
     cleanOldStuff('museos');
-    var url  = "http://localhost:3000/crudMuseo/getMuseos";
+    var url  = "/crudMuseo/getMuseos";
     var xhr  = new XMLHttpRequest()
     xhr.open('GET', url, true)
     xhr.onload = function () {
@@ -67,7 +67,7 @@ function getMuseos(){
 function goMuseoEspecifico(posicion){
     museoSeleccionado = museos[posicion];
     cleanOldStuff('salas');
-    var url  = "http://localhost:3000/salas/api/getSalas/"+museoSeleccionado.idMuseo;
+    var url  = "/salas/api/getSalas/"+museoSeleccionado.idMuseo;
     var xhr  = new XMLHttpRequest()
     xhr.open('GET', url, true)
     xhr.onload = function () {
@@ -91,7 +91,7 @@ function goMuseoEspecifico(posicion){
 function goSalaEspecifica(posicion){
     salaSeleccionada = salas[posicion];
     cleanOldStuff('obras');
-    var url  = "http://localhost:3000/obras/api/getObras/"+salaSeleccionada.idSala;
+    var url  = "/obras/api/getObras/"+salaSeleccionada.idSala;
     var xhr  = new XMLHttpRequest()
     xhr.open('GET', url, true)
     xhr.onload = function () {
@@ -129,7 +129,7 @@ function buscarComentarios(){
 
 function cargarC(){
     idObra = obraSeleccionada.idObra;
-    var url  = "http://localhost:3000/editorComentarios/getComentarios/"+idObra+'/'+actual+'/'+limit;
+    var url  = "/editorComentarios/getComentarios/"+idObra+'/'+actual+'/'+limit;
     var xhr  = new XMLHttpRequest()
     xhr.open('GET', url, true)
     xhr.onload = function () {
@@ -178,7 +178,7 @@ function cargarC(){
 
 function eliminar(idComentario){
     console.log(idComentario);
-    var url = "http://localhost:3000/editorComentarios/deleteComentario/"+idComentario;
+    var url = "/editorComentarios/deleteComentario/"+idComentario;
     var xhr = new XMLHttpRequest();
     xhr.open("DELETE", url, true);
     xhr.onload = function () {
