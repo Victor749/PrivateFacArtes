@@ -28,7 +28,7 @@ router.get('/', middleware.pagina, function (req, res, next) {
 });
 
 /*Guardar la nueva sala inicial */
-router.get('/saveSalaInicial/:idMuseo/:idSala', /*middleware.estado,*/ function (req, res, next) {
+router.get('/saveSalaInicial/:idMuseo/:idSala', middleware.estado, function (req, res, next) {
     sql = `update museo set idSalaInicial = ${req.params.idSala} where idMuseo = ${req.params.idMuseo}`;
     connection.query(sql, function(error, result, fields){
         if(error){
