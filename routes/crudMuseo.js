@@ -123,6 +123,7 @@ router.post('/setMuseoInfo' , middleware.estado, upload.any(), function (req, re
                 if (err) {                  //Transaction Error (Rollback and release connection)
                     connection.rollback(function() {
                         connection.release();
+                        res.sendStatus(500);
                         //Failure
                     });
                 } else {
@@ -130,6 +131,7 @@ router.post('/setMuseoInfo' , middleware.estado, upload.any(), function (req, re
                         if (err) {          //Query Error (Rollback and release connection)
                             connection.rollback(function() {
                                 connection.release();
+                                res.sendStatus(500);
                                 //Failure
                             });
                         } else {
@@ -137,6 +139,7 @@ router.post('/setMuseoInfo' , middleware.estado, upload.any(), function (req, re
                                 if (err) {
                                     connection.rollback(function() {
                                         connection.release();
+                                        res.sendStatus(500);
                                         //Failure
                                     });
                                 } else {
