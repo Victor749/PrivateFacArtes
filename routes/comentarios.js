@@ -10,7 +10,7 @@ router.post('/new', function(req, res){
     // debug(req.params);
     // debug(req.body);
     let today = new Date();
-    let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    let date = today.getDate() + "-" + (today.getMonth() +1) + "-" + today.getFullYear();
 
     let { identifier, idObra, contenido } = req.body;
 
