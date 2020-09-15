@@ -15,7 +15,7 @@ router.get('/api/getSalas/:idMuseo', function (req, res) {
         res.sendStatus(500);
      } else {
        //if(results.length!=0){
-        res.send(results);
+        return res.send(results);
        //}
      }
   });
@@ -85,7 +85,7 @@ router.get('/all/api/json/:idMuseo', function(req, res){
       debug(error);
       return res.sendStatus(500);
     }
-    res.send(results);
+    return res.send(results);
   });
 
 });

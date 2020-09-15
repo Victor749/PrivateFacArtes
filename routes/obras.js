@@ -36,12 +36,12 @@ router.get('/api/json/:id_obra', function(req, res){
     if (error) {
       debug(error);
       logger.error(error);
-      res.sendStatus(500);
-   }else if(results.length > 0){
-      res.send(results[0]);
-   }else{
-      res.send([]);
-   }
+      return res.sendStatus(500);
+    }else if(results.length > 0){
+      return res.send(results[0]);
+    }else{
+      return res.send([]);
+    }
   });
 
 });
@@ -88,6 +88,9 @@ router.delete('/:idObra', middleware.estado, function(req, res){
         logger.error(err);
         return res.sendStatus(500);
       }
+    }else{
+      logger.error(`(delete -> /obras/:idObra) No hay ninguna obra con el id = ${req.params.idObra}`);
+      return res.sendStatus(400);
     }
   });
 
@@ -104,10 +107,10 @@ router.get('/api/getObras/:idSala', middleware.estado, function(req, res){
     if (error) {
       debug(error);
       logger.error(error);
-      res.sendStatus(500);
-   }else{
-     res.send(results);
-   }
+      return res.sendStatus(500);
+    }else{
+      return res.send(results);
+    }
   });
 
 });
@@ -134,10 +137,13 @@ router.put('/contador/:id_obra', function(req, res){
         if(error2){
           debug(error2);
           logger.error(error);
-          res.sendStatus(500);
+          return res.sendStatus(500);
         }else if(results2.length > 0){
           // debug(results2[0]);
-          res.send(results2[0]);
+          return res.send(results2[0]);
+        }else{
+          logger.error(`(put -> /obras/contador/:idObra) No hay ninguna obra con el id = ${req.params.idObra}`);
+          return res.sendStatus(400);
         }
       });
     }
@@ -189,9 +195,9 @@ router.put('/coordinates/:idObra', middleware.estado, function(req, res){
       return res.sendStatus(500);
     }
     if(results.affectedRows == 0){
-      res.send('No existe esa obra');
+      return res.send('No existe esa obra');
     }else{
-      res.send('Se ha actualizado el botón de información de la obra');
+      return res.send('Se ha actualizado el botón de información de la obra');
     }
   });
 
@@ -238,6 +244,9 @@ router.delete('/imagenes/:idObra', middleware.estado, function(req, res){
         logger.error(err);
         return res.sendStatus(500);
       }
+    }else{
+      logger.error(`(delete -> /obras/imagenes/:idObra) No hay ninguna obra con el id = ${req.params.idObra}`);
+      return res.sendStatus(400);
     }
   });
 
@@ -279,6 +288,7 @@ router.put('/imagenes/:idObra', middleware.estado, upload.any(), function(req, r
       }
     });
   }else{
+    logger.error(`(put -> /obras/imagenes/:idObra) No hay ninguna obra con el id = ${req.params.idObra}`);
     return res.sendStatus(500);
   }
   // res.send('HEY MEN, IMAGEEES');
@@ -310,6 +320,7 @@ router.put('/objeto3D/:idObra', middleware.estado, upload.any() ,function(req, r
       return res.sendStatus(500);
     }
     if(results_0.affectedRows == 0){
+      logger.error(`(put -> /obras/objeto3D/:idObra) No hay ninguna obra con el id = ${req.params.idObra}`);
       return res.send('No se añadio ningun objeto 3D');
     }else{
       return res.send('Se ha actualizado el objeto 3D correctamente');
@@ -358,6 +369,9 @@ router.delete('/objeto3D/:idObra', middleware.estado, function(req, res){
         logger.error(error);
         return res.sendStatus(500);
       }
+    }else{
+      logger.error(`(delete -> /obras/objeto3D/:idObra) No hay ninguna obra con el id = ${req.params.idObra}`);
+      return res.sendStatus(500);
     }
   });
 
@@ -438,6 +452,7 @@ router.post('/new', middleware.estado, function(req, res){
       return res.sendStatus(500);
     }
     if(results.affectedRows == 0){
+      logger.error(`(post -> /obras/new) No hay ninguna obra con el id = ${req.params.idObra}`);
       return res.send('No pudo añadir su obra');
     }else{
       return res.send('Se ha añadido su obra correctamente');
