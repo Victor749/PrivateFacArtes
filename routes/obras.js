@@ -273,7 +273,7 @@ router.put('/imagenes/:idObra', middleware.estado, upload.any(), function(req, r
   }
 
   if(imagenes != ''){
-    let sql = `update obra set imagenes = CONCAT(imagenes, '${imagenes}') where idObra='${req.params.idObra}'`;
+    let sql = `update obra set imagenes = CONCAT(imagenes, '${imagenes}') where idObra=${req.params.idObra}`;
     // debug(sql);
     connection.query(sql, function(error, results, fields){
       if(error){
