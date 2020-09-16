@@ -31,6 +31,6 @@ Además este repositorio contiene los archivos de configuración (como scripts S
 
 - Berenice Guerrero
 - Víctor Herrera
-- Pablo Solano
+- Pablo Solano (Ver historia de commits para ver contribuciones)
 
 Estudiantes de Ingeniería en Sistemas de la Facultad de Ingeniería de la Universidad de Cuenca.
