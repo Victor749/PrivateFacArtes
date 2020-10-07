@@ -61,11 +61,8 @@ router.delete('/:idObra', middleware.estado, function(req, res){
       imagenes = results[0].imagenes.split(';');
       imagenes = imagenes.filter(item => item !== '');
       // debug(imagenes);
-      try {
-        for(let i = 0; i<imagenes.length; i++){
-          fs.unlinkSync(path.join(__dirname, `../public/static_assets/${imagenes[i]}`));
-          // debug('AQUI');
-        }
+      
+        
         if(objeto3D != null && objeto3D != ''){
           fs.unlinkSync(path.join(__dirname, `../public/static_assets/${objeto3D}`));
         }
@@ -80,14 +77,19 @@ router.delete('/:idObra', middleware.estado, function(req, res){
           if(results_1.affectedRows == 0){
             res.send('No pudo eliminar esta obra');
           }else{
+            try {
+              for(let i = 0; i<imagenes.length; i++){
+                fs.unlinkSync(path.join(__dirname, `../public/static_assets/${imagenes[i]}`));
+                // debug('AQUI');
+              }
+            } catch(err) {
+              debug(err);
+              logger.error(err);
+              return res.sendStatus(500);
+            }
             res.send('Se ha eliminado su obra correctamente');
           }
         });
-      } catch(err) {
-        debug(err);
-        logger.error(err);
-        return res.sendStatus(500);
-      }
     }else{
       logger.error(`(delete -> /obras/:idObra) No hay ninguna obra con el id = ${req.params.idObra}`);
       return res.sendStatus(400);
@@ -221,11 +223,8 @@ router.delete('/imagenes/:idObra', middleware.estado, function(req, res){
       imagenes = results[0].imagenes.split(';');
       imagenes = imagenes.filter(item => item !== '');
       // debug(imagenes);
-      try {
-        for(let i = 0; i<imagenes.length; i++){
-          fs.unlinkSync(path.join(__dirname, `../public/static_assets/${imagenes[i]}`));
-          // debug('AQUI');
-        }
+      
+        
         let sql_1 = `update obra set imagenes = '' where idObra = ${req.params.idObra}`;
         connection.query(sql_1, function(error1, results1, fields1){
           if(error1){
@@ -236,14 +235,20 @@ router.delete('/imagenes/:idObra', middleware.estado, function(req, res){
           if(results1.affectedRows == 0){
             return res.send('No se elimino ninguna imagen');
           }else{
+            try {
+              for(let i = 0; i<imagenes.length; i++){
+                fs.unlinkSync(path.join(__dirname, `../public/static_assets/${imagenes[i]}`));
+                // debug('AQUI');
+              }
+            } catch(err) {
+              debug(err);
+              logger.error(err);
+              return res.sendStatus(500);
+            }
             return res.send('Se ha eliminado sus fotos correctamente');
           }
         });
-      } catch(err) {
-        debug(err);
-        logger.error(err);
-        return res.sendStatus(500);
-      }
+      
     }else{
       logger.error(`(delete -> /obras/imagenes/:idObra) No hay ninguna obra con el id = ${req.params.idObra}`);
       return res.sendStatus(400);
