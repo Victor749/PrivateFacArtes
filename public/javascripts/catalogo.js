@@ -138,7 +138,7 @@ function ficha(obra, doc, y, numPages, pageHeight){
     doc.line(174.99, c, 174.99, y);
  //   console.log(y+15-((lines.length)*3+15));
    // console.log(obra.imagenes);
-    if (obra.imagenes != 'null' && obra.imagenes != ' ' && obra.imagenes != ''){
+    if (obra.imagenes != 'null' && obra.imagenes != ' ' && obra.imagenes != '' && obra.imagenes != 'undefined'){
         listaIMG = obra.imagenes.split(';');
         listaIMG = listaIMG.filter(item => item !== '');
         if(listaIMG.length == 1){
@@ -310,7 +310,7 @@ function transformation(){
                     obra = obras[j];
                     obra.imagenes = obra.imagenes.trim();
                   //  console.log('soy el trim', obra.imagenes);
-                    if (obra.imagenes != 'null' && obra.imagenes != ' ' && obra.imagenes != ''){
+                    if (obra.imagenes != 'null' && obra.imagenes != ' ' && obra.imagenes != '' && obra.imagenes != 'undefined'){
                         img = obra.imagenes.split(';');
                         img = img.filter(item => item !== '');
                       //  console.log(img);
