@@ -146,9 +146,10 @@ function ficha(obra, doc, y, numPages, pageHeight){
             if(img64[listaIMG[0]] != undefined){
                 formato = img64[listaIMG[0]].split(';')[0].split('/')[1];
                 doc.addImage(img64[listaIMG[0]], formato, 115, c+10, 40, 60);
+                //y+=15;
             }
            // transformImages(doc,  115, c+10, 40, 60, obra.nombreElemento);
-            y+=15;
+            y+=15; 
         }else{
           //  console.log(listaIMG);
             y+=15;
@@ -368,7 +369,7 @@ function toBase64(name){
         //indexObra = nextInfo[1];
         //console.log(indexSala, indexObra, img.src);
         name = img.src.split('/')[4].replace('%20',' ');
-        //console.log(name);
+        console.log("tranformada: " + uri);
         if(img64[name] === undefined){
             img64[name] = uri;
         }
@@ -379,6 +380,7 @@ function toBase64(name){
             formPDF(info);
         }
     };
-    var url = 'https://facultadartescuenca.com/museovirtual/static_assets/'+name;
+    var url = './static_assets/'+name;
+    //var url = 'https://facultadartescuenca.com/museovirtual/static_assets/'+name;
     img.src = url;
 }
