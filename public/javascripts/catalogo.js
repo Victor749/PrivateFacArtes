@@ -142,8 +142,10 @@ function ficha(obra, doc, y, numPages, pageHeight){
         listaIMG = obra.imagenes.split(';');
         listaIMG = listaIMG.filter(item => item !== '');
         if(listaIMG.length == 1){
-            formato = img64[listaIMG[0]].split(';')[0].split('/')[1];
-            doc.addImage(img64[listaIMG[0]], formato, 115, c+10, 40, 60);
+            if(img64[listaIMG[0]] != undefined){
+                formato = img64[listaIMG[0]].split(';')[0].split('/')[1];
+                doc.addImage(img64[listaIMG[0]], formato, 115, c+10, 40, 60);
+            }
            // transformImages(doc,  115, c+10, 40, 60, obra.nombreElemento);
             y+=15;
         }else{
@@ -167,12 +169,15 @@ function ficha(obra, doc, y, numPages, pageHeight){
              //   console.log('maxV: ', maxV);
                 for (var j=35;j<(50*maxV)+1;j++){
                     //transformar imagenes a base4
-                    formato = img64[listaIMG[i]].split(';')[0].split('/')[1];
-                    doc.addImage(img64[listaIMG[i]], formato, j, y, 40, 60);
-                   // transformImages(doc,  j, y, 40, 60, listaIMG[i]);
-                    j+=50;
-                    i+=1;
-                    out-=1;
+                    if(img64[listaIMG[i]] != undefined){
+                        formato = img64[listaIMG[i]].split(';')[0].split('/')[1];
+                        doc.addImage(img64[listaIMG[i]], formato, j, y, 40, 60);
+                       // transformImages(doc,  j, y, 40, 60, listaIMG[i]);
+                        j+=50;
+                        i+=1;
+                        out-=1;
+                    }
+                    
                 }
                 y+=70;
                 //i+=2;
