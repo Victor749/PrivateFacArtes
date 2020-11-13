@@ -30,7 +30,7 @@ function hideStuff(){
 
 function showMuseosAntiguos(){
     cleanOldStuff('museos');
-    var url  = "/crudMuseo/getMuseos";
+    var url  = "https://facultadartescuenca.com/museovirtual/crudMuseo/getMuseos";
     var xhr  = new XMLHttpRequest()
     xhr.open('GET', url, true)
     xhr.onload = function () {
@@ -47,7 +47,7 @@ function showMuseosAntiguos(){
         }else if(xhr.status == '401'){
             $("#modal-sesion").modal();
             $('#modal-sesion').on('hidden.bs.modal', function () {
-                window.location.replace("/editor");
+                window.location.replace("https://facultadartescuenca.com/museovirtual/editor");
             });
         } else {
             console.error(respuesta);
@@ -67,7 +67,7 @@ function goMuseoEspecifico(posicion){
     cleanSalaInfo();
     cleanOldStuff('salas');
     cleanOldStuff('primeraSala');
-    var url  = "/salas/api/getSalas/"+museoSeleccionado.idMuseo;
+    var url  = "https://facultadartescuenca.com/museovirtual/salas/api/getSalas/"+museoSeleccionado.idMuseo;
     var xhr  = new XMLHttpRequest()
     xhr.open('GET', url, true)
     xhr.onload = function () {
@@ -102,7 +102,7 @@ function guardarPrimera(){
     idMuseo = museoSeleccionado.idMuseo;
     idSala = $("#primeraSala option:selected").attr('value');
     var xhr = new XMLHttpRequest();
-    xhr.open("GET", '/crudSalas/saveSalaInicial/'+idMuseo+'/'+idSala, true);
+    xhr.open("GET", 'https://facultadartescuenca.com/museovirtual/crudSalas/saveSalaInicial/'+idMuseo+'/'+idSala, true);
     xhr.onload = function () {
         if (xhr.readyState == 4 && xhr.status == "200") {
             $('#mensajeBien1').show();
@@ -110,7 +110,7 @@ function guardarPrimera(){
         } else if(xhr.status == '401'){
             $("#modal-sesion").modal();
             $('#modal-sesion').on('hidden.bs.modal', function () {
-                window.location.replace("/editor");
+                window.location.replace("https://facultadartescuenca.com/museovirtual/editor");
             });
         }else {
             alert('Ha ocurrido un error. Intentelo mas tarde.');
@@ -179,9 +179,9 @@ function validateString(data){
 
 }
 
-function transformEspacios(data){
+/*function transformEspacios(data){
     
-}
+}*/
 
 function saveSala(){
     if(validarData()){
@@ -205,7 +205,7 @@ function saveSala(){
         }
         data.append('idMuseo', museoSeleccionado.idMuseo);
         var xhr = new XMLHttpRequest();
-        xhr.open("POST", '/crudSalas/saveSala', true);
+        xhr.open("POST", 'https://facultadartescuenca.com/museovirtual/crudSalas/saveSala', true);
         xhr.onload = function () {
             if (xhr.readyState == 4 && xhr.status == "200") {
                 if(salaEspecifica == 'nuevo'){
@@ -225,7 +225,7 @@ function saveSala(){
             } else if(xhr.status == '401'){
                 $("#modal-sesion").modal();
                 $('#modal-sesion').on('hidden.bs.modal', function () {
-                    window.location.replace("/editor");
+                    window.location.replace("https://facultadartescuenca.com/museovirtual/editor");
                 });
             }else {
                 alert('Ha ocurrido un error. Intentelo mas tarde.');
@@ -239,7 +239,7 @@ function saveSala(){
 
 function saveImage(data){
     var xhr = new XMLHttpRequest();
-    xhr.open("PUT", '/crudSalas/saveImage', true);
+    xhr.open("PUT", 'https://facultadartescuenca.com/museovirtual/crudSalas/saveImage', true);
     xhr.onload = function () {
         if (xhr.readyState == 4 && xhr.status == "200") {
             $('#mensajeBien2').show();
@@ -248,7 +248,7 @@ function saveImage(data){
         } else if(xhr.status == '401'){
             $("#modal-sesion").modal();
             $('#modal-sesion').on('hidden.bs.modal', function () {
-                window.location.replace("/editor");
+                window.location.replace("https://facultadartescuenca.com/museovirtual/editor");
             });
         }else {
             alert('Ha ocurrido un error. No se guardo la imagen.');
@@ -269,7 +269,7 @@ function actionDangerSala(){
             var data = {};
             data.idSala = salaEspecifica.idSala;
             data.nombreArchivo = salaEspecifica.nombreImgFondo;
-            var url = "/crudSalas/deleteSala";
+            var url = "https://facultadartescuenca.com/museovirtual/crudSalas/deleteSala";
             var xhr = new XMLHttpRequest();
             xhr.open("DELETE", url, true);
             xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
@@ -283,7 +283,7 @@ function actionDangerSala(){
                 } else if(xhr.status == '401'){
                     $("#modal-sesion").modal();
                     $('#modal-sesion').on('hidden.bs.modal', function () {
-                        window.location.replace("/editor");
+                        window.location.replace("https://facultadartescuenca.com/museovirtual/editor");
                     });
                 }else {
                     alert('Ha ocurrido un error. Intentelo mas tarde.');

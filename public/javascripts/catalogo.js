@@ -295,7 +295,7 @@ function formPDF(info){
 
 function transformation(){
     let ajaxRequest = new XMLHttpRequest();
-    ajaxRequest.open("GET", "/museo/api/catalogo", false);
+    ajaxRequest.open("GET", "https://facultadartescuenca.com/museovirtual/museo/api/catalogo", false);
     ajaxRequest.onreadystatechange = function() {
         if (ajaxRequest.readyState == 4 && ajaxRequest.status == 200) {
             info = JSON.parse(ajaxRequest.responseText);
@@ -371,6 +371,6 @@ function toBase64(name){
             formPDF(info);
         }
     };
-    var url = '/static_assets/'+name;
+    var url = 'https://facultadartescuenca.com/museovirtual/static_assets/'+name;
     img.src = url;
 }
