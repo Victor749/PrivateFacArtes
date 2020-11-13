@@ -13,14 +13,14 @@ $(document).on("click", "#aceptar_eliminar", function () {
         alert("El usuario seleccionado ya no existe.");
     } else {
         var padre = elemento.parentNode;
-        fetch(`/editor/usuarios/quitar/${id}`, { method: 'DELETE' })
+        fetch(`https://facultadartescuenca.com/museovirtual/editor/usuarios/quitar/${id}`, { method: 'DELETE' })
             .then(function (res) {
                 if (res.status === 200) {
                     padre.removeChild(elemento);
                 } else if (res.status === 401) {
                     $("#modal-sesion").modal();
                     $('#modal-sesion').on('hidden.bs.modal', function () {
-                        window.location.replace("/editor");
+                        window.location.replace("https://facultadartescuenca.com/museovirtual/editor");
                     });
                 }
             })

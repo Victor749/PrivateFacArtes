@@ -1,6 +1,6 @@
 
 
-var link = '/museo/api/';
+var link = 'https://facultadartescuenca.com/museovirtual/museo/api/';
 
 
 

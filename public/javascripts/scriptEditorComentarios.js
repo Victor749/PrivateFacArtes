@@ -38,7 +38,7 @@ function cleanOldStuff(id){
 
 function getMuseos(){
     cleanOldStuff('museos');
-    var url  = "/crudMuseo/getMuseos";
+    var url  = "https://facultadartescuenca.com/museovirtual/crudMuseo/getMuseos";
     var xhr  = new XMLHttpRequest()
     xhr.open('GET', url, true)
     xhr.onload = function () {
@@ -55,7 +55,7 @@ function getMuseos(){
         }else if(xhr.status == '401'){
             $("#modal-sesion").modal();
             $('#modal-sesion').on('hidden.bs.modal', function () {
-                window.location.replace("/editor");
+                window.location.replace("https://facultadartescuenca.com/museovirtual/editor");
             });
         } else {
             console.error(respuesta);
@@ -67,7 +67,7 @@ function getMuseos(){
 function goMuseoEspecifico(posicion){
     museoSeleccionado = museos[posicion];
     cleanOldStuff('salas');
-    var url  = "/salas/api/getSalas/"+museoSeleccionado.idMuseo;
+    var url  = "https://facultadartescuenca.com/museovirtual/salas/api/getSalas/"+museoSeleccionado.idMuseo;
     var xhr  = new XMLHttpRequest()
     xhr.open('GET', url, true)
     xhr.onload = function () {
@@ -91,7 +91,7 @@ function goMuseoEspecifico(posicion){
 function goSalaEspecifica(posicion){
     salaSeleccionada = salas[posicion];
     cleanOldStuff('obras');
-    var url  = "/obras/api/getObras/"+salaSeleccionada.idSala;
+    var url  = "https://facultadartescuenca.com/museovirtual/obras/api/getObras/"+salaSeleccionada.idSala;
     var xhr  = new XMLHttpRequest()
     xhr.open('GET', url, true)
     xhr.onload = function () {
@@ -129,7 +129,7 @@ function buscarComentarios(){
 
 function cargarC(){
     idObra = obraSeleccionada.idObra;
-    var url  = "/editorComentarios/getComentarios/"+idObra+'/'+actual+'/'+limit;
+    var url  = "https://facultadartescuenca.com/museovirtual/editorComentarios/getComentarios/"+idObra+'/'+actual+'/'+limit;
     var xhr  = new XMLHttpRequest()
     xhr.open('GET', url, true)
     xhr.onload = function () {
@@ -165,7 +165,7 @@ function cargarC(){
         }else if(xhr.status == '401'){
             $("#modal-sesion").modal();
             $('#modal-sesion').on('hidden.bs.modal', function () {
-                window.location.replace("/editor");
+                window.location.replace("https://facultadartescuenca.com/museovirtual/editor");
             });
         } else {
             console.error(data);
@@ -178,7 +178,7 @@ function cargarC(){
 
 function eliminar(idComentario){
     console.log(idComentario);
-    var url = "/editorComentarios/deleteComentario/"+idComentario;
+    var url = "https://facultadartescuenca.com/museovirtual/editorComentarios/deleteComentario/"+idComentario;
     var xhr = new XMLHttpRequest();
     xhr.open("DELETE", url, true);
     xhr.onload = function () {
@@ -188,7 +188,7 @@ function eliminar(idComentario){
         } else if(xhr.status == '401'){
             $("#modal-sesion").modal();
             $('#modal-sesion').on('hidden.bs.modal', function () {
-                window.location.replace("/editor");
+                window.location.replace("https://facultadartescuenca.com/museovirtual/editor");
             });
         }else {
             console.error(users);
