@@ -3,12 +3,11 @@
 <html lang="es-ec">
 
 <head>
-    <base href="https://facultadartescuenca.com/museovirtual">
     <title><%= title %></title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noindex,nofollow">
-    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+    <link rel="stylesheet" href="https://facultadartescuenca.com/museovirtual/stylesheets/bootstrap.min.css">
     <style>
         body {
             background: rgb(25, 25, 25);
@@ -25,12 +24,12 @@
 
 <body>
     <div id="viewer3DModel"></div>
-    <script src="/javascripts/js-3d-model-viewer.js"></script>
+    <script src="https://facultadartescuenca.com/museovirtual/javascripts/js-3d-model-viewer.js"></script>
     <script>
         var modelPlayer = this['js-3d-model-viewer']
         const viewerElement = document.getElementById('viewer3DModel')
         const scene = modelPlayer.prepareScene(viewerElement)
-        modelPlayer.loadObject(scene, '/static_assets/<%= archivo %>') // Urls are fine here.
+        modelPlayer.loadObject(scene, 'https://facultadartescuenca.com/museovirtual/static_assets/<%= archivo %>') // Urls are fine here.
     </script>
 </body>
 
