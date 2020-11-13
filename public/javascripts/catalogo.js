@@ -142,7 +142,7 @@ function ficha(obra, doc, y, numPages, pageHeight){
         listaIMG = obra.imagenes.split(';');
         listaIMG = listaIMG.filter(item => item !== '');
         if(listaIMG.length == 1){
-            console.log(listaIMG[0]);
+            console.log(img64[listaIMG[0]]);
             if(img64[listaIMG[0]] != undefined){
                 formato = img64[listaIMG[0]].split(';')[0].split('/')[1];
                 doc.addImage(img64[listaIMG[0]], formato, 115, c+10, 40, 60);
@@ -170,7 +170,7 @@ function ficha(obra, doc, y, numPages, pageHeight){
              //   console.log('maxV: ', maxV);
                 for (var j=35;j<(50*maxV)+1;j++){
                     //transformar imagenes a base4
-                    console.log('i:' + listaIMG[i]);
+                    console.log('i:' + img64[listaIMG[i]]);
                     if(img64[listaIMG[i]] != undefined){
                         formato = img64[listaIMG[i]].split(';')[0].split('/')[1];
                         doc.addImage(img64[listaIMG[i]], formato, j, y, 40, 60);
@@ -348,7 +348,7 @@ function transformation(){
 
 function toBase64(name){
     var img = new Image();
-    img.crossOrigin = 'Anonymous';
+    //img.crossOrigin = 'Anonymous';
     //dataSave = [indexSala, indexObra];
     //img64.push(dataSave);
     // The magic begins after the image is successfully loaded
