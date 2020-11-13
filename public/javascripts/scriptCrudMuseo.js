@@ -21,7 +21,7 @@ $(document).ready(function () {
 });
 
 function showMuseosAntiguos(){
-    var url  = "/crudMuseo/getMuseos";
+    var url  = "https://facultadartescuenca.com/museovirtual/crudMuseo/getMuseos";
     var xhr  = new XMLHttpRequest()
     xhr.open('GET', url, true)
     xhr.onload = function () {
@@ -210,7 +210,7 @@ function saveInfoMuseo(){
         //$('#audioActual2').val(data.);
         
         var xhr = new XMLHttpRequest();
-        xhr.open("POST", '/crudMuseo/setMuseoInfo', true);
+        xhr.open("POST", 'https://facultadartescuenca.com/museovirtual/crudMuseo/setMuseoInfo', true);
         xhr.onload = function () {
             if (xhr.readyState == 4 && xhr.status == "200") {
                 /*$('#audioActual').val(data.get('nombreArchivo'));
@@ -226,7 +226,7 @@ function saveInfoMuseo(){
             } else if(xhr.status == '401'){
                 $("#modal-sesion").modal();
                 $('#modal-sesion').on('hidden.bs.modal', function () {
-                    window.location.replace("/editor");
+                    window.location.replace("https://facultadartescuenca.com/museovirtual/editor");
                 });
             }else{
                 alert('Ha ocurrido un error. Intentelo mas tarde.');
@@ -245,7 +245,7 @@ function accionDangerMuseo(){
     }else if($("#estadoMuseo option:selected").attr('value') == 1){
         $('#mensajeError6').show();
     }else{
-        var url = "/crudMuseo/deleteMuseo";
+        var url = "https://facultadartescuenca.com/museovirtual/crudMuseo/deleteMuseo";
         var xhr = new XMLHttpRequest();
         var data = {};
         data.idMuseo = museoSeleccionado.idMuseo;
@@ -263,7 +263,7 @@ function accionDangerMuseo(){
             } else if(xhr.status == '401'){
                 $("#modal-sesion").modal();
                 $('#modal-sesion').on('hidden.bs.modal', function () {
-                    window.location.replace("/editor");
+                    window.location.replace("https://facultadartescuenca.com/museovirtual/editor");
                 });
             }else{
                 alert('Ha ocurrido un error. Intentelo mas tarde.');

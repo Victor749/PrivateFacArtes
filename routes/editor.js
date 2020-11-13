@@ -52,14 +52,14 @@ router.get('/login', function (req, res, next) {
     if (req.query.error) {
         debug(error);
         logger.error(error);
-        return res.redirect('/editor');
+        return res.redirect('/museovirtual/editor');
     } else {
         if (req.query.code) {
             oauth2Client.getToken(req.query.code, function (err, token) {
                 if (err) {
                     debug(err);
                     logger.error(err);
-                    return res.redirect('/editor');
+                    return res.redirect('/museovirtual/editor');
                 }
                 axios({
                     url: 'https://www.googleapis.com/oauth2/v2/userinfo',
@@ -74,16 +74,16 @@ router.get('/login', function (req, res, next) {
                         if (error) {
                             debug(error);
                             logger.error(error);
-                            res.redirect('/editor');
+                            res.redirect('/museovirtual/editor');
                         } else {
                             if (results.length !== 0) {
                                 req.session.idAdmin = results[0].idAdmin;
                                 req.session.user = userInformation.email;
                                 req.session.photo = userInformation.picture;
                                 req.session.admin = true;
-                                res.redirect('/editor/inicio');
+                                res.redirect('/museovirtual/editor/inicio');
                             } else {
-                                res.redirect(`/editor?mail=${userInformation.email}`);
+                                res.redirect(`/museovirtual/editor?mail=${userInformation.email}`);
                             }
                         }
                     });
@@ -91,11 +91,11 @@ router.get('/login', function (req, res, next) {
                 .catch(function (error) {
                     debug(error);
                     logger.error(error);
-                    res.redirect('/editor');
+                    res.redirect('/museovirtual/editor');
                 });
             });
         } else {
-            return res.redirect('/editor');
+            return res.redirect('/museovirtual/editor');
         }
     }
 });
@@ -103,7 +103,7 @@ router.get('/login', function (req, res, next) {
 /* GET Logout Editor */
 router.get('/logout', middleware.pagina, function (req, res, next) {
     req.session.destroy();
-    res.redirect('/editor');
+    res.redirect('/museovirtual/editor');
 });
 
 module.exports = router;
