@@ -316,7 +316,7 @@ function transformation(){
                     obra = obras[j];
                     obra.imagenes = obra.imagenes.trim();
                   //  console.log('soy el trim', obra.imagenes);
-                    if (obra.imagenes != 'null' && obra.imagenes != ' ' && obra.imagenes != '' && obra.imagenes != 'undefined'){
+                    if (obra.imagenes != 'null' && obra.imagenes != ' ' && obra.imagenes != '' ){
                         img = obra.imagenes.split(';');
                         img = img.filter(item => item !== '');
                       //  console.log(img);
@@ -357,7 +357,7 @@ function toBase64(name){
         canvas.height = img.naturalHeight;
         canvas.width = img.naturalWidth;
         ctx.drawImage(img, 0, 0);
-        var uri = canvas.toDataURL('image/jpeg');
+        var uri = canvas.toDataURL();
         //console.log(img64);
         //nextInfo = img64[0];
         //img64.shift();
