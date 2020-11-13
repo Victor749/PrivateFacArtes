@@ -138,7 +138,7 @@ function ficha(obra, doc, y, numPages, pageHeight){
     doc.line(174.99, c, 174.99, y);
  //   console.log(y+15-((lines.length)*3+15));
    // console.log(obra.imagenes);
-    if (obra.imagenes != 'null' && obra.imagenes != ' ' && obra.imagenes != '' && obra.imagenes != 'undefined'){
+    if (obra.imagenes != 'null' && obra.imagenes != ' ' && obra.imagenes != '' && obra.imagenes != undefined){
         listaIMG = obra.imagenes.split(';');
         listaIMG = listaIMG.filter(item => item !== '');
         if(listaIMG.length == 1){
