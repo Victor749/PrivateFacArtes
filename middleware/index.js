@@ -19,12 +19,12 @@ middleware.pagina = function (req, res, next) {
                     return next();
                 } else {
                     req.session.destroy();
-                    return res.redirect('/editor');
+                    return res.redirect('/museovirtual/editor');
                 }
             }
         });
     } else {
-        return res.redirect('/editor');
+        return res.redirect('/museovirtual/editor');
     }
 };
 
@@ -64,7 +64,7 @@ middleware.isLogueado = function (req, res, next) {
                 return res.sendStatus(500);
             } else {
                 if (results.length !== 0) {
-                    return res.redirect('/editor/inicio');
+                    return res.redirect('/museovirtual/editor/inicio');
                 } else {
                     req.session.destroy();
                     return next();

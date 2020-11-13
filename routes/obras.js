@@ -23,7 +23,7 @@ var upload = multer({ storage: storage });
 
 /* GET Obras page. */
 router.get('/', middleware.pagina ,function(req, res, next) {
-  res.redirect('/obras/edit');
+  res.redirect('/museovirtual/obras/edit');
 });
 
 // Obtener Información de una Obra

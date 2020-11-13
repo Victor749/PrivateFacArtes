@@ -32,10 +32,10 @@ router.post('/agregar', middleware.pagina, function (req, res, next) {
                     logger.error(error);
                     res.sendStatus(500);
                 } else {
-                    res.redirect('/editor/usuarios');
+                    res.redirect('/museovirtual/editor/usuarios');
                 }
             } else {
-                res.redirect('/editor/usuarios');
+                res.redirect('/museovirtual/editor/usuarios');
             }
         });
     } else {
