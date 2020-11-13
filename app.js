@@ -9,9 +9,6 @@ var session = require('express-session');
 var MemoryStore = require('memorystore')(session);
 var helmet = require('helmet');
 
-//eliminar luego
-var cors = require('cors');
-
 
 var indexRouter = require('./routes/index');
 var editorRouter = require('./routes/editor');
@@ -68,9 +65,6 @@ if (app.get('env') === 'production') {
   app.use(logger('dev'));
 }
 
-
-//eliminar despues
-app.use(cors({ origin: process.env.ORIGIN_SITE }));
 
 app.use(
   helmet({
