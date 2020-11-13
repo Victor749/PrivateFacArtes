@@ -173,6 +173,7 @@ function ficha(obra, doc, y, numPages, pageHeight){
                         formato = img64[listaIMG[i]].split(';')[0].split('/')[1];
                         doc.addImage(img64[listaIMG[i]], formato, j, y, 40, 60);
                        // transformImages(doc,  j, y, 40, 60, listaIMG[i]);
+                       
                     }
                     j+=50;
                     i+=1;
