@@ -369,9 +369,12 @@ function toBase64(name){
         //indexObra = nextInfo[1];
         //console.log(indexSala, indexObra, img.src);
         name = img.src.split('/')[4].replace('%20',' ');
+        console.log('nombre:' + name);
         console.log("tranformada: " + uri);
+        console.log('en lista:' + img64[name]);
         if(img64[name] === undefined){
             img64[name] = uri;
+            console.log('guardo nuevo');
         }
         cantidadT-=1;
         if(cantidadT == 0){
