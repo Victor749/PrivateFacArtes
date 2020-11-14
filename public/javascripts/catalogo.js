@@ -368,7 +368,7 @@ function toBase64(name){
         //indexSala = nextInfo[0];
         //indexObra = nextInfo[1];
         //console.log(indexSala, indexObra, img.src);
-        name = img.src.split('/')[4].replace('%20',' ');
+        name = img.src.split('/')[5].replace('%20',' ');
         console.log('nombre:' + name);
         console.log("tranformada: " + uri);
         console.log('en lista:' + img64[name]);
